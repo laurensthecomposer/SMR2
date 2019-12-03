@@ -16,14 +16,14 @@ Press 'q' to quit.
 import cv2
 import os
 import sys
+import serial
+import time
 
-try:
-    label_name = sys.argv[1]
-    num_samples = int(sys.argv[2])
-except:
-    print("Arguments missing.")
-    print(desc)
-    exit(-1)
+
+label_name = "test"
+print("Enter nr. of samples")
+num_samples = int(input())
+
 
 IMG_SAVE_PATH = 'image_data'
 IMG_CLASS_PATH = os.path.join(IMG_SAVE_PATH, label_name)
@@ -34,14 +34,29 @@ except FileExistsError:
     pass
 try:
     os.mkdir(IMG_CLASS_PATH)
+    count = 0
 except FileExistsError:
+    path = ''.join(["C:/Users/marce/PycharmProjects/SMR2/image_data/", label_name])
+    available = os.listdir(str(path))
+    available = sorted(available, key=len)
+    print(available)
+    lastfile = available[-1]
+    startnr = lastfile.replace(".jpg","")
+    count = int(startnr)
+    print(count)
     print("{} directory already exists.".format(IMG_CLASS_PATH))
     print("All images gathered will be saved along with existing items in this folder")
+    num_samples = count + num_samples
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
 
 start = False
-count = 0
+
+# start Arduino connection
+
+# arduino = serial.Serial('COM5', 115200)
+time.sleep(1)
 
 while True:
     ret, frame = cap.read()
@@ -49,9 +64,19 @@ while True:
         continue
 
     if count == num_samples:
-        break
+        # start for looping with picture by picture
+        # print("Do you want to take more samples")
+        # a = input()
+        # if a == "Y":
+        #     print("Give new amount of samples")
+        #     num_samples = num_samples + int(input())
+        # else:
+            break
 
     cv2.rectangle(frame, (100, 100), (500, 500), (255, 255, 255), 2)
+
+
+    # arduino.readline()
 
     if start:
         roi = frame[100:500, 100:500]
@@ -71,6 +96,6 @@ while True:
     if k == ord('q'):
         break
 
-print("\n{} image(s) saved to {}".format(count, IMG_CLASS_PATH))
+print("\n{} image(s) saved in {}".format(count, IMG_CLASS_PATH))
 cap.release()
 cv2.destroyAllWindows()
