@@ -48,7 +48,11 @@ except FileExistsError:
     num_samples = count + num_samples
 
 cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
-cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+cap.set( cv2.CAP_PROP_FRAME_WIDTH, 1920 )
+cap.set( cv2.CAP_PROP_FRAME_HEIGHT, 1080 )
+cap.set( cv2.CAP_PROP_AUTOFOCUS, 0 )  # turn the autofocus off
+cap.set( cv2.CAP_PROP_FOCUS, 5) # set the focus of camera
+print(cap.get(cv2.CAP_PROP_FOCUS))
 
 start = False
 
@@ -72,7 +76,7 @@ while True:
         # else:
             break
 
-    cv2.rectangle(frame, (100, 100), (500, 500), (255, 255, 255), 2)
+    cv2.rectangle(frame, (650, 350), (650+400, 350+400), (255, 255, 255), 2)
 
 
     # arduino.readline()
