@@ -36,14 +36,13 @@ try:
     os.mkdir(IMG_CLASS_PATH)
     count = 0
 except FileExistsError:
-    path = ''.join(["C:/Users/marce/PycharmProjects/SMR2/image_data/", label_name])
+    currentfolderpath = os.getcwd()
+    path = ''.join([currentfolderpath,"/image_data/", label_name])
     available = os.listdir(str(path))
     available = sorted(available, key=len)
-    print(available)
     lastfile = available[-1]
     startnr = lastfile.replace(".jpg","")
     count = int(startnr)
-    print(count)
     print("{} directory already exists.".format(IMG_CLASS_PATH))
     print("All images gathered will be saved along with existing items in this folder")
     num_samples = count + num_samples
