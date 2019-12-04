@@ -1,9 +1,9 @@
 from keras.models import load_model
-import cv2
+import cv2.cv2 as cv2
 import numpy as np
 import sys
 
-filepath = sys.argv[1]
+filepath = "/Users/marcdudley/Downloads/SMR2/image_data/none/1.jpg"
 
 REV_CLASS_MAP = {
     0: "rock",
@@ -12,10 +12,8 @@ REV_CLASS_MAP = {
     3: "none"
 }
 
-
 def mapper(val):
     return REV_CLASS_MAP[val]
-
 
 model = load_model("rock-paper-scissors-model.h5")
 
@@ -24,9 +22,15 @@ img = cv2.imread(filepath)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 img = cv2.resize(img, (227, 227))
 
-# predict the move made
+# predict the picture
 pred = model.predict(np.array([img]))
-move_code = np.argmax(pred[0])
-move_name = mapper(move_code)
 
-print("Predicted: {}".format(move_name))
+# sets print of arrays to 2 decimal places
+np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
+
+pic_code = np.argmax(pred[0])
+pic_name = mapper(pic_code)
+
+print("Predicted: {}".format(pic_name))
+print(pic_code)
+print(pred)
