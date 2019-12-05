@@ -25,13 +25,15 @@ except FileExistsError:
     currentfolderpath = os.getcwd()
     path = ''.join([currentfolderpath,"/image_data/", label_name])
     available = os.listdir(str(path))
-    available = sorted(available, key=len)
-    lastfile = available[-1]
-    startnr = lastfile.replace(".jpg","")
-    count = int(startnr)
-    # print("{} directory already exists.".format(IMG_CLASS_PATH))
-    # print("All images gathered will be saved along with existing items in this folder")
-    num_samples = count + num_samples
+    if len(available):  # if there are already files in the folder
+        available = sorted(available, key=len)
+        lastfile = available[-1]
+        startnr = lastfile.replace(".jpg","")
+        count = int(startnr)
+        # print("{} directory already exists.".format(IMG_CLASS_PATH))
+        # print("All images gathered will be saved along with existing items in this folder")
+        num_samples = count + num_samples
+
 
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cap.set( cv2.CAP_PROP_FRAME_WIDTH, 1920 )
