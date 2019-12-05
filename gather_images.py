@@ -1,34 +1,19 @@
-desc = '''Script to gather data images with a particular label.
-
-Usage: python gather_images.py <label_name> <num_samples>
-
-The script will collect <num_samples> number of images and store them
-in its own directory.
-
-Only the portion of the image within the box displayed
-will be captured and stored.
-
-Press 'a' to start/pause the image collecting process.
-Press 'q' to quit.
-
-'''
-
 import cv2
 import os
 # import sys
-# import serial
+import serial
 import time
 
 
 label_name = "test"
 print("Enter nr. of samples")
-num_samples = int(input())
+num_samples = 4 # int(input())
 
 
 IMG_SAVE_PATH = 'image_data'
 IMG_CLASS_PATH = os.path.join(IMG_SAVE_PATH, label_name)
 
-print(IMG_CLASS_PATH)
+# print(IMG_CLASS_PATH)
 try:
     os.mkdir(IMG_SAVE_PATH)
 except FileExistsError:
@@ -44,38 +29,33 @@ except FileExistsError:
     lastfile = available[-1]
     startnr = lastfile.replace(".jpg","")
     count = int(startnr)
-    print("{} directory already exists.".format(IMG_CLASS_PATH))
-    print("All images gathered will be saved along with existing items in this folder")
+    # print("{} directory already exists.".format(IMG_CLASS_PATH))
+    # print("All images gathered will be saved along with existing items in this folder")
     num_samples = count + num_samples
 
-cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cap.set( cv2.CAP_PROP_FRAME_WIDTH, 1920 )
 cap.set( cv2.CAP_PROP_FRAME_HEIGHT, 1080 )
 cap.set( cv2.CAP_PROP_AUTOFOCUS, 0 )  # turn the autofocus off
 cap.set( cv2.CAP_PROP_FOCUS, 5) # set the focus of camera
-print(cap.get(cv2.CAP_PROP_FOCUS))
+# print(cap.get(cv2.CAP_PROP_FOCUS))
 
 start = False
 
 # start Arduino connection
 
-# arduino = serial.Serial('COM5', 115200)
+Arduino = serial.Serial('COM6', 9600, timeout=1)
 time.sleep(1)
+Arduino.write( b'r')
 
 while True:
     ret, frame = cap.read()
+
     if not ret:
         continue
 
     if count == num_samples:
-        # start for looping with picture by picture
-        # print("Do you want to take more samples")
-        # a = input()
-        # if a == "Y":
-        #     print("Give new amount of samples")
-        #     num_samples = num_samples + int(input())
-        # else:
-            break
+                 break
 
     cv2.rectangle(frame, (650, 350), (650+400, 350+400), (255, 255, 255), 2)
 
@@ -83,10 +63,25 @@ while True:
     # arduino.readline()
 
     if start:
-        roi = frame[100:500, 100:500]
-        save_path = os.path.join(IMG_CLASS_PATH, '{}.jpg'.format(count + 1))
-        cv2.imwrite(save_path, roi)
-        count += 1
+        print("start")
+        Arduino.write( b'l')
+        Arduino.flush()
+        linetext = Arduino.readline().decode( "ascii" ).strip()
+        print(linetext)
+        if linetext == '1':
+            Arduino.write( b's')
+            Arduino.flush()
+            time.sleep(1)
+            ret, frame = cap.read()
+            roi = frame[100:500, 100:500]
+            save_path = os.path.join(IMG_CLASS_PATH, '{}.jpg'.format(count + 1))
+            cv2.imwrite(save_path, roi)
+            count += 1
+            time.sleep(1)
+            linetext = 0
+            Arduino.write( b'r')
+            Arduino.flush()
+            time.sleep(1)
 
     font = cv2.FONT_HERSHEY_SIMPLEX
     cv2.putText(frame, "Collecting {}".format(count),
