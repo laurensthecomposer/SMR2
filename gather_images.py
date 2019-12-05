@@ -15,8 +15,8 @@ Press 'q' to quit.
 
 import cv2
 import os
-import sys
-import serial
+# import sys
+# import serial
 import time
 
 
@@ -28,6 +28,7 @@ num_samples = int(input())
 IMG_SAVE_PATH = 'image_data'
 IMG_CLASS_PATH = os.path.join(IMG_SAVE_PATH, label_name)
 
+print(IMG_CLASS_PATH)
 try:
     os.mkdir(IMG_SAVE_PATH)
 except FileExistsError:
