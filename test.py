@@ -3,19 +3,19 @@ import cv2.cv2 as cv2
 import numpy as np
 import sys
 
-filepath = "/Users/marcdudley/Downloads/SMR2/image_data/none/1.jpg"
+
+filepath = "C:/Users/laure/Documents/SMR2/image_data/bolt_m8x35/2.jpg"
 
 REV_CLASS_MAP = {
-    0: "rock",
-    1: "paper",
-    2: "scissors",
-    3: "none"
+    0: "bolt_m4x20",
+    1: "bolt_m8x35",
+    2: "none"
 }
 
 def mapper(val):
     return REV_CLASS_MAP[val]
 
-model = load_model("rock-paper-scissors-model.h5")
+model = load_model("two_small_bolts_or_nothing.h5")
 
 # prepare the image
 img = cv2.imread(filepath)

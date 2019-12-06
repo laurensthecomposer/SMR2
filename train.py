@@ -11,10 +11,9 @@ import os
 IMG_SAVE_PATH = 'image_data'
 
 CLASS_MAP = {
-    "rock": 0,
-    "paper": 1,
-    "scissors": 2,
-    "none": 3
+    "bolt_m4x20": 0,
+    "bolt_m8x35": 1,
+    "none": 2
 }
 
 NUM_CLASSES = len(CLASS_MAP)
@@ -82,4 +81,4 @@ model.compile(
 model.fit(np.array(data), np.array(labels), epochs=10)
 
 # save the model for later use
-model.save("rock-paper-scissors-model.h5")
+model.save("two_small_bolts_or_nothing.h5")

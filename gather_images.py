@@ -4,9 +4,9 @@ import os
 import serial
 import time
 
-label_name = "test"
+label_name = "none"
 print( "Enter nr. of samples" )
-num_samples = 10  # int(input())
+num_samples = 110  # int(input())
 
 IMG_SAVE_PATH = 'image_data'
 IMG_CLASS_PATH = os.path.join( IMG_SAVE_PATH, label_name )
@@ -67,9 +67,10 @@ while True:
 
         break
 
-    square_size = 310
-    x_offset = 820
-    y_offset = 390
+    square_size = 350
+    # x_offset = 820
+    x_offset = 700
+    y_offset = 365
     cv2.rectangle( frame, (x_offset, y_offset), (x_offset + square_size, y_offset + square_size), (255, 255, 255), 2 )
 
     # arduino.readline()
@@ -89,7 +90,7 @@ while True:
             Arduino.flush()
             arduinoData = Arduino.readline().decode( 'ascii' )
 
-            time.sleep( 2 )
+            time.sleep(2)
             ret, frame = cap.read()
             ret, frame = cap.read()
             roi = frame[y_offset:y_offset + square_size, x_offset:x_offset + square_size]
@@ -106,7 +107,7 @@ while True:
             Arduino.write( b'r' )
             Arduino.flush()
             arduinoData = Arduino.readline().decode( 'ascii' )
-            time.sleep( 1 )
+            time.sleep( 4 )
 
     font = cv2.FONT_HERSHEY_SIMPLEX
     cv2.putText( frame, "Collecting {}".format( count ),
