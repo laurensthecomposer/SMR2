@@ -1,22 +1,29 @@
 
 
 int data = 0;
-int ledPin = 13;
-int relayPin = 5;
 int gatePin =4;
 char pyInput;
 
 bool gateStatus; 
-bool motorStatus;
+
+// connect motor controller pins to Arduino digital pins
+// motor one
+int enA = 10;
+int in1 = 9;
+int in2 = 8;
 
 void setup() {
   // put your setup code here, to run once:
 
 Serial.begin(9600);
-pinMode(ledPin, OUTPUT);
-pinMode(relayPin, OUTPUT);
 pinMode(gatePin, INPUT);     
-digitalWrite(gatePin, HIGH); // turn on the pullu
+digitalWrite(gatePin, HIGH); // turn on the pullup
+
+ // set all the motor control pins to outputs
+ pinMode(enA, OUTPUT);
+ pinMode(in1, OUTPUT);
+ pinMode(in2, OUTPUT);
+
 
 
 }
@@ -24,10 +31,12 @@ digitalWrite(gatePin, HIGH); // turn on the pullu
 void loop() {
   // put your main code here, to run repeatedly:
 
-gateStatus = digitalRead(gatePin);
+
 
 if(Serial.available()>0){
 
+
+  gateStatus = digitalRead(gatePin);
   pyInput = Serial.read();
   
 
@@ -48,11 +57,12 @@ if(Serial.available()>0){
 
     }
       
-     else if(pyInput == 'r'){
+     else if(pyInput == 'f'){
 
       data = 3;
-      digitalWrite(ledPin, HIGH);
-      digitalWrite(relayPin, HIGH);
+      digitalWrite(in1, HIGH);
+      digitalWrite(in2, LOW);
+      analogWrite(enA, 200);
       Serial.println(data);
       
       //delay(3000);
@@ -64,8 +74,23 @@ if(Serial.available()>0){
     else if(pyInput == 's'){
 
       data = 4;
-      digitalWrite(ledPin, LOW);
-      digitalWrite(relayPin, LOW);
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, LOW);
+      
+      Serial.println(data);
+      
+      //delay(3000);
+
+      
+    }
+
+
+    else if(pyInput == 'r'){
+
+      data = 5;     
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, HIGH); 
+      analogWrite(enA, 200);
       Serial.println(data);
       
       //delay(3000);
