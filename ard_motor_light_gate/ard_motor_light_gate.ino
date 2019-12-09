@@ -16,7 +16,7 @@ Serial.begin(9600);
 pinMode(ledPin, OUTPUT);
 pinMode(relayPin, OUTPUT);
 pinMode(gatePin, INPUT);     
-digitalWrite(gatePin, HIGH); // turn on the pullup
+digitalWrite(gatePin, HIGH); // turn on the pullu
 
 
 }
