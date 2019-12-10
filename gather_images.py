@@ -57,7 +57,7 @@ while True:
         continue
 
     if count == num_samples:
-        Arduino.write( b'r' )
+        Arduino.write( b'f' )
         Arduino.flush()
         arduinoData = Arduino.readline().decode( 'ascii' )
         time.sleep( 10 )
@@ -76,7 +76,7 @@ while True:
     # arduino.readline()
 
     if start:
-        Arduino.write( b'r' )
+        Arduino.write( b'f' )
         Arduino.flush()
         arduinoData = Arduino.readline().decode( 'ascii' )
 
@@ -104,7 +104,7 @@ while True:
             time.sleep( 1 )
 
             linetext = 0
-            Arduino.write( b'r' )
+            Arduino.write( b'f' )
             Arduino.flush()
             arduinoData = Arduino.readline().decode( 'ascii' )
             time.sleep( 4 )
