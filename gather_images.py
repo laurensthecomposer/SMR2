@@ -8,36 +8,36 @@ import arduino_controller
 # start Arduino connection
 controller = arduino_controller.Arduino()
 
+# Name of folder where to save data to
 label_name = "none"
-print( "Enter nr. of samples" )
+#print( "Enter nr. of samples" )
 num_samples = 110  # int(input())
 
+
+# Name image save location & describe path
 IMG_SAVE_PATH = 'image_data'
 IMG_CLASS_PATH = os.path.join( IMG_SAVE_PATH, label_name )
 
-# print(IMG_CLASS_PATH)
-try:
-    os.mkdir( IMG_SAVE_PATH )
-except FileExistsError:
-    pass
+# Check if image path exists
 try:
     os.mkdir( IMG_CLASS_PATH )
     count = 0
 except FileExistsError:
+    # Find location of directory
     currentfolderpath = os.getcwd()
     path = ''.join( [currentfolderpath, "/image_data/", label_name] )
-    available = os.listdir( str( path ) )
+    available = os.listdir( str( path ) ) # Check the files in the directory
+
     if len( available ):  # if there are already files in the folder
-        available = sorted( available, key=len )
-        lastfile = available[-1]
-        startnr = lastfile.replace( ".jpg", "" )
-        count = int( startnr )
-        # print("{} directory already exists.".format(IMG_CLASS_PATH))
-        # print("All images gathered will be saved along with existing items in this folder")
+        available = sorted( available, key=len ) # Sort files by name lenght
+        lastfile = available[-1] # Select last file
+        startnr = lastfile.replace( ".jpg", "" ) # Strip JPG from file name
+        count = int( startnr ) # Start counting from selected number
         num_samples = count + num_samples
     else:
         count = 0
 
+# Start video capture & camera settings
 cap = cv2.VideoCapture( 1, cv2.CAP_DSHOW )
 cap.set( cv2.CAP_PROP_FRAME_WIDTH, 1920 )
 cap.set( cv2.CAP_PROP_FRAME_HEIGHT, 1080 )
@@ -61,34 +61,38 @@ while True:
         controller.stop()
         break
 
+    # Set size for roi (region of interest)
     square_size = 350
     # x_offset = 820
     x_offset = 700
     y_offset = 365
     cv2.rectangle( frame, (x_offset, y_offset), (x_offset + square_size, y_offset + square_size), (255, 255, 255), 2 )
 
-    # arduino.readline()
-
+    # After press of start loop for taking pictures after pressing start
     if start:
         if controller.gate_state:
             controller.stop()
             time.sleep(3)
+
+            # Flush buffer so 2 reads
             ret, frame = cap.read()
             ret, frame = cap.read()
+
             roi = frame[y_offset:y_offset + square_size, x_offset:x_offset + square_size]
             cv2.imshow( "roi", roi )
             cv2.imshow( "Collecting images", frame )
+
             k = cv2.waitKey( 100 )
             save_path = os.path.join( IMG_CLASS_PATH, '{}.jpg'.format( count + 1 ) )
             cv2.imwrite( save_path, roi )
+
             count += 1
+            # time.sleep( 1 )
 
-            time.sleep( 1 )
-
-            linetext = 0
             controller.forward()
             time.sleep( 0.5 )
 
+            # Backwards for quick data collection
             controller.backwards()
 
     font = cv2.FONT_HERSHEY_SIMPLEX
@@ -97,11 +101,11 @@ while True:
     cv2.imshow( "Collecting images", frame )
 
     k = cv2.waitKey( 10 )
-    if k == ord( 'a' ):
+    if k == ord( 'a' ): # Start
         controller.forward()
         start = not start
 
-    if k == ord( 'q' ):
+    if k == ord( 'q' ): # Exit program
         controller.stop()
         break
 
