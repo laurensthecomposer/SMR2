@@ -40,7 +40,8 @@ if(Serial.available()>0){
   pyInput = Serial.read();
   
 
-    if(pyInput == 'l' && gateStatus == LOW){
+    // send gate status
+    if(pyInput == 'l' && gateStatus == LOW){ 
 
       data = 1;
       //digitalWrite(ledPin, LOW);
@@ -57,7 +58,7 @@ if(Serial.available()>0){
 
     }
       
-     else if(pyInput == 'f'){
+     else if(pyInput == 'f'){ // start motor forward
 
       data = 3;
       digitalWrite(in1, HIGH);
@@ -71,7 +72,7 @@ if(Serial.available()>0){
     }
 
 
-    else if(pyInput == 's'){
+    else if(pyInput == 's'){ // stop motor
 
       data = 4;
       digitalWrite(in1, LOW);
@@ -85,7 +86,7 @@ if(Serial.available()>0){
     }
 
 
-    else if(pyInput == 'r'){
+    else if(pyInput == 'r'){ // start motor backwards
 
       data = 5;     
       digitalWrite(in1, LOW);
