@@ -3,6 +3,10 @@ import os
 # import sys
 import serial
 import time
+import arduino_controller
+
+# start Arduino connection
+controller = arduino_controller.Arduino()
 
 label_name = "none"
 print( "Enter nr. of samples" )
@@ -43,11 +47,6 @@ cap.set( cv2.CAP_PROP_FOCUS, 5 )  # set the focus of camera
 
 start = False
 
-# start Arduino connection
-
-Arduino = serial.Serial( 'COM5', 9600, timeout=1 )
-time.sleep( 2 )
-
 print( "press a to start" )
 
 while True:
@@ -57,14 +56,9 @@ while True:
         continue
 
     if count == num_samples:
-        Arduino.write( b'f' )
-        Arduino.flush()
-        arduinoData = Arduino.readline().decode( 'ascii' )
+        controller.forward()
         time.sleep( 10 )
-        Arduino.write( b's' )
-        Arduino.flush()
-        arduinoData = Arduino.readline().decode( 'ascii' )
-
+        controller.stop()
         break
 
     square_size = 350
@@ -76,21 +70,10 @@ while True:
     # arduino.readline()
 
     if start:
-        Arduino.write( b'f' )
-        Arduino.flush()
-        arduinoData = Arduino.readline().decode( 'ascii' )
-
-        Arduino.write( b'l' )
-        Arduino.flush()
-        linetext = Arduino.readline().decode( "ascii" ).strip()
-
-        if linetext == '1':
-            print( 'found object, taking picture' )
-            Arduino.write( b's' )
-            Arduino.flush()
-            arduinoData = Arduino.readline().decode( 'ascii' )
-
-            time.sleep(2)
+        controller.forward()
+        if controller.gate_state:
+            controller.stop()
+            time.sleep(3)
             ret, frame = cap.read()
             ret, frame = cap.read()
             roi = frame[y_offset:y_offset + square_size, x_offset:x_offset + square_size]
@@ -104,9 +87,7 @@ while True:
             time.sleep( 1 )
 
             linetext = 0
-            Arduino.write( b'f' )
-            Arduino.flush()
-            arduinoData = Arduino.readline().decode( 'ascii' )
+            controller.forward()
             time.sleep( 4 )
 
     font = cv2.FONT_HERSHEY_SIMPLEX
@@ -119,6 +100,7 @@ while True:
         start = not start
 
     if k == ord( 'q' ):
+        controller.stop()
         break
 
 print( "\n{} image(s) saved in {}".format( count, IMG_CLASS_PATH ) )

@@ -36,19 +36,23 @@ class Arduino( object ):
 
     def backwards(self):
         self.connection.write( b'r' )
+        self.connection.flush()
         arduinoData = self.connection.readline().decode('ascii')
 
     def forward(self):
         self.connection.write( b'f' )
+        self.connection.flush()
         arduinoData = self.connection.readline().decode('ascii')
 
     def stop(self):
         self.connection.write(b's')
+        self.connection.flush()
         arduinoData = self.connection.readline().decode('ascii')
 
     @property
     def gate_state(self):
         self.connection.write(b'l')
+        self.connection.flush()
         arduinoData = int(self.connection.readline().decode('ascii'))
         if arduinoData == 1: # broken
             return True
