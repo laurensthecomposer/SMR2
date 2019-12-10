@@ -70,7 +70,6 @@ while True:
     # arduino.readline()
 
     if start:
-        controller.forward()
         if controller.gate_state:
             controller.stop()
             time.sleep(3)
@@ -88,7 +87,9 @@ while True:
 
             linetext = 0
             controller.forward()
-            time.sleep( 4 )
+            time.sleep( 0.5 )
+
+            controller.backwards()
 
     font = cv2.FONT_HERSHEY_SIMPLEX
     cv2.putText( frame, "Collecting {}".format( count ),
@@ -97,6 +98,7 @@ while True:
 
     k = cv2.waitKey( 10 )
     if k == ord( 'a' ):
+        controller.forward()
         start = not start
 
     if k == ord( 'q' ):
