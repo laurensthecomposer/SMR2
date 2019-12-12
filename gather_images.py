@@ -11,7 +11,7 @@ controller = arduino_controller.Arduino()
 # Name of folder where to save data to
 label_name = "none"
 #print( "Enter nr. of samples" )
-num_samples = 110  # int(input())
+num_samples = 100  # int(input())
 
 
 # Name image save location & describe path
@@ -49,11 +49,17 @@ start = False
 
 print( "press a to start" )
 
-while True:
-    ret, frame = cap.read()
+square_size = 350
+# x_offset = 820
+x_offset = 700
+y_offset = 375
+start = True
 
-    if not ret:
-        continue
+while True:
+    # ret, frame = cap.read()
+
+    # if not ret:
+    #     continue
 
     if count == num_samples:
         controller.forward()
@@ -62,15 +68,14 @@ while True:
         break
 
     # Set size for roi (region of interest)
-    square_size = 350
-    # x_offset = 820
-    x_offset = 700
-    y_offset = 365
-    cv2.rectangle( frame, (x_offset, y_offset), (x_offset + square_size, y_offset + square_size), (255, 255, 255), 2 )
+    # cv2.rectangle( frame, (x_offset, y_offset), (x_offset + square_size, y_offset + square_size), (255, 255, 255), 2 )
 
     # After press of start loop for taking pictures after pressing start
     if start:
+
         if controller.gate_state:
+            print( label_name, ",", count )
+
             controller.stop()
             time.sleep(3)
 
@@ -90,20 +95,22 @@ while True:
             # time.sleep( 1 )
 
             controller.forward()
-            time.sleep( 0.5 )
+            time.sleep( 0.5 )  # wait until object is gone
 
-            # Backwards for quick data collection
-            controller.backwards()
+            # # Backwards for quick data collection
+            # controller.backwards()
 
     font = cv2.FONT_HERSHEY_SIMPLEX
-    cv2.putText( frame, "Collecting {}".format( count ),
-                 (5, 50), font, 0.7, (0, 255, 255), 2, cv2.LINE_AA )
-    cv2.imshow( "Collecting images", frame )
+    # cv2.putText( frame, "Collecting {}".format( count ),
+    #              (5, 50), font, 0.7, (0, 255, 255), 2, cv2.LINE_AA )
+    # cv2.imshow( "Collecting images", frame )
 
-    k = cv2.waitKey( 10 )
-    if k == ord( 'a' ): # Start
-        controller.forward()
-        start = not start
+    k = cv2.waitKey( 1 )
+    # if k == ord( 'a' ): # Start
+    #     controller.forward()
+    #     start = not start
+
+    controller.forward()
 
     if k == ord( 'q' ): # Exit program
         controller.stop()

@@ -1,19 +1,26 @@
 import cv2
 import os
 # import sys
-import serial
+import arduino_controller
 import time
 from keras.models import load_model
 import cv2.cv2 as cv2
 import numpy as np
 import sys
 
-filepath = "C:/Users/laure/Documents/SMR2/image_data/bolt_m8x35/2.jpg"
+# filepath = "/image_data/"
 
 REV_CLASS_MAP = {
-    0: "bolt_m4x20",
-    1: "bolt_m8x35",
-    2: "none"
+    0:"m59557-10",
+    1:"m59557-16",
+    2:"m59557-20",
+    3:"nas1802-3-6",
+    4:"nas1802-3-7",
+    5:"nas1802-3-8",
+    6:"nas1802-3-9",
+   7: "nas1802-4-07",
+    8:"nas6305-10",
+   9: "none"
 }
 
 
@@ -85,25 +92,22 @@ start = False
 
 # start Arduino connection
 
-Arduino = serial.Serial( 'COM5', 9600, timeout=1 )
-time.sleep( 2 )
+# start Arduino connection
+controller = arduino_controller.Arduino()
 
 print( "press a to start" )
 
+start = True
 while True:
-    ret, frame = cap.read()
+    # ret, frame = cap.read()
 
-    if not ret:
-        continue
+    # if not ret:
+    #     continue
 
     if count == num_samples:
-        Arduino.write( b'r' )
-        Arduino.flush()
-        arduinoData = Arduino.readline().decode( 'ascii' )
+        controller.forward()
         time.sleep( 10 )
-        Arduino.write( b's' )
-        Arduino.flush()
-        arduinoData = Arduino.readline().decode( 'ascii' )
+        controller.stop()
 
         break
 
@@ -111,24 +115,16 @@ while True:
     # x_offset = 820
     x_offset = 700
     y_offset = 365
-    cv2.rectangle( frame, (x_offset, y_offset), (x_offset + square_size, y_offset + square_size), (255, 255, 255), 2 )
+    # cv2.rectangle( frame, (x_offset, y_offset), (x_offset + square_size, y_offset + square_size), (255, 255, 255), 2 )
 
     # arduino.readline()
 
     if start:
-        Arduino.write( b'r' )
-        Arduino.flush()
-        arduinoData = Arduino.readline().decode( 'ascii' )
+        controller.forward()
 
-        Arduino.write( b'l' )
-        Arduino.flush()
-        linetext = Arduino.readline().decode( "ascii" ).strip()
-
-        if linetext == '1':
+        if controller.gate_state:
             print( 'found object, taking picture' )
-            Arduino.write( b's' )
-            Arduino.flush()
-            arduinoData = Arduino.readline().decode( 'ascii' )
+            controller.stop()
 
             time.sleep( 2 )
             ret, frame = cap.read()
@@ -145,19 +141,19 @@ while True:
             time.sleep( 1 )
 
             linetext = 0
-            Arduino.write( b'r' )
-            Arduino.flush()
-            arduinoData = Arduino.readline().decode( 'ascii' )
+
+            controller.forward()
+
             time.sleep( 4 )
 
     font = cv2.FONT_HERSHEY_SIMPLEX
-    cv2.putText( frame, "Collecting {}".format( count ),
-                 (5, 50), font, 0.7, (0, 255, 255), 2, cv2.LINE_AA )
-    cv2.imshow( "Collecting images", frame )
+    # cv2.putText( frame, "Collecting {}".format( count ),
+    #              (5, 50), font, 0.7, (0, 255, 255), 2, cv2.LINE_AA )
+    # cv2.imshow( "Collecting images", frame )
 
     k = cv2.waitKey( 10 )
-    if k == ord( 'a' ):
-        start = not start
+    # if k == ord( 'a' ):
+    #     start = not start
 
     if k == ord( 'q' ):
         break
