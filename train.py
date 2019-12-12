@@ -8,19 +8,14 @@ from keras.models import Sequential
 import tensorflow as tf
 import os
 
-IMG_SAVE_PATH = 'image_data'
+IMG_SAVE_PATH = 'images_nas18'
 
 CLASS_MAP = {
-    "m59557-10": 0,
-    "m59557-16": 1,
-    "m59557-20": 2,
-    "nas1802-3-6": 3,
-    "nas1802-3-7": 4,
-    "nas1802-3-8": 5,
-    "nas1802-3-9": 6,
-    "nas1802-4-07": 7,
-    "nas6305-10": 8,
-    "none": 9
+    "nas1802-3-6": 0,
+    "nas1802-3-7": 1,
+    "nas1802-3-8": 2,
+    "nas1802-3-9": 3,
+    "none": 4
 }
 
 NUM_CLASSES = len(CLASS_MAP)
@@ -85,7 +80,7 @@ model.compile(
 )
 
 # start training
-model.fit(np.array(data), np.array(labels), epochs=15)
+model.fit(np.array(data), np.array(labels), epochs=3)
 
 # save the model for later use
-model.save("two_small_bolts_or_nothing.h5")
+model.save("nas18e3circle.h5")

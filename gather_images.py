@@ -9,7 +9,7 @@ import arduino_controller
 controller = arduino_controller.Arduino()
 
 # Name of folder where to save data to
-label_name = "none"
+label_name = "nas1802-3-6"
 #print( "Enter nr. of samples" )
 num_samples = 100  # int(input())
 

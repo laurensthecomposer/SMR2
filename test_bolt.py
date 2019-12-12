@@ -10,26 +10,39 @@ import sys
 
 # filepath = "/image_data/"
 
+# REV_CLASS_MAP = {
+#     0:"m59557-10",
+#     1:"m59557-16",
+#     2:"m59557-20",
+#     3:"nas1802-3-6",
+#     4:"nas1802-3-7",
+#     5:"nas1802-3-8",
+#     6:"nas1802-3-9",
+#    7: "nas1802-4-07",
+#     8:"nas6305-10",
+#    9: "none"
+# }
+
 REV_CLASS_MAP = {
-    0:"m59557-10",
-    1:"m59557-16",
-    2:"m59557-20",
-    3:"nas1802-3-6",
-    4:"nas1802-3-7",
-    5:"nas1802-3-8",
-    6:"nas1802-3-9",
-   7: "nas1802-4-07",
-    8:"nas6305-10",
-   9: "none"
+    0: "nas1802-3-6",
+    1: "nas1802-3-7",
+    2: "nas1802-3-8",
+    3: "nas1802-3-9",
+    4: "none"
+
 }
 
 
 def mapper(val):
     return REV_CLASS_MAP[val]
 
+def mapper_nas18(val):
+    return REV_CLASS_MAP2[val]
 
-model = load_model( "two_small_bolts_or_nothing.h5" )
 
+# model = load_model( "two_small_bolts_or_nothing.h5" )
+
+model = load_model( "nas18e3.h5")
 
 def test_img(img):
     # prepare the image
@@ -144,7 +157,7 @@ while True:
 
             controller.forward()
 
-            time.sleep( 4 )
+            time.sleep( 1 )
 
     font = cv2.FONT_HERSHEY_SIMPLEX
     # cv2.putText( frame, "Collecting {}".format( count ),
@@ -156,6 +169,7 @@ while True:
     #     start = not start
 
     if k == ord( 'q' ):
+        controller.stop()
         break
 
 print( "\n{} image(s) saved in {}".format( count, IMG_CLASS_PATH ) )
