@@ -8,9 +8,9 @@ bool gateStatus;
 
 // connect motor controller pins to Arduino digital pins
 // motor one
-int enA = 10; // pwm port currently tied high on hw95 driver
-int in1 = 9;
-int in2 = 8;
+int enA = 3; // pwm port 
+int in1 = 2;
+int in2 = 4;
 
 // motor two
 int enB = 5; // pwm port
@@ -18,9 +18,9 @@ int in3 = 7;
 int in4 = 6;
 
 // motor three
-int enC = 3; // pwm port
-int in5 = 2;
-int in6 = 4;
+int enC = 10; // pwm port
+int in5 = 9;
+int in6 = 8;
 
 int timer;
 
@@ -89,37 +89,37 @@ if(Serial.available()>0){
       data = 5;     
       digitalWrite(in1, LOW);
       digitalWrite(in2, HIGH); 
-      analogWrite(enA, 200);
+      analogWrite(enA, 255);
       
       Serial.println(data);
     }
     
     else if(pyInput == 'r'){ // forward motor 2
-      data = 3;
+      data = 6;
       digitalWrite(in3, HIGH);
       digitalWrite(in4, LOW);
-      analogWrite(enB, 120);
+      analogWrite(enB, 255);
       
       Serial.println(data);
     }
     else if(pyInput == 's'){ // stop motor 2
-      data = 4;
+      data = 7;
       digitalWrite(in3, LOW);
       digitalWrite(in4, LOW);
       
       Serial.println(data);
     }
     else if(pyInput == 't'){ // reverse motor 2
-      data = 5;     
+      data = 8;     
       digitalWrite(in3, LOW);
       digitalWrite(in4, HIGH); 
-      analogWrite(enB, 120);
+      analogWrite(enB, 255);
       
       Serial.println(data);
     }
 
     else if(pyInput == 'u'){ // forward motor 3
-      data = 6;
+      data = 9;
       digitalWrite(in5, HIGH);
       digitalWrite(in6, LOW);
       analogWrite(enC, 255);
@@ -127,16 +127,46 @@ if(Serial.available()>0){
       Serial.println(data);
     }
     else if(pyInput == 'v'){ // stop motor 3
-      data = 7;
+      data = 10;
       digitalWrite(in5, LOW);
       digitalWrite(in6, LOW);
       
       Serial.println(data);
     }
     else if(pyInput == 'w'){ // reverse motor 3
-      data = 8;     
+      data = 11;     
       digitalWrite(in5, LOW);
       digitalWrite(in6, HIGH); 
+      analogWrite(enC, 255);
+      
+      Serial.println(data);
+      
+    }
+    else if(pyInput == 'q'){ // reverse motor 3
+      data = 12;     
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, LOW); 
+      //analogWrite(enC, 0);
+      digitalWrite(in3, LOW);
+      digitalWrite(in4, LOW); 
+      //analogWrite(enC, 0);
+      digitalWrite(in5, LOW);
+      digitalWrite(in6, LOW); 
+      //analogWrite(enC, 0);
+      
+      Serial.println(data);
+    }
+
+    else if(pyInput == 'a'){ // start all
+      data = 13;     
+      digitalWrite(in1, HIGH);
+      digitalWrite(in2, LOW); 
+      analogWrite(enA, 255);
+      digitalWrite(in3, HIGH);
+      digitalWrite(in4, LOW); 
+      analogWrite(enB, 255);
+      digitalWrite(in5, HIGH);
+      digitalWrite(in6, LOW); 
       analogWrite(enC, 255);
       
       Serial.println(data);
