@@ -4,7 +4,7 @@ import numpy as np
 import sys
 
 
-filepath = "C:/Users/laure/Documents/SMR2/image_data/bolt_m8x35/2.jpg"
+filepath = "/Users/marcdudley/Downloads/SMR2/image_test/test_bolts/2.jpg"
 
 REV_CLASS_MAP = {
     0: "bolt_m4x20",

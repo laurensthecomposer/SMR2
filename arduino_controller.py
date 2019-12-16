@@ -15,6 +15,7 @@ class Arduino( object ):
         self.m1 = Motor(self, 'm', 'n', 'o')
         self.m2 = Motor(self, 'r', 's', 't')
         self.m3 = Motor(self, 'u', 'v', 'w')
+        #self.all = Motor(self, 'a', 'q', 'j') # turn all motors on (a) or off (q), (j) is nothing
 
     def connect(self):
         # Declare the port and baudrate for the Arduino
@@ -49,9 +50,9 @@ class Arduino( object ):
 
 class Motor(object):
     def __init__(self, connection: Arduino,  forward_letter : str, stop_letter: str, reverse_letter: str ):
-        self.f = bytes(forward_letter, 'utf-8')
-        self.s = bytes(stop_letter, 'utf-8')
-        self.r = bytes(reverse_letter, 'utf-8')
+        self.f = bytes(forward_letter, 'ascii')
+        self.s = bytes(stop_letter, 'ascii')
+        self.r = bytes(reverse_letter, 'ascii')
         self.arduino: Arduino = connection
 
     def forward(self):
@@ -68,4 +69,5 @@ class Motor(object):
         self.arduino.connection.write( self.r )
         self.arduino.connection.flush()
         arduinoData = self.arduino.connection.readline().decode('ascii')
+
 
