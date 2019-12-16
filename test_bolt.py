@@ -42,12 +42,14 @@ def mapper_nas18(val):
 
 # model = load_model( "two_small_bolts_or_nothing.h5" )
 
-model = load_model( "nas18e3.h5")
+model = load_model( "nas18e4lr.h5")
+print(model)
 
 def test_img(img):
     # prepare the image
     img = cv2.cvtColor( img, cv2.COLOR_BGR2RGB )
     img = cv2.resize( img, (227, 227) )
+    cv2.imshow("test", img)
 
     # predict the picture
     pred = model.predict( np.array( [img] ) )
@@ -142,7 +144,19 @@ while True:
             time.sleep( 2 )
             ret, frame = cap.read()
             ret, frame = cap.read()
+
             roi = frame[y_offset:y_offset + square_size, x_offset:x_offset + square_size]
+            img1 = cv2.cvtColor(roi, cv2.COLOR_RGB2GRAY)
+
+            height, width = img1.shape
+
+            h_centre = int(height / 2)
+            w_centre = int(width / 2)
+
+            thickness = 100
+
+            cv2.circle(roi, (h_centre, w_centre), w_centre + int(thickness / 2), (0, 0, 0), thickness=thickness)
+
             cv2.imshow( "roi", roi )
             cv2.imshow( "Collecting images", frame )
             k = cv2.waitKey( 100 )

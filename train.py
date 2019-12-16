@@ -27,7 +27,7 @@ def mapper(val):
 
 def get_model():
     model = Sequential([
-        SqueezeNet(input_shape=(227, 227, 3), include_top=False),
+        SqueezeNet(input_shape=(600, 600, 3), include_top=False),
         Dropout(0.5),
         Convolution2D(NUM_CLASSES, (1, 1), padding='valid'),
         Activation('relu'),
@@ -49,7 +49,7 @@ for directory in os.listdir(IMG_SAVE_PATH):
             continue
         img = cv2.imread(os.path.join(path, item))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        img = cv2.resize(img, (227, 227))
+        img = cv2.resize(img, (600, 600))
         dataset.append([img, directory])
 
 '''
@@ -74,13 +74,18 @@ labels = np_utils.to_categorical(labels)
 # define the model
 model = get_model()
 model.compile(
-    optimizer=Adam(lr=0.0001),
+    optimizer=Adam(lr=0.001),
     loss='categorical_crossentropy',
     metrics=['accuracy']
 )
 
+
 # start training
-model.fit(np.array(data), np.array(labels), epochs=3)
+
+epochs = 10
+model.fit(np.array(data), np.array(labels), epochs=epochs)
+
+name = ''.join(["nas18e", str(epochs), "hq600600.h5"])
 
 # save the model for later use
-model.save("nas18e3circle.h5")
+model.save(name)
