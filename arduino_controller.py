@@ -54,18 +54,18 @@ class Motor(object):
         self.r = bytes(reverse_letter, 'utf-8')
         self.arduino: Arduino = connection
 
-    def forward(self):
-        self.arduino.connection.write( self.f )
+    def first_forward(self):
+        self.arduino.connection.write( self.m)
         self.arduino.connection.flush()
         arduinoData = self.arduino.connection.readline().decode('ascii')
 
-    def stop(self):
-        self.arduino.connection.write(self.s)
+    def first_stop(self):
+        self.arduino.connection.write(self.n)
         self.arduino.connection.flush()
         arduinoData = self.arduino.connection.readline().decode('ascii')
 
-    def backwards(self):
-        self.arduino.connection.write( self.r )
+    def first_backwards(self):
+        self.arduino.connection.write( self.o )
         self.arduino.connection.flush()
         arduinoData = self.arduino.connection.readline().decode('ascii')
 
