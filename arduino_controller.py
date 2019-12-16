@@ -12,6 +12,9 @@ class Arduino( object ):
         else:
             self.port = com
             self.connect()
+        self.m1 = Motor(self, 'm', 'n', 'o')
+        self.m2 = Motor(self, 'r', 's', 't')
+        self.m3 = Motor(self, 'u', 'v', 'w')
 
     def connect(self):
         # Declare the port and baudrate for the Arduino
@@ -34,21 +37,6 @@ class Arduino( object ):
     def connected(self):
         return self._connected
 
-    def backwards(self):
-        self.connection.write( b'r' )
-        self.connection.flush()
-        arduinoData = self.connection.readline().decode('ascii')
-
-    def forward(self):
-        self.connection.write( b'f' )
-        self.connection.flush()
-        arduinoData = self.connection.readline().decode('ascii')
-
-    def stop(self):
-        self.connection.write(b's')
-        self.connection.flush()
-        arduinoData = self.connection.readline().decode('ascii')
-
     @property
     def gate_state(self):
         self.connection.write(b'l')
@@ -59,4 +47,25 @@ class Arduino( object ):
         elif arduinoData == 2: # unbroken
             return False
 
+class Motor(object):
+    def __init__(self, connection: Arduino,  forward_letter : str, stop_letter: str, reverse_letter: str ):
+        self.f = bytes(forward_letter, 'utf-8')
+        self.s = bytes(stop_letter, 'utf-8')
+        self.r = bytes(reverse_letter, 'utf-8')
+        self.arduino: Arduino = connection
+
+    def forward(self):
+        self.arduino.connection.write( self.f )
+        self.arduino.connection.flush()
+        arduinoData = self.arduino.connection.readline().decode('ascii')
+
+    def stop(self):
+        self.arduino.connection.write(self.s)
+        self.arduino.connection.flush()
+        arduinoData = self.arduino.connection.readline().decode('ascii')
+
+    def backwards(self):
+        self.arduino.connection.write( self.r )
+        self.arduino.connection.flush()
+        arduinoData = self.arduino.connection.readline().decode('ascii')
 

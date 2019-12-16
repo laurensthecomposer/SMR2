@@ -50,109 +50,60 @@ if(Serial.available()>0){
   
 
     if(pyInput == 'l' && gateStatus == LOW){
-
       data = 1;
-      //digitalWrite(ledPin, LOW);
       Serial.println(data);
 
     }
-
-
     else if(pyInput == 'l' && gateStatus == HIGH){
-
       data = 2;
-      //digitalWrite(ledPin, HIGH);
       Serial.println(data);
-
     }
-      
-     else if(pyInput == 'f'){
-
+    else if(pyInput == 'f'){
       data = 3;
-        
       digitalWrite(in1, HIGH);
       digitalWrite(in2, LOW);
+      analogWrite(enA, 50);
       
-    
-    analogWrite(enA, 50);
-   
-
-      
-       Serial.println(data);
-      
+      Serial.println(data);
     }
-
-
     else if(pyInput == 's'){
-
       data = 4;
       digitalWrite(in1, LOW);
       digitalWrite(in2, LOW);
       
       Serial.println(data);
-      
-      //delay(3000);
-
-      
     }
-
-
     else if(pyInput == 'r'){
-
       data = 5;     
       digitalWrite(in1, LOW);
       digitalWrite(in2, HIGH); 
       analogWrite(enA, 200);
+      
       Serial.println(data);
-      
-      //delay(3000);
-
-      
     }
-
-    
-      
      else if(pyInput == 'F'){
-
       data = 3;
       digitalWrite(in1, HIGH);
       digitalWrite(in2, LOW);
       analogWrite(enA, 200);
+      
       Serial.println(data);
-      
-      //delay(3000);
-
-      
     }
-
-
     else if(pyInput == 'S'){
-
       data = 4;
       digitalWrite(in1, LOW);
       digitalWrite(in2, LOW);
       
       Serial.println(data);
-      
-      //delay(3000);
-
-      
     }
-
-
     else if(pyInput == 'R'){
-
       data = 5;     
       digitalWrite(in1, LOW);
       digitalWrite(in2, HIGH); 
       analogWrite(enA, 200);
+      
       Serial.println(data);
-      
-      //delay(3000);
-
-      
     }
-
 }
 
 }

@@ -3,19 +3,18 @@ import time
 
 controller = arduino_controller.Arduino()
 
-controller.forward()
+controller.m2.forward()
+time.sleep(2)
+
+controller.m2.stop()
 
 time.sleep(2)
 
-controller.stop()
+controller.m2.backwards()
 
 time.sleep(2)
 
-controller.backwards()
-
-time.sleep(2)
-
-controller.stop()
+controller.m2.stop()
 
 time.sleep(1)
 
