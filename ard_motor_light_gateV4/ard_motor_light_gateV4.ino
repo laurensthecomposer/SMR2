@@ -1,14 +1,14 @@
 
 
 int data = 0;
-int gatePin =4;
+int gatePin =12;
 char pyInput;
 
 bool gateStatus; 
 
 // connect motor controller pins to Arduino digital pins
 // motor one
-int enA = 10; // pwm port
+int enA = 10; // pwm port currently tied high on hw95 driver
 int in1 = 9;
 int in2 = 8;
 
@@ -119,25 +119,25 @@ if(Serial.available()>0){
     }
 
     else if(pyInput == 'u'){ // forward motor 3
-      data = 3;
-      digitalWrite(in3, HIGH);
-      digitalWrite(in4, LOW);
-      analogWrite(enB, 255);
+      data = 6;
+      digitalWrite(in5, HIGH);
+      digitalWrite(in6, LOW);
+      analogWrite(enC, 255);
       
       Serial.println(data);
     }
     else if(pyInput == 'v'){ // stop motor 3
-      data = 4;
-      digitalWrite(in3, LOW);
-      digitalWrite(in4, LOW);
+      data = 7;
+      digitalWrite(in5, LOW);
+      digitalWrite(in6, LOW);
       
       Serial.println(data);
     }
     else if(pyInput == 'w'){ // reverse motor 3
-      data = 5;     
-      digitalWrite(in3, LOW);
-      digitalWrite(in4, HIGH); 
-      analogWrite(enB, 255);
+      data = 8;     
+      digitalWrite(in5, LOW);
+      digitalWrite(in6, HIGH); 
+      analogWrite(enC, 255);
       
       Serial.println(data);
     }
