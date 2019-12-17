@@ -42,17 +42,23 @@ cap = cv2.VideoCapture( 1, cv2.CAP_DSHOW )
 cap.set( cv2.CAP_PROP_FRAME_WIDTH, 1920 )
 cap.set( cv2.CAP_PROP_FRAME_HEIGHT, 1080 )
 cap.set( cv2.CAP_PROP_AUTOFOCUS, 0 )  # turn the autofocus off
-cap.set( cv2.CAP_PROP_FOCUS, 5 )  # set the focus of camera
+cap.set( cv2.CAP_PROP_FOCUS, 20 )  # set the focus of camera
+cap.set(cv2.CAP_PROP_BRIGHTNESS, 128.0)
+cap.set(cv2.CAP_PROP_CONTRAST, 128.0)
+cap.set(cv2.CAP_PROP_SATURATION, 128.0)
+cap.set(cv2.CAP_PROP_HUE, -1.0)  # 13.0
+cap.set(cv2.CAP_PROP_GAIN, 4.0)
+cap.set(cv2.CAP_PROP_EXPOSURE, -7.0)
 # print(cap.get(cv2.CAP_PROP_FOCUS))
 
 start = False
 
 print( "press a to start" )
 
-square_size = 350
+square_size = 650
 # x_offset = 820
-x_offset = 700
-y_offset = 375
+x_offset = 200
+y_offset = 120
 start = True
 
 while True:

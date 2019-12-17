@@ -67,18 +67,18 @@ class Belts( object ):
         self.r = bytes(reverse_letter, 'utf-8')
         self.arduino: Arduino = connection
 
-    def first_forward(self):
-        self.arduino.connection.write( self.m)
+    def forward(self):
+        self.arduino.connection.write( self.f)
         self.arduino.connection.flush()
         arduinoData = self.arduino.connection.readline().decode('ascii')
 
-    def first_stop(self):
-        self.arduino.connection.write(self.n)
+    def stop(self):
+        self.arduino.connection.write(self.s)
         self.arduino.connection.flush()
         arduinoData = self.arduino.connection.readline().decode('ascii')
 
-    def first_backwards(self):
-        self.arduino.connection.write( self.o )
+    def backwards(self):
+        self.arduino.connection.write( self.r)
         self.arduino.connection.flush()
         arduinoData = self.arduino.connection.readline().decode('ascii')
 

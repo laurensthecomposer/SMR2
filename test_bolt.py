@@ -7,8 +7,11 @@ from keras.models import load_model
 import cv2.cv2 as cv2
 import numpy as np
 import sys
+import sorting_robot
 
-# filepath = "/image_data/"
+rob = sorting_robot.Robot()
+pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train = rob.get_waypoints()
+
 
 # REV_CLASS_MAP = {
 #     0:"m59557-10",
@@ -29,7 +32,6 @@ REV_CLASS_MAP = {
     2: "nas1802-3-8",
     3: "nas1802-3-9",
     4: "none"
-
 }
 
 
@@ -42,8 +44,10 @@ def mapper_nas18(val):
 
 # model = load_model( "two_small_bolts_or_nothing.h5" )
 
-model = load_model( "nas18e4lr.h5")
-print(model)
+model_name = "nas18.h5"
+
+model = load_model(model_name)
+
 
 def test_img(img):
     # prepare the image
@@ -59,10 +63,8 @@ def test_img(img):
 
     pic_code = np.argmax( pred[0] )
     pic_name = mapper( pic_code )
-
-    print( "Predicted: {}".format( pic_name ) )
-    print( pic_code )
-    print( pred )
+    print("Dropping: ", pic_name)
+    return pic_name
 
 
 # ========
@@ -96,21 +98,22 @@ except FileExistsError:
     else:
         count = 0
 
-cap = cv2.VideoCapture( 1, cv2.CAP_DSHOW )
+cap = cv2cap = cv2.VideoCapture( 1, cv2.CAP_DSHOW )
 cap.set( cv2.CAP_PROP_FRAME_WIDTH, 1920 )
 cap.set( cv2.CAP_PROP_FRAME_HEIGHT, 1080 )
 cap.set( cv2.CAP_PROP_AUTOFOCUS, 0 )  # turn the autofocus off
-cap.set( cv2.CAP_PROP_FOCUS, 5 )  # set the focus of camera
-# print(cap.get(cv2.CAP_PROP_FOCUS))
-
-start = False
+cap.set( cv2.CAP_PROP_FOCUS, 20 )  # set the focus of camera
+cap.set(cv2.CAP_PROP_BRIGHTNESS, 128.0)
+cap.set(cv2.CAP_PROP_CONTRAST, 128.0)
+cap.set(cv2.CAP_PROP_SATURATION, 128.0)
+cap.set(cv2.CAP_PROP_HUE, -1.0)  # 13.0
+cap.set(cv2.CAP_PROP_GAIN, 4.0)
+cap.set(cv2.CAP_PROP_EXPOSURE, -7.0)
 
 # start Arduino connection
 
 # start Arduino connection
 controller = arduino_controller.Arduino()
-
-print( "press a to start" )
 
 start = True
 while True:
@@ -120,26 +123,26 @@ while True:
     #     continue
 
     if count == num_samples:
-        controller.forward()
+        controller.all_forward()
         time.sleep( 10 )
-        controller.stop()
+        controller.all_stop()
 
         break
 
-    square_size = 350
+    square_size = 650
     # x_offset = 820
-    x_offset = 700
-    y_offset = 365
+    x_offset = 500
+    y_offset = 120
     # cv2.rectangle( frame, (x_offset, y_offset), (x_offset + square_size, y_offset + square_size), (255, 255, 255), 2 )
 
     # arduino.readline()
 
     if start:
-        controller.forward()
+        controller.all_forward()
 
         if controller.gate_state:
             print( 'found object, taking picture' )
-            controller.stop()
+            controller.all_stop()
 
             time.sleep( 2 )
             ret, frame = cap.read()
@@ -162,16 +165,19 @@ while True:
             k = cv2.waitKey( 100 )
             save_path = os.path.join( IMG_CLASS_PATH, '{}.jpg'.format( count + 1 ) )
             cv2.imwrite( save_path, roi )
-            test_img(roi)
+            pic_name = test_img(roi)
             count += 1
 
             time.sleep( 1 )
 
-            linetext = 0
+            controller.all_forward()
 
-            controller.forward()
+            time.sleep( 0.5 )
 
-            time.sleep( 1 )
+            controller.all_stop()
+
+            rob.drop(pic_name, pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train, train=False)
+            print("Dropped: ", pic_name)
 
     font = cv2.FONT_HERSHEY_SIMPLEX
     # cv2.putText( frame, "Collecting {}".format( count ),
@@ -183,7 +189,7 @@ while True:
     #     start = not start
 
     if k == ord( 'q' ):
-        controller.stop()
+        controller.all_stop()
         break
 
 print( "\n{} image(s) saved in {}".format( count, IMG_CLASS_PATH ) )

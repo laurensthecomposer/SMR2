@@ -15,7 +15,7 @@ def main(argv):
     cap.set( cv2.CAP_PROP_FRAME_WIDTH, 1920 )
     cap.set( cv2.CAP_PROP_FRAME_HEIGHT, 1080 )
     cap.set( cv2.CAP_PROP_AUTOFOCUS, 0 )  # turn the autofocus off
-    cap.set( cv2.CAP_PROP_FOCUS, 5) # set the focus of camera
+    cap.set( cv2.CAP_PROP_FOCUS, 20) # set the focus of camera
     print(cap.get(cv2.CAP_PROP_FOCUS))
 
 
