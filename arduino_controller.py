@@ -59,7 +59,6 @@ class Arduino( object ):
         elif arduinoData == 2: # unbroken
             return False
 
-    def motors
 
 class Belts( object ):
     def __init__(self, connection: Arduino,  forward_letter : str, stop_letter: str, reverse_letter: str ):
