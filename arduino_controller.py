@@ -12,9 +12,21 @@ class Arduino( object ):
         else:
             self.port = com
             self.connect()
-        self.m1 = Motor(self, 'm', 'n', 'o')
-        self.m2 = Motor(self, 'r', 's', 't')
-        self.m3 = Motor(self, 'u', 'v', 'w')
+
+        self.belts = [Belts( self, 'm', 'n', 'o' ),
+                      Belts( self, 'r', 's', 't' ),
+                      Belts( self, 'u', 'v', 'w' )]
+    def all_forward(self):
+        for belt in self.belts:
+            belt.forward()
+
+    def all_stop(self):
+        for belt in self.belts:
+            belt.stop()
+
+    def all_backwards(self):
+        for belt in self.belts:
+            belt.backwards()
 
     def connect(self):
         # Declare the port and baudrate for the Arduino
@@ -47,7 +59,9 @@ class Arduino( object ):
         elif arduinoData == 2: # unbroken
             return False
 
-class Motor(object):
+    def motors
+
+class Belts( object ):
     def __init__(self, connection: Arduino,  forward_letter : str, stop_letter: str, reverse_letter: str ):
         self.f = bytes(forward_letter, 'utf-8')
         self.s = bytes(stop_letter, 'utf-8')
