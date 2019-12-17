@@ -62,9 +62,9 @@ while True:
     #     continue
 
     if count == num_samples:
-        controller.forward()
+        controller.all_forward()
         time.sleep( 10 )
-        controller.stop()
+        controller.all_stop()
         break
 
     # Set size for roi (region of interest)
@@ -76,7 +76,7 @@ while True:
         if controller.gate_state:
             print( label_name, ",", count )
 
-            controller.stop()
+            controller.all_stop()
             time.sleep(3)
 
             # Flush buffer so 2 reads
@@ -94,7 +94,7 @@ while True:
             count += 1
             # time.sleep( 1 )
 
-            controller.forward()
+            controller.all_forward()
             time.sleep( 0.5 )  # wait until object is gone
 
             # # Backwards for quick data collection
@@ -107,13 +107,13 @@ while True:
 
     k = cv2.waitKey( 1 )
     # if k == ord( 'a' ): # Start
-    #     controller.forward()
+    #     controller.all_forward()
     #     start = not start
 
-    controller.forward()
+    controller.all_forward()
 
     if k == ord( 'q' ): # Exit program
-        controller.stop()
+        controller.all_stop()
         break
 
 print( "\n{} image(s) saved in {}".format( count, IMG_CLASS_PATH ) )
