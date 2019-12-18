@@ -1,6 +1,7 @@
 import serial
 
-ser = serial.Serial(port='COM5', baudrate = 9600, timeout=1)
+macport = '/dev/cu.usbmodem14101'
+ser = serial.Serial(port= macport, baudrate = 9600, timeout=1)
 
 while True:
 
@@ -11,17 +12,63 @@ while True:
         arduinoData = ser.readline().decode('ascii')
         print(arduinoData)
 
-    if userInput == 'f':  # forward motor
-        ser.write(b'f')
+    if userInput == 'm':  # forward motor
+        ser.write(b'm')
+
         arduinoData = ser.readline().decode('ascii')
         print(arduinoData)
+
+    if userInput == 'n':  # stop motor
+        ser.write(b'n')
+        arduinoData = ser.readline().decode('ascii')
+        print(arduinoData)
+
+    if userInput == 'o':  # reverse motor
+        ser.write(b'o')
+        arduinoData = ser.readline().decode('ascii')
+        print(arduinoData)
+
+    if userInput == 'r':  # forward motor
+            ser.write(b'r')
+            arduinoData = ser.readline().decode('ascii')
+            print(arduinoData)
 
     if userInput == 's':  # stop motor
-        ser.write(b's')
-        arduinoData = ser.readline().decode('ascii')
-        print(arduinoData)
+            ser.write(b's')
+            arduinoData = ser.readline().decode('ascii')
+            print(arduinoData)
 
-    if userInput == 'r':  # reverse motor
-        ser.write(b'r')
-        arduinoData = ser.readline().decode('ascii')
-        print(arduinoData)
+    if userInput == 't':  # reverse motor
+            ser.write(b't')
+            arduinoData = ser.readline().decode('ascii')
+            print(arduinoData)
+
+    if userInput == 'u':  # forward motor
+                ser.write(b'u')
+                arduinoData = ser.readline().decode('ascii')
+                print(arduinoData)
+
+    if userInput == 'v':  # stop motor
+                ser.write(b'v')
+                arduinoData = ser.readline().decode('ascii')
+                print(arduinoData)
+
+    if userInput == 'w':  # reverse motoru
+
+                ser.write(b'w')
+                arduinoData = ser.readline().decode('ascii')
+                print(arduinoData)
+
+    if userInput == 'a':  # reverse motoru
+
+                ser.write(b'a')
+                arduinoData = ser.readline().decode('ascii')
+                print(arduinoData)
+
+
+    if userInput == 'q':  # reverse motoru
+
+
+                ser.write(b'q')
+                arduinoData = ser.readline().decode('ascii')
+                print(arduinoData)
