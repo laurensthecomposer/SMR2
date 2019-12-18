@@ -1,4 +1,4 @@
-#import cv2.cv2 as cv2
+import cv2.cv2 as cv2
 import numpy as np
 from keras_squeezenet import SqueezeNet
 from keras.optimizers import Adam
@@ -8,14 +8,23 @@ from keras.models import Sequential
 import tensorflow as tf
 import os
 
-IMG_SAVE_PATH = 'images_nas18'
+#tested 300x300 with 0.01 learning rate 2 epochs NOT GOOD 637s 174ms/step - loss: 12.3080 - acc: 0.2364
+
+
+IMG_SAVE_PATH = 'image_data'
 
 CLASS_MAP = {
-    "nas1802-3-6": 0,
-    "nas1802-3-7": 1,
-    "nas1802-3-8": 2,
-    "nas1802-3-9": 3,
-    "none": 4
+
+    "m59557-10": 0,
+    "m59557-16": 1,
+    "m59557-20": 2,
+    "nas1802-3-6": 3,
+    "nas1802-3-7": 4,
+    "nas1802-3-8": 5,
+    "nas1802-3-9": 6,
+    "nas1802-4-07": 7,
+    "nas6305-10": 8,
+    "none": 9
 }
 
 NUM_CLASSES = len(CLASS_MAP)
@@ -27,10 +36,11 @@ def mapper(val):
 
 def get_model():
     model = Sequential([
-        SqueezeNet(input_shape=(600, 600, 3), include_top=False),
+        #change model res
+        SqueezeNet(input_shape=(227, 227, 3), include_top=False),
         Dropout(0.5),
-        Convolution2D(NUM_CLASSES, (1, 1), padding='valid'),
-        Activation('relu'),
+        Convolution2D(NUM_CLASSES, (1, 1), padding='same'),
+        Activation('selu'),
         GlobalAveragePooling2D(),
         Activation('softmax')
     ])
@@ -49,24 +59,15 @@ for directory in os.listdir(IMG_SAVE_PATH):
             continue
         img = cv2.imread(os.path.join(path, item))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        img = cv2.resize(img, (600, 600))
+        #higher img res?
+        img = cv2.resize(img, (227, 227))
         dataset.append([img, directory])
 
-'''
-dataset = [
-    [[...], 'rock'],
-    [[...], 'paper'],
-    ...
-]
-'''
+
 data, labels = zip(*dataset)
 labels = list(map(mapper, labels))
 
 
-'''
-labels: rock,paper,paper,scissors,rock...
-one hot encoded: [1,0,0], [0,1,0], [0,1,0], [0,0,1], [1,0,0]...
-'''
 
 # one hot encode the labels
 labels = np_utils.to_categorical(labels)
@@ -82,8 +83,8 @@ model.compile(
 
 # start training
 
-epochs = 10
-model.fit(np.array(data), np.array(labels), epochs=epochs)
+epochs = 2
+model.fit(np.array(data), np.array(labels), validation_split=0.2, epochs=epochs)
 
 name = ''.join(["nas18e", str(epochs), "hq600600.h5"])
 

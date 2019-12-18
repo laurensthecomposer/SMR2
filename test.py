@@ -4,18 +4,27 @@ import numpy as np
 import sys
 
 
-filepath = "/Users/marcdudley/Downloads/SMR2/image_test/test_bolts/2.jpg"
+
+filepath = "/Users/marcdudley/Downloads/SMR2/augmenting_image/1.jpg"
 
 REV_CLASS_MAP = {
-    0: "bolt_m4x20",
-    1: "bolt_m8x35",
-    2: "none"
+
+    0: "m59557-10",
+    1: "m59557-16",
+    2: "m59557-20",
+    3: "nas1802-3-6",
+    4: "nas1802-3-7",
+    5: "nas1802-3-8",
+    6: "nas1802-3-9",
+    7: "nas1802-4-07",
+    8: "nas6305-10",
+    9: "none"
 }
 
 def mapper(val):
     return REV_CLASS_MAP[val]
 
-model = load_model("two_small_bolts_or_nothing.h5")
+model = load_model("nas18e5hq600600.h5")
 
 # prepare the image
 img = cv2.imread(filepath)
