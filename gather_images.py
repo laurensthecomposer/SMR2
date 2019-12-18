@@ -4,84 +4,53 @@ import os
 import serial
 import time
 import arduino_controller
+import sorting_robot
+
+
+# Name of folder where to save data to
+IMG_SAVE_PATH = 'image_data'
+bolt_type = "nas1802-3-6"
+num_samples = 10
+rob_move = 0
+
+# amount before_move
+amount_test_bolts = 5
 
 # start Arduino connection
 controller = arduino_controller.Arduino()
 
-# Name of folder where to save data to
-label_name = "nas1802-3-6"
-#print( "Enter nr. of samples" )
-num_samples = 100  # int(input())
+# Connect to robot & machine
+rob = sorting_robot.Robot()
+machine = sorting_robot.sorting_machine()
 
+# Calculate robot coordinates
+pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train = rob.get_waypoints()
 
-# Name image save location & describe path
-IMG_SAVE_PATH = 'image_data'
-IMG_CLASS_PATH = os.path.join( IMG_SAVE_PATH, label_name )
+# Set save path
+count, num_samples, IMG_CLASS_PATH = machine.save_pictures(IMG_SAVE_PATH, bolt_type, num_samples)
 
-# Check if image path exists
-try:
-    os.mkdir( IMG_CLASS_PATH )
-    count = 0
-except FileExistsError:
-    # Find location of directory
-    currentfolderpath = os.getcwd()
-    path = ''.join( [currentfolderpath, "/image_data/", label_name] )
-    available = os.listdir( str( path ) ) # Check the files in the directory
+# Setup camera
+cap = machine.set_camera()
 
-    if len( available ):  # if there are already files in the folder
-        available = sorted( available, key=len ) # Sort files by name lenght
-        lastfile = available[-1] # Select last file
-        startnr = lastfile.replace( ".jpg", "" ) # Strip JPG from file name
-        count = int( startnr ) # Start counting from selected number
-        num_samples = count + num_samples
-    else:
-        count = 0
+# Size of region of interest
+square_size = 660
+x_offset = 500
+y_offset = 190
 
-# Start video capture & camera settings
-cap = cv2.VideoCapture( 1, cv2.CAP_DSHOW )
-cap.set( cv2.CAP_PROP_FRAME_WIDTH, 1920 )
-cap.set( cv2.CAP_PROP_FRAME_HEIGHT, 1080 )
-cap.set( cv2.CAP_PROP_AUTOFOCUS, 0 )  # turn the autofocus off
-cap.set( cv2.CAP_PROP_FOCUS, 20 )  # set the focus of camera
-cap.set(cv2.CAP_PROP_BRIGHTNESS, 128.0)
-cap.set(cv2.CAP_PROP_CONTRAST, 128.0)
-cap.set(cv2.CAP_PROP_SATURATION, 128.0)
-cap.set(cv2.CAP_PROP_HUE, -1.0)  # 13.0
-cap.set(cv2.CAP_PROP_GAIN, 4.0)
-cap.set(cv2.CAP_PROP_EXPOSURE, -7.0)
-# print(cap.get(cv2.CAP_PROP_FOCUS))
-
-start = False
-
-print( "press a to start" )
-
-square_size = 650
-# x_offset = 820
-x_offset = 200
-y_offset = 120
+# Start gather images on booth
 start = True
+print("Collecting test data started.")
 
 while True:
-    # ret, frame = cap.read()
-
-    # if not ret:
-    #     continue
-
+    controller.all_forward()
     if count == num_samples:
         controller.all_forward()
         time.sleep( 10 )
         controller.all_stop()
         break
-
-    # Set size for roi (region of interest)
-    # cv2.rectangle( frame, (x_offset, y_offset), (x_offset + square_size, y_offset + square_size), (255, 255, 255), 2 )
-
-    # After press of start loop for taking pictures after pressing start
     if start:
-
         if controller.gate_state:
-            print( label_name, ",", count )
-
+            print( bolt_type, ",", count )
             controller.all_stop()
             time.sleep(3)
 
@@ -92,31 +61,26 @@ while True:
             roi = frame[y_offset:y_offset + square_size, x_offset:x_offset + square_size]
             cv2.imshow( "roi", roi )
             cv2.imshow( "Collecting images", frame )
+            cv2.waitKey(1)
 
             k = cv2.waitKey( 100 )
             save_path = os.path.join( IMG_CLASS_PATH, '{}.jpg'.format( count + 1 ) )
             cv2.imwrite( save_path, roi )
 
             count += 1
-            # time.sleep( 1 )
+            rob_move += 1
 
             controller.all_forward()
-            time.sleep( 0.5 )  # wait until object is gone
 
-            # # Backwards for quick data collection
-            # controller.backwards()
+            time.sleep( 0.2 )  # wait until object is gone
 
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    # cv2.putText( frame, "Collecting {}".format( count ),
-    #              (5, 50), font, 0.7, (0, 255, 255), 2, cv2.LINE_AA )
-    # cv2.imshow( "Collecting images", frame )
+            if rob_move == amount_test_bolts:
+                controller.all_stop()
+                rob.drop(bolt_type, pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train, train=True)
+                controller.all_forward()
+                rob_move = 0
 
     k = cv2.waitKey( 1 )
-    # if k == ord( 'a' ): # Start
-    #     controller.all_forward()
-    #     start = not start
-
-    controller.all_forward()
 
     if k == ord( 'q' ): # Exit program
         controller.all_stop()

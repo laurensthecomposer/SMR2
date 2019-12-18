@@ -9,9 +9,36 @@ import numpy as np
 import sys
 import sorting_robot
 
+# Name of folder where to save data to
+IMG_SAVE_PATH = 'image_test'
+bolt_type = "test_bolts"
+num_samples = 100
+rob_move = 0
+
+# start Arduino connection
+controller = arduino_controller.Arduino()
+
+# Connect to robot & machine
 rob = sorting_robot.Robot()
+machine = sorting_robot.sorting_machine()
+
+# Calculate robot coordinates
 pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train = rob.get_waypoints()
 
+# Set save path
+count, num_samples, IMG_CLASS_PATH = machine.save_pictures(IMG_SAVE_PATH, bolt_type, num_samples)
+
+# Setup camera
+cap = machine.set_camera()
+
+# Size of region of interest
+square_size = 650
+x_offset = 200
+y_offset = 120
+
+# Select data to be used in model
+REV_CLASS_MAP, model_name = sorting_robot.bolts.bolts_in_model(sub_ass=2)
+model = load_model(model_name)
 
 # REV_CLASS_MAP = {
 #     0:"m59557-10",
@@ -26,94 +53,86 @@ pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train = rob.get_waypo
 #    9: "none"
 # }
 
-REV_CLASS_MAP = {
-    0: "nas1802-3-6",
-    1: "nas1802-3-7",
-    2: "nas1802-3-8",
-    3: "nas1802-3-9",
-    4: "none"
-}
+# REV_CLASS_MAP = {
+#     0: "nas1802-3-6",
+#     1: "nas1802-3-7",
+#     2: "nas1802-3-8",
+#     3: "nas1802-3-9",
+#     4: "none"
+# }
 
 
-def mapper(val):
-    return REV_CLASS_MAP[val]
-
-def mapper_nas18(val):
-    return REV_CLASS_MAP2[val]
+# def mapper(val):
+#     return REV_CLASS_MAP[val]
 
 
 # model = load_model( "two_small_bolts_or_nothing.h5" )
 
-model_name = "nas18.h5"
-
-model = load_model(model_name)
-
-
-def test_img(img):
-    # prepare the image
-    img = cv2.cvtColor( img, cv2.COLOR_BGR2RGB )
-    img = cv2.resize( img, (227, 227) )
-    cv2.imshow("test", img)
-
-    # predict the picture
-    pred = model.predict( np.array( [img] ) )
-
-    # sets print of arrays to 2 decimal places
-    np.set_printoptions( formatter={'float': lambda x: "{0:0.3f}".format( x )} )
-
-    pic_code = np.argmax( pred[0] )
-    pic_name = mapper( pic_code )
-    print("Dropping: ", pic_name)
-    return pic_name
+# def test_img(img):
+#     # prepare the image
+#     img = cv2.cvtColor( img, cv2.COLOR_BGR2RGB )
+#     img = cv2.resize( img, (227, 227) )
+#     cv2.imshow("test", img)
+#
+#     # predict the picture
+#     pred = model.predict( np.array( [img] ) )
+#
+#     # sets print of arrays to 2 decimal places
+#     np.set_printoptions( formatter={'float': lambda x: "{0:0.3f}".format( x )} )
+#
+#     pic_code = np.argmax( pred[0] )
+#     pic_name = mapper( pic_code )
+#     print("Dropping: ", pic_name)
+#     return pic_name
 
 
-# ========
-label_name = "test_bolts"
-print( "Enter nr. of samples" )
-num_samples = 110  # int(input())
-
-IMG_SAVE_PATH = 'image_test'
-IMG_CLASS_PATH = os.path.join( IMG_SAVE_PATH, label_name )
-
-# print(IMG_CLASS_PATH)
-try:
-    os.mkdir( IMG_SAVE_PATH )
-except FileExistsError:
-    pass
-try:
-    os.mkdir( IMG_CLASS_PATH )
-    count = 0
-except FileExistsError:
-    currentfolderpath = os.getcwd()
-    path = ''.join( [currentfolderpath, "/image_test/", label_name] )
-    available = os.listdir( str( path ) )
-    if len( available ):  # if there are already files in the folder
-        available = sorted( available, key=len )
-        lastfile = available[-1]
-        startnr = lastfile.replace( ".jpg", "" )
-        count = int( startnr )
-        # print("{} directory already exists.".format(IMG_CLASS_PATH))
-        # print("All images gathered will be saved along with existing items in this folder")
-        num_samples = count + num_samples
-    else:
-        count = 0
-
-cap = cv2cap = cv2.VideoCapture( 1, cv2.CAP_DSHOW )
-cap.set( cv2.CAP_PROP_FRAME_WIDTH, 1920 )
-cap.set( cv2.CAP_PROP_FRAME_HEIGHT, 1080 )
-cap.set( cv2.CAP_PROP_AUTOFOCUS, 0 )  # turn the autofocus off
-cap.set( cv2.CAP_PROP_FOCUS, 20 )  # set the focus of camera
-cap.set(cv2.CAP_PROP_BRIGHTNESS, 128.0)
-cap.set(cv2.CAP_PROP_CONTRAST, 128.0)
-cap.set(cv2.CAP_PROP_SATURATION, 128.0)
-cap.set(cv2.CAP_PROP_HUE, -1.0)  # 13.0
-cap.set(cv2.CAP_PROP_GAIN, 4.0)
-cap.set(cv2.CAP_PROP_EXPOSURE, -7.0)
-
-# start Arduino connection
-
-# start Arduino connection
-controller = arduino_controller.Arduino()
+# # ========
+# label_name = "test_bolts"
+# print( "Enter nr. of samples" )
+# num_samples = 110  # int(input())
+#
+# IMG_SAVE_PATH = 'image_test'
+# IMG_CLASS_PATH = os.path.join( IMG_SAVE_PATH, label_name )
+#
+# # print(IMG_CLASS_PATH)
+# try:
+#     os.mkdir( IMG_SAVE_PATH )
+# except FileExistsError:
+#     pass
+# try:
+#     os.mkdir( IMG_CLASS_PATH )
+#     count = 0
+# except FileExistsError:
+#     currentfolderpath = os.getcwd()
+#     path = ''.join( [currentfolderpath, "/image_test/", label_name] )
+#     available = os.listdir( str( path ) )
+#     if len( available ):  # if there are already files in the folder
+#         available = sorted( available, key=len )
+#         lastfile = available[-1]
+#         startnr = lastfile.replace( ".jpg", "" )
+#         count = int( startnr )
+#         # print("{} directory already exists.".format(IMG_CLASS_PATH))
+#         # print("All images gathered will be saved along with existing items in this folder")
+#         num_samples = count + num_samples
+#     else:
+#         count = 0
+#
+# cap = cv2cap = cv2.VideoCapture( 1, cv2.CAP_DSHOW )
+# cap.set( cv2.CAP_PROP_FRAME_WIDTH, 1920 )
+# cap.set( cv2.CAP_PROP_FRAME_HEIGHT, 1080 )
+# cap.set( cv2.CAP_PROP_AUTOFOCUS, 0 )  # turn the autofocus off
+# cap.set( cv2.CAP_PROP_FOCUS, 20 )  # set the focus of camera
+# cap.set(cv2.CAP_PROP_BRIGHTNESS, 128.0)
+# cap.set(cv2.CAP_PROP_CONTRAST, 128.0)
+# cap.set(cv2.CAP_PROP_SATURATION, 128.0)
+# cap.set(cv2.CAP_PROP_HUE, -1.0)  # 13.0
+# cap.set(cv2.CAP_PROP_GAIN, 4.0)
+# cap.set(cv2.CAP_PROP_EXPOSURE, -7.0)
+#
+# # start Arduino connection
+#
+# # start Arduino connection
+# controller = arduino_controller.Arduino()
 
 start = True
 while True:
@@ -129,10 +148,10 @@ while True:
 
         break
 
-    square_size = 650
-    # x_offset = 820
-    x_offset = 500
-    y_offset = 120
+    # square_size = 650
+    # # x_offset = 820
+    # x_offset = 500
+    # y_offset = 120
     # cv2.rectangle( frame, (x_offset, y_offset), (x_offset + square_size, y_offset + square_size), (255, 255, 255), 2 )
 
     # arduino.readline()
@@ -165,7 +184,8 @@ while True:
             k = cv2.waitKey( 100 )
             save_path = os.path.join( IMG_CLASS_PATH, '{}.jpg'.format( count + 1 ) )
             cv2.imwrite( save_path, roi )
-            pic_name = test_img(roi)
+            # Test image to model and output bolt type
+            bolt_type = machine.test_img(roi, model, size=(227, 227), REV_CLASS_MAP=[])
             count += 1
 
             time.sleep( 1 )
@@ -176,10 +196,10 @@ while True:
 
             controller.all_stop()
 
-            rob.drop(pic_name, pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train, train=False)
-            print("Dropped: ", pic_name)
+            # rob.drop(bolt_type, pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train, train=False)
+            print("Dropped: ", bolt_type)
 
-    font = cv2.FONT_HERSHEY_SIMPLEX
+    # font = cv2.FONT_HERSHEY_SIMPLEX
     # cv2.putText( frame, "Collecting {}".format( count ),
     #              (5, 50), font, 0.7, (0, 255, 255), 2, cv2.LINE_AA )
     # cv2.imshow( "Collecting images", frame )
