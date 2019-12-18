@@ -21,7 +21,7 @@ controller = arduino_controller.Arduino()
 
 # Connect to robot & machine
 rob = sorting_robot.Robot()
-machine = sorting_robot.sorting_machine()
+machine = sorting_robot.SortingMachine()
 
 # Calculate robot coordinates
 pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train = rob.get_waypoints()
