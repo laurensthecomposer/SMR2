@@ -12,10 +12,28 @@ class Arduino( object ):
         else:
             self.port = com
             self.connect()
+<<<<<<< HEAD
         self.m1 = Motor(self, 'm', 'n', 'o')
         self.m2 = Motor(self, 'r', 's', 't')
         self.m3 = Motor(self, 'u', 'v', 'w')
         #self.all = Motor(self, 'a', 'q', 'j') # turn all motors on (a) or off (q), (j) is nothing
+=======
+
+        self.belts = [Belts( self, 'm', 'n', 'o' ),
+                      Belts( self, 'r', 's', 't' ),
+                      Belts( self, 'u', 'v', 'w' )]
+    def all_forward(self):
+        for belt in self.belts:
+            belt.forward()
+
+    def all_stop(self):
+        for belt in self.belts:
+            belt.stop()
+
+    def all_backwards(self):
+        for belt in self.belts:
+            belt.backwards()
+>>>>>>> master
 
     def connect(self):
         # Declare the port and baudrate for the Arduino
@@ -48,7 +66,8 @@ class Arduino( object ):
         elif arduinoData == 2: # unbroken
             return False
 
-class Motor(object):
+
+class Belts( object ):
     def __init__(self, connection: Arduino,  forward_letter : str, stop_letter: str, reverse_letter: str ):
         self.f = bytes(forward_letter, 'ascii')
         self.s = bytes(stop_letter, 'ascii')
@@ -56,7 +75,7 @@ class Motor(object):
         self.arduino: Arduino = connection
 
     def forward(self):
-        self.arduino.connection.write( self.f )
+        self.arduino.connection.write( self.f)
         self.arduino.connection.flush()
         arduinoData = self.arduino.connection.readline().decode('ascii')
 
@@ -66,7 +85,7 @@ class Motor(object):
         arduinoData = self.arduino.connection.readline().decode('ascii')
 
     def backwards(self):
-        self.arduino.connection.write( self.r )
+        self.arduino.connection.write( self.r)
         self.arduino.connection.flush()
         arduinoData = self.arduino.connection.readline().decode('ascii')
 
