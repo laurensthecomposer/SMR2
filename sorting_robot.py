@@ -157,7 +157,7 @@ class SortingMachine():
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
         cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)  # turn the autofocus off
-        cap.set(cv2.CAP_PROP_FOCUS, 20)  # set the focus of camera
+        cap.set(cv2.CAP_PROP_FOCUS, 30)  # set the focus of camera
         cap.set(cv2.CAP_PROP_AUTO_WB, 0)
         cap.set(cv2.CAP_PROP_XI_AUTO_WB, 0)
         cap.set(cv2.CAP_PROP_EXPOSUREPROGRAM, 0)

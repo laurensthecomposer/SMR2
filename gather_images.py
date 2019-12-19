@@ -10,7 +10,7 @@ import sorting_robot
 # Name of folder where to save data to
 IMG_SAVE_PATH = 'image_data'
 bolt_type = "nas1802-3-6"
-num_samples = 10
+num_samples = 200
 rob_move = 0
 
 # amount before_move
@@ -65,7 +65,7 @@ while True:
 
             k = cv2.waitKey( 100 )
             save_path = os.path.join( IMG_CLASS_PATH, '{}.jpg'.format( count + 1 ) )
-            cv2.imwrite( save_path, roi )
+            cv2.imwrite( save_path, frame )
 
             count += 1
             rob_move += 1
