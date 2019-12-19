@@ -5,7 +5,7 @@ import sys
 
 
 
-filepath = "/Users/marcdudley/Downloads/SMR2/augmenting_image/1.jpg"
+filepath = "Users\laure\Documents\SMR2\augmenting_image\1.jpg"
 
 REV_CLASS_MAP = {
 

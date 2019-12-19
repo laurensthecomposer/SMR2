@@ -9,12 +9,12 @@ import sorting_robot
 
 # Name of folder where to save data to
 IMG_SAVE_PATH = 'image_data'
-bolt_type = "nas1802-3-6"
-num_samples = 200
+bolt_type = "none"
+num_samples = 50
 rob_move = 0
 
 # amount before_move
-amount_test_bolts = 5
+amount_test_bolts = 50
 
 # start Arduino connection
 controller = arduino_controller.Arduino()
