@@ -7,11 +7,20 @@ from keras.layers import Activation, Dropout, Convolution2D, GlobalAveragePoolin
 from keras.models import Sequential
 import tensorflow as tf
 import os
+from keras.preprocessing.image import ImageDataGenerator
 
 
 
 
 IMG_SAVE_PATH = '/Users/marcdudley/Downloads/SMR2/image_data_b/bolts_none_b'
+
+IMG_SAVE_PATH_VAL = '/Users/marcdudley/Downloads/SMR2/image_data_b/bolts_none_VAL_b'
+
+datagen = ImageDataGenerator()
+
+val_it = datagen.flow_from_directory('/Users/marcdudley/Downloads/SMR2/image_data_b/bolts_none_VAL_b', class_mode='categorical', batch_size=24)
+
+train_it = datagen.flow_from_directory('/Users/marcdudley/Downloads/SMR2/image_data_b/bolts_none_b', class_mode='categorical', batch_size=91)
 
 CLASS_MAP = {
 
@@ -20,8 +29,7 @@ CLASS_MAP = {
     "nas1802-3-7_b": 1,
     "nas1802-3-8_b": 2,
     "nas1802-3-9_b": 3,
-    "nas6305-10_b": 4,
-    "none_b": 5
+    "none_b": 4
 }
 
 NUM_CLASSES = len(CLASS_MAP)
@@ -34,7 +42,7 @@ def mapper(val):
 def get_model():
     model = Sequential([
         #change model res
-        SqueezeNet(input_shape=(227, 227, 3), include_top=False),
+        SqueezeNet(input_shape=(256, 256, 3), include_top=False),
         Dropout(0.5),
         Convolution2D(NUM_CLASSES, (1, 1), padding='same'),
         Activation('selu'),
@@ -61,13 +69,33 @@ for directory in os.listdir(IMG_SAVE_PATH):
         dataset.append([img, directory])
 
 
+dataset_VAL = []
+for directory in os.listdir(IMG_SAVE_PATH_VAL):
+    path_VAL = os.path.join(IMG_SAVE_PATH_VAL, directory)
+    if not os.path.isdir(path_VAL):
+        continue
+    for item in os.listdir(path_VAL):
+        # to make sure no hidden files get in our way
+        if item.startswith("."):
+            continue
+        img = cv2.imread(os.path.join(path_VAL, item))
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        #higher img res?
+        img = cv2.resize(img, (227, 227))
+        dataset_VAL.append([img, directory])
+
 data, labels = zip(*dataset)
+
+#data_VAL = zip(*dataset_VAL)
+
 labels = list(map(mapper, labels))
+
 
 
 
 # one hot encode the labels
 labels = np_utils.to_categorical(labels)
+
 
 # define the model
 model = get_model()
@@ -78,16 +106,20 @@ model.compile(
 )
 
 
+
 # start training
 
-epochs = 20
-model.fit(np.array(data), np.array(labels), validation_split=0., epochs=epochs, batch_size=10, verbose=2)
+epochs = 2
+#model.fit(np.array(data), np.array(labels), validation_data=(val_it, np.array(labels)),  epochs=epochs, batch_size=10, verbose=2)
+#validation_data=(np.array(data_VAL), np.array(labels)),
+
+model.fit_generator(train_it, steps_per_epoch=2, validation_data=val_it, validation_steps=2, epochs=epochs, verbose=1)
 
 name = ''.join(["nas_class_set_v1.h5"])
 
 # save the model for later use
 model.save(name)
 
-score = model.evaluate(np.array(data), np.array(labels))
+#score = model.evaluate(np.array(data), np.array(labels))
 
-print(score)
+
