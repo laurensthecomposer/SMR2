@@ -1,0 +1,47 @@
+import numpy as np
+import cv2.cv2 as cv2
+
+image = cv2.imread("/Users/marcdudley/Downloads/SMR2/image_data_b/bolts_none_VAL_b/nas1802-3-6_b /90.jpg")
+y=100
+x=500
+h=600
+w=600
+crop = image[y:y+h, x:x+w]
+#cv2.imshow('Image', crop)
+#cv2.waitKey(0)
+
+
+from matplotlib import pyplot as plt
+
+mask = np.zeros(crop.shape[:2],np.uint8)
+bgdModel = np.zeros((1,65),np.float64)
+fgdModel = np.zeros((1,65),np.float64)
+rect = (200,200,400,100)
+cv2.grabCut(crop,mask,rect,bgdModel,fgdModel,5,cv2.GC_INIT_WITH_RECT)
+mask2 = np.where((mask==2)|(mask==0),0,1).astype('uint8')
+img = crop*mask2[:,:,np.newaxis]
+#cv2.imshow('br', img)
+#cv2.waitKey(0)
+#plt.imshow(img),plt.colorbar(),plt.show()
+
+# newmask is the mask image I manually labelled
+newmask = cv2.imread('newmask.png',0)
+# wherever it is marked white (sure foreground), change mask=1
+# wherever it is marked black (sure background), change mask=0
+mask[newmask == 0] = 0
+mask[newmask == 255] = 1
+mask, bgdModel, fgdModel = cv2.grabCut(img,mask,None,bgdModel,fgdModel,5,cv.GC_INIT_WITH_MASK)
+mask = np.where((mask==2)|(mask==0),0,1).astype('uint8')
+img = img*mask[:,:,np.newaxis]
+
+#cv2.imshow('br', img)
+#cv2.waitKey(0)
+plt.imshow(img),plt.colorbar(),plt.show()
+
+
+
+
+
+
+
+

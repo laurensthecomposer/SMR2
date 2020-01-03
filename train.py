@@ -77,16 +77,20 @@ model = get_model()
 model.compile(
     optimizer=Adam(lr=0.001),
     loss='categorical_crossentropy',
-    metrics=['accuracy']
+    metrics=['acc']
 )
 
 
 # start training
 
-epochs = 2
-model.fit(np.array(data), np.array(labels), validation_split=0.2, epochs=epochs)
+epochs = 12
+model.fit(np.array(data), np.array(labels), validation_split=0., epochs=epochs)
 
 name = ''.join(["nas18e", str(epochs), "hq600600.h5"])
 
 # save the model for later use
 model.save(name)
+
+score = model.evaluate(np.array(data), np.array(labels))
+
+print(score)

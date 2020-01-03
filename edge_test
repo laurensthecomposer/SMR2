@@ -1,0 +1,23 @@
+import cv2.cv2 as cv2
+import numpy as np
+
+
+pre_img = cv2.imread("/Users/marcdudley/Downloads/SMR2/image_data_b/bolts_none_b/nas1802-3-8_b/14.jpg")
+y=100
+x=500
+h=600
+w=600
+img = pre_img[y:y+h, x:x+w]
+
+
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+edges = cv2.Canny(gray, 50, 150, apertureSize=3)
+cv2.imshow('edges', edges)
+lines = cv2.HoughLines(edges, 1, np.pi / 180, 200)
+
+
+
+
+
+k = cv2.waitKey(0)
+cv2.destroyAllWindows()
