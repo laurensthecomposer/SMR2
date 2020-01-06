@@ -8,23 +8,23 @@ import sorting_robot
 
 
 # Name of folder where to save data to
-IMG_SAVE_PATH = 'image_data'
-bolt_type = "none"
+IMG_SAVE_PATH = 'image_data_green'
+bolt_type = "nas6305-10"
 num_samples = 50
 rob_move = 0
 
 # amount before_move
-amount_test_bolts = 50
+# amount_test_bolts = 50
 
 # start Arduino connection
 controller = arduino_controller.Arduino()
 
 # Connect to robot & machine
-rob = sorting_robot.Robot()
+# rob = sorting_robot.Robot()
 machine = sorting_robot.SortingMachine()
 
 # Calculate robot coordinates
-pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train = rob.get_waypoints()
+# pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train = rob.get_waypoints()
 
 # Set save path
 count, num_samples, IMG_CLASS_PATH = machine.save_pictures(IMG_SAVE_PATH, bolt_type, num_samples)
@@ -74,11 +74,11 @@ while True:
 
             time.sleep( 0.2 )  # wait until object is gone
 
-            if rob_move == amount_test_bolts:
-                controller.all_stop()
-                rob.drop(bolt_type, pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train, train=True)
-                controller.all_forward()
-                rob_move = 0
+            # if rob_move == amount_test_bolts:
+            #     controller.all_stop()
+            #     rob.drop(bolt_type, pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train, train=True)
+            #     controller.all_forward()
+            #     rob_move = 0
 
     k = cv2.waitKey( 1 )
 

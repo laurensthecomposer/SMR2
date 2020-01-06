@@ -113,6 +113,7 @@ class Robot(urx.Robot):
 class SortingMachine():
     def save_pictures(self, IMG_SAVE_PATH, bolt_type, num_samples):
         IMG_CLASS_PATH = os.path.join(IMG_SAVE_PATH, bolt_type)
+        print(IMG_CLASS_PATH)
         try:
             os.mkdir(IMG_CLASS_PATH)
             count = 0
