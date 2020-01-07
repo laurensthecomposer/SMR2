@@ -6,7 +6,7 @@ import shutil
 import crop_single_file
 from sklearn.model_selection import train_test_split
 
-IMG_SAVE_PATH = 'image_data_green_test'
+IMG_SAVE_PATH = 'image_data_green'
 
 NEW_SAVE_PATH = 'green_tes'
 

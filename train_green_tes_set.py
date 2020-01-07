@@ -29,7 +29,11 @@ def get_model():
 
 model = get_model()
 model.compile(
+<<<<<<< Updated upstream
     optimizer=Adam(lr=0.0001),
+=======
+    optimizer=Adam(lr=0.0008),
+>>>>>>> Stashed changes
     loss='categorical_crossentropy',
     metrics=['acc']
 )
@@ -39,6 +43,12 @@ model.fit_generator(train_it, steps_per_epoch=10, validation_data=val_it, valida
 
 name = ''.join(["green_tes_v3_640px.h5"])
 
+<<<<<<< Updated upstream
+=======
+name = ''.join(["green_black_tes_v1.h5"])
+
+# save the model for later use
+>>>>>>> Stashed changes
 model.save(name)
 
 #score = model.evaluate(np.array(data), np.array(labels))
