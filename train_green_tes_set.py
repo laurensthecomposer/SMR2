@@ -11,14 +11,14 @@ from keras.preprocessing.image import ImageDataGenerator
 
 datagen = ImageDataGenerator()
 
-train_it = datagen.flow_from_directory('/Users/marcdudley/Downloads/SMR2/green_tes/green_tes_train',target_size=(640,640), class_mode='categorical', batch_size=20)
+train_it = datagen.flow_from_directory(os.path.abspath('green_tes/train'),target_size=(227,227), class_mode='categorical', batch_size=20)
 
-val_it = datagen.flow_from_directory('/Users/marcdudley/Downloads/SMR2/green_tes/green_tes_val',target_size=(640,640), class_mode='categorical', batch_size=20)
+val_it = datagen.flow_from_directory(os.path.abspath('green_tes/validate'),target_size=(227,227), class_mode='categorical', batch_size=20)
 
 def get_model():
     model = Sequential([
         #change model res
-        SqueezeNet(input_shape=(640, 640, 3), include_top=False),
+        SqueezeNet(input_shape=(227, 227, 3), include_top=False),
         Dropout(0.5),
         Convolution2D(6, (1, 1), padding='valid'),
         Activation('relu'),

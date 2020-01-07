@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 
 IMG_SAVE_PATH = 'image_data_green_test'
 
-NEW_SAVE_PATH = 'image_augment_green'
+NEW_SAVE_PATH = 'green_tes'
 
 CLASS_MAP = {
 
