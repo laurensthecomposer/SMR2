@@ -9,14 +9,11 @@ import tensorflow as tf
 import os
 from keras.preprocessing.image import ImageDataGenerator
 
-
-
 datagen = ImageDataGenerator()
 
-train_it = datagen.flow_from_directory('/Users/marcdudley/Downloads/SMR2/green_tes/green_tes_train',target_size=(640,640), class_mode='categorical', batch_size=80)
+train_it = datagen.flow_from_directory('/Users/marcdudley/Downloads/SMR2/green_tes/green_tes_train',target_size=(640,640), class_mode='categorical', batch_size=20)
 
-val_it = datagen.flow_from_directory('/Users/marcdudley/Downloads/SMR2/green_tes/green_tes_val',target_size=(640,640), class_mode='categorical', batch_size=120)
-
+val_it = datagen.flow_from_directory('/Users/marcdudley/Downloads/SMR2/green_tes/green_tes_val',target_size=(640,640), class_mode='categorical', batch_size=20)
 
 def get_model():
     model = Sequential([
@@ -30,21 +27,18 @@ def get_model():
     ])
     return model
 
-# define the model
 model = get_model()
 model.compile(
-    optimizer=Adam(lr=0.01),
+    optimizer=Adam(lr=0.0001),
     loss='categorical_crossentropy',
     metrics=['acc']
 )
 
-epochs = 10
+epochs = 8
 model.fit_generator(train_it, steps_per_epoch=10, validation_data=val_it, validation_steps=1, epochs=epochs, verbose=1)
 
+name = ''.join(["green_tes_v3_640px.h5"])
 
-name = ''.join(["green_tes_v1.h5"])
-
-# save the model for later use
 model.save(name)
 
 #score = model.evaluate(np.array(data), np.array(labels))
