@@ -2,14 +2,13 @@ from keras.models import load_model
 import cv2.cv2 as cv2
 import numpy as np
 import sys
-
+import os
 
 
 
 #filepath = "Users\laure\Documents\SMR2\augmenting_image\1.jpg"
 
 filepath = "/Users/marcdudley/Downloads/SMR2/green_tes/green_tes_test/ms9557-16/22.jpg"
-
 
 REV_CLASS_MAP = {
 
