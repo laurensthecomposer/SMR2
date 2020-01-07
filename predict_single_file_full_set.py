@@ -8,7 +8,7 @@ import sys
 
 #filepath = "Users\laure\Documents\SMR2\augmenting_image\1.jpg"
 
-filepath = "/Users/marcdudley/Downloads/SMR2/green_tes/green_tes_test/nas1802-3-9/21.jpg"
+filepath = "/Users/marcdudley/Downloads/SMR2/green_tes/green_tes_test/ms9557-16/22.jpg"
 
 
 REV_CLASS_MAP = {

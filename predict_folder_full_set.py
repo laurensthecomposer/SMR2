@@ -21,7 +21,7 @@ def mapper(val):
 model = load_model("/Users/marcdudley/Downloads/SMR2/green_tes_v2_350px.h5")
 
 # image folder
-folder_path = '/Users/marcdudley/Downloads/SMR2/green_tes/green_tes_test/ms9557-16'
+folder_path = '/Users/marcdudley/Downloads/SMR2/green_tes/green_tes_test/nas1802-3-7'
 # path to model
 
 # dimensions of images
