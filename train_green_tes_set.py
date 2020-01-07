@@ -33,7 +33,7 @@ def get_model():
 # define the model
 model = get_model()
 model.compile(
-    optimizer=Adam(lr=0.0001),
+    optimizer=Adam(lr=0.01),
     loss='categorical_crossentropy',
     metrics=['acc']
 )
