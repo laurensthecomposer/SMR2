@@ -34,7 +34,7 @@ model.compile(
     metrics=['acc']
 )
 
-epochs = 8
+epochs = 4
 model.fit_generator(train_it, steps_per_epoch=10, validation_data=val_it, validation_steps=1, epochs=epochs, verbose=1)
 
 name = ''.join(["green_tes_v3_640px.h5"])
