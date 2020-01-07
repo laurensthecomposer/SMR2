@@ -21,7 +21,7 @@ names = os.listdir(path)
 
 names = sorted(names, key=len )
 
-total_images = ((len(names) )/9) -1
+total_images = ((len(names) )/9) - 1
 
 print(total_images)
 while images_augmented <= total_images:

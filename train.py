@@ -88,6 +88,7 @@ model.fit(np.array(data), np.array(labels), validation_split=0., epochs=epochs)
 
 name = ''.join(["nas18e", str(epochs), "hq600600.h5"])
 
+
 # save the model for later use
 model.save(name)
 
