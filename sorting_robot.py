@@ -69,8 +69,8 @@ class Robot(urx.Robot):
         nas180237 = [0.43, 0.20, 0.23, 1.0945, 2.88, -0.167]
         nas180238 = [0.55, 0.20, 0.23, 1.0945, 2.88, -0.167]
         nas180239 = [0.67, 0.20, 0.23, 1.0945, 2.88, -0.167]
-        drop_loc = [-0.05926119038282123, -0.6900939148643027, 0.09265212533873536, -1.8691329331934325,
-                    0.818416169672539, 0.63033805270759]
+        drop_loc = [-0.03732405870401914, -0.7264878419647537, 0.19349249899716156, 0.7697092455981598, 1.5737713639826518, -1.9839122811031933]
+
 
         # dropping
         if train == True:
@@ -113,7 +113,6 @@ class Robot(urx.Robot):
 class SortingMachine():
     def save_pictures(self, IMG_SAVE_PATH, bolt_type, num_samples):
         IMG_CLASS_PATH = os.path.join(IMG_SAVE_PATH, bolt_type)
-        print(IMG_CLASS_PATH)
         try:
             os.mkdir(IMG_CLASS_PATH)
             count = 0

@@ -9,12 +9,12 @@ import sorting_robot
 
 # Name of folder where to save data to
 IMG_SAVE_PATH = 'image_data_green'
-bolt_type = "nas6305-10"
-num_samples = 50
+bolt_type = "nas1802-3-9"
+num_samples = 120
 rob_move = 0
 
 # amount before_move
-# amount_test_bolts = 50
+# amount_test_bolts = 2
 
 # start Arduino connection
 controller = arduino_controller.Arduino()
@@ -43,6 +43,7 @@ print("Collecting test data started.")
 
 while True:
     controller.all_forward()
+
     if count == num_samples:
         controller.all_forward()
         time.sleep( 10 )
@@ -50,7 +51,7 @@ while True:
         break
     if start:
         if controller.gate_state:
-            print( bolt_type, ",", count )
+            print(bolt_type, ",", count)
             controller.all_stop()
             time.sleep(3)
 
@@ -72,13 +73,13 @@ while True:
 
             controller.all_forward()
 
-            time.sleep( 0.2 )  # wait until object is gone
+            time.sleep( 0.5 )  # wait until object is gone
 
             # if rob_move == amount_test_bolts:
             #     controller.all_stop()
             #     rob.drop(bolt_type, pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train, train=True)
             #     controller.all_forward()
-            #     rob_move = 0
+                # rob_move = 0
 
     k = cv2.waitKey( 1 )
 
