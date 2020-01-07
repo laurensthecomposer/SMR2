@@ -5,14 +5,16 @@ import sys
 import os
 
 
-
+# arrays for saving
 succes_rate = [0,0,0,0,0,0]
+total_test = [0,0,0,0,0,0]
+succes_percentage = [0,0,0,0,0,0]
+
 #filepath = "Users\laure\Documents\SMR2\augmenting_image\1.jpg"
 
+
 folderpath = os.getcwd()
-
 main_folder = "green_tes"
-
 filepath = os.path.join(folderpath, main_folder, "test")
 
 files = os.listdir(filepath)
@@ -30,10 +32,11 @@ REV_CLASS_MAP = {
     5: "v647p23b"
 }
 
+
 def mapper(val):
     return REV_CLASS_MAP[val]
 
-model = load_model("C:/Users/marce/PycharmProjects/SMR2/green_tes_v2_350px.h5")
+model = load_model("C:/Users/marce/PycharmProjects/SMR2/green_tes_v3_640px.h5")
 
 while folder <= amount:
     correct_amount = 0
@@ -42,14 +45,16 @@ while folder <= amount:
     picture_names = os.listdir(picture_path)
     test_nr = 0
     amount_test = len (picture_names) - 1
-    print(boltname)
+    total_test[folder] = len (picture_names)
+
+    # print(boltname)
     while test_nr <= amount_test:
         picture_nr = picture_names[test_nr]
         picpath = os.path.join(picture_path, picture_nr)
         # prepare the image
         img = cv2.imread(picpath)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        img = cv2.resize(img, (350, 350))
+        img = cv2.resize(img, (640, 640))
 
         # predict the picture
         pred = model.predict(np.array([img]))
@@ -60,21 +65,25 @@ while folder <= amount:
         pic_code = np.argmax(pred[0])
         pic_name = mapper(pic_code)
 
-        print("Predicted: {}".format(pic_name))
-        print(pic_code)
-        print(pred)
+        # print("Predicted: {}".format(pic_name))
+        # print(pic_code)
+        # print(pred)
         if str(pic_name) == str(boltname):
             correct_amount += 1
             succes_rate[folder] = correct_amount
-            print(succes_rate)
-            print("Correct prediction")
+            # print(succes_rate)
+            # print("Correct prediction")
 
 
         test_nr += 1
-
+    succes_percentage[folder] = (succes_rate[folder] / total_test[folder]) * 100
+    print(boltname, "   ", succes_percentage[folder], "% succesfull identification")
     folder += 1
 
-print(succes_rate)
+
+# print(total_test)
+# print(succes_rate)
+# print(succes_percentage)
 
 
 #
