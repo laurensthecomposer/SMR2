@@ -4,11 +4,9 @@ import os
 import sys
 import shutil
 import crop_single_file
+from sklearn.model_selection import train_test_split
 
-# load images from the directory
-dataset = []
-
-IMG_SAVE_PATH = 'image_data_green'
+IMG_SAVE_PATH = 'image_data_green_test'
 
 NEW_SAVE_PATH = 'image_augment_green'
 
@@ -37,9 +35,9 @@ crop = {
 }
 
 split_folders = {
-    "train": 70,
-    "validate": 20,
-    "test": 10
+    "train": 0.7,
+    "validate": 0.2,
+    "test": 0.1
 }
 
 show_example_on_first = True
@@ -94,15 +92,72 @@ for directory in os.listdir( IMG_SAVE_PATH ):
             continue
         img = cv2.imread( os.path.join( path, item ) )
         if show_example_on_first:
-            img_new = proccess_img( img, example = True )
+            img_new = proccess_img( img, example=True )
             cv2.imshow( 'original', img )
             cv2.imshow( 'processed', img_new )
+            print( 'example shown in cv2 window' )
             cv2.waitKey( 0 )
             cv2.destroyAllWindows()
             show_example_on_first = False
         # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         # higher img res?
         # img = cv2.resize(img, (227, 227))
-        # dataset.append( [path, directory] )
-        proccess_img(img, new_path, item)
+
+        proccess_img( img, new_path, item )
+
+# load images from the directory
+dataset = {}
+# labels = list(map(mapper, labels))
+
+# read all files and folders
+
+for directory in os.listdir( NEW_SAVE_PATH ):
+    path = os.path.join( NEW_SAVE_PATH, directory )
+    if not os.path.isdir( path ):
+        continue
+    dataset[directory] = []
+    for item in os.listdir( path ):
+        # to make sure no hidden files get in our way
+        if item.startswith( "." ):
+            continue
+        dataset[directory].append( item )
+
+# create 3 folders
+
+for split_folder in split_folders:
+    create_dir( os.path.join( NEW_SAVE_PATH, split_folder ) )
+
+
+def move_images(base_path, new_path, items):
+    create_dir(new_path)
+    for item in items:
+        shutil.move( os.path.join( base_path, item ), os.path.join( new_path, item ) )
+
+
+for category in dataset:
+    y = dataset[category]
+
+    y_train, y_test = train_test_split( y, test_size=split_folders['test'], random_state=1 )
+
+    y_train, y_val = train_test_split( y_train, test_size=split_folders['validate'] / (1.0 - split_folders['test']),
+                                       random_state=1 )
+
+    # input basefolder, category, names
+
+    base_path = os.path.join( NEW_SAVE_PATH, category )
+    # train
+    new_path = os.path.join( NEW_SAVE_PATH, 'train', category )
+    move_images(base_path, new_path, y_train)
+
+    # validate
+    new_path = os.path.join( NEW_SAVE_PATH, 'validate', category )
+    move_images(base_path, new_path, y_val)
+
+    # test
+    new_path = os.path.join( NEW_SAVE_PATH, 'test', category )
+    move_images(base_path, new_path, y_test)
+
+    shutil.rmtree( base_path )
+
+
 
