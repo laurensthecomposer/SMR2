@@ -10,21 +10,8 @@ IMG_SAVE_PATH = 'image_data_green'
 
 NEW_SAVE_PATH = 'green_tes'
 
-CLASS_MAP = {
-
-    "m59557-10": 0,
-    "m59557-16": 1,
-    "m59557-20": 2,
-    "nas1802-3-6": 3,
-    "nas1802-3-7": 4,
-    "nas1802-3-8": 5,
-    "nas1802-3-9": 6,
-    "nas1802-4-07": 7,
-    "nas6305-10": 8,
-    "none": 9
-}
-
-NUM_CLASSES = len( CLASS_MAP )
+IMG_SAVE_PATH = os.path.abspath(IMG_SAVE_PATH)
+NEW_SAVE_PATH = os.path.abspath(NEW_SAVE_PATH)
 
 crop = {
     "pos_x": 520,

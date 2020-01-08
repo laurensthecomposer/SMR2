@@ -43,7 +43,7 @@ import sorting_robot
 import os
 # ---------------------------------------------------------------------------------------------------------------------------------------
 
-IMG_SAVE_PATH = 'image_data_test'
+IMG_SAVE_PATH = 'image_data_better_camera'
 REV_CLASS_MAP = {
     0: "m59557-10",
     1: "m59557-16",
@@ -54,9 +54,10 @@ REV_CLASS_MAP = {
     6: "nas1802-3-9",
     7: "nas1802-4-07",
     8: "nas6305-10",
-    9: "none"
+    9: "v647p23b",
+    10: "none"
 }
-bolt_type = REV_CLASS_MAP[6]
+bolt_type = REV_CLASS_MAP[1]
 num_samples = 100
 count = 0
 # Connect to robot & machine
