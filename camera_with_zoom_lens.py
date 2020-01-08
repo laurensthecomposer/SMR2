@@ -44,9 +44,9 @@ import sys
 # ---------------------------------------------------------------------------------------------------------------------------------------
 
 # Variables
-class UeyeCam( object ):
-    def setup_camera(self):
-        self.hCam = ueye.HIDS( 1 )  # 0: first available camera;  1-254: The camera with the specified camera ID
+class UeyeCameraCapture( object ):
+    def __init__(self, index):
+        self.hCam = ueye.HIDS( index )  # 0: first available camera;  1-254: The camera with the specified camera ID
         self.sInfo = ueye.SENSORINFO()
         self.cInfo = ueye.CAMINFO()
         self.pcImageMemory = ueye.c_mem_p()
@@ -165,10 +165,10 @@ class UeyeCam( object ):
         if self.nRet != ueye.IS_SUCCESS:
             print( "is_InquireImageMem ERROR" )
         else:
-            print( "Press q to leave the programm" )
+            print( "Camera Connection success")
         # ---------------------------------------------------------------------------------------------------------------------------------------
 
-    def get_image(self):
+    def read(self):
         # Continuous image display
         if self.nRet == ueye.IS_SUCCESS:
 
@@ -183,9 +183,9 @@ class UeyeCam( object ):
 
             # ...resize the image by a half
             # frame = cv2.resize( frame, (0, 0), fx=0.5, fy=0.5 )
-            return frame
+            return True, frame
         else:
-            raise Exception("Couldn't successfully connect to camera.")
+            return False, None
 
     def exit_camera(self):
         # Releases an image memory that was allocated using is_AllocImageMem() and removes it from the driver management
@@ -194,17 +194,22 @@ class UeyeCam( object ):
         # Disables the hCam camera handle and releases the data structures and memory areas taken up by the uEye camera
         ueye.is_ExitCamera( self.hCam )
 
-        # Destroys the OpenCv windows
-        cv2.destroyAllWindows()
+        print('Camera connection closed')
 
-        print()
-        print( "END" )
+    def __del__(self):
+        print('destructor called')
+        self.exit_camera()
+
+if __name__ == "__main__":
+
+    cam = UeyeCameraCapture(0)
+    import time
+    time.sleep( 1 )
+    ret, frame = cam.read()
+    cv2.imshow('hi', frame)
+    cv2.waitKey(0)
 
 
-cam = UeyeCam()
-cam.setup_camera()
-cv2.imshow('hi', cam.get_image())
-cv2.waitKey(0)
-cv2.imshow('hi', cam.get_image())
-cv2.waitKey(0)
-cam.exit_camera()
+    # Destroys the OpenCv windows
+    cv2.destroyAllWindows()
+    # automatically closes connection
