@@ -6,7 +6,7 @@ import os
 import cv2
 import arduino_controller
 import numpy as np
-
+import ueye_camera
 
 class Robot(urx.Robot):
     def __init__(self, host="192.168.0.1", use_rt=True):
@@ -153,22 +153,7 @@ class SortingMachine():
         return pic_name
 
     def set_camera(self):
-        cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-        cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)  # turn the autofocus off
-        cap.set(cv2.CAP_PROP_FOCUS, 30)  # set the focus of camera
-        cap.set(cv2.CAP_PROP_AUTO_WB, 0)
-        cap.set(cv2.CAP_PROP_XI_AUTO_WB, 0)
-        cap.set(cv2.CAP_PROP_EXPOSUREPROGRAM, 0)
-        cap.set(cv2.CAP_PROP_XI_AEAG, 0)
-        cap.set(cv2.CAP_PROP_BRIGHTNESS, 128.0)
-        cap.set(cv2.CAP_PROP_CONTRAST, 128.0)
-        cap.set(cv2.CAP_PROP_SATURATION, 128.0)
-        cap.set(cv2.CAP_PROP_HUE, -1.0)  # 13.0
-        cap.set(cv2.CAP_PROP_GAIN, 5.0)
-        cap.set(cv2.CAP_PROP_EXPOSURE, -5.0)
-        cap.set(cv2.CAP_PROP_SPEED, 1)
+        cap = ueye_camera.UeyeCameraCapture(1)
         return cap
 
     # Todo LAURENS PART 1
