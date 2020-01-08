@@ -6,9 +6,9 @@ import shutil
 import crop_single_file
 from sklearn.model_selection import train_test_split
 
-IMG_SAVE_PATH = 'image_data_green'
+IMG_SAVE_PATH = 'image_data_better_camera'
 
-NEW_SAVE_PATH = 'green_tes'
+NEW_SAVE_PATH = 'image_data_better_camera_split'
 
 IMG_SAVE_PATH = os.path.abspath(IMG_SAVE_PATH)
 NEW_SAVE_PATH = os.path.abspath(NEW_SAVE_PATH)
@@ -48,7 +48,8 @@ create_dir( NEW_SAVE_PATH )
 
 
 def proccess_img(img, new_path=None, item=None, example=False):
-    img_crop = crop_single_file.crop( img, crop['pos_x'], crop['pos_y'], crop['width'], crop['height'] )
+    #img_crop = crop_single_file.crop( img, crop['pos_x'], crop['pos_y'], crop['width'], crop['height'] )
+    img_crop = img
     if not example:
         cv2.imwrite( os.path.join( new_path, item ), img_crop )
     return img_crop
