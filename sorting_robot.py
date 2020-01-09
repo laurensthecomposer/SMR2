@@ -137,6 +137,7 @@ class SortingMachine():
     def test_img(self, img, model, REV_CLASS_MAP=[], size=(227, 227)):
         # prepare the image
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
         img = cv2.resize(img, size)
         cv2.imshow("test", img)
 
@@ -150,7 +151,8 @@ class SortingMachine():
         print(pic_code)
         # Todo Laurens part 1 (cant get right value from REV_CLASS_MAP) when putting in PIC code, so this prints 4 and sould then take the REV_CLASS_MAP value from class BOLTS
         pic_name = REV_CLASS_MAP[pic_code]
-        return pic_name
+
+        return pic_name, pred
 
     def set_camera(self):
         cap = ueye_camera.UeyeCameraCapture(1)
@@ -176,7 +178,8 @@ class Bolts():
                 8: "nas6305-10",
                 9: "v647p23b"
             }
-            return REV_CLASS_MAP
+            model_name = "NAS_green_v1_350pix.h5"
+            return REV_CLASS_MAP, model_name
         elif sub_ass == 2:
             REV_CLASS_MAP = {
                 0: "nas1802-3-6",
