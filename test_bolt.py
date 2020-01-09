@@ -38,7 +38,7 @@ y_offset = 120
 
 # Select data to be used in model
 bolts = sorting_robot.Bolts()
-REV_CLASS_MAP, model_name = bolts.bolts_in_model(sub_ass=2)
+REV_CLASS_MAP, model_name = bolts.bolts_in_model(sub_ass=1)
 model = load_model(model_name)
 
 # Start machine

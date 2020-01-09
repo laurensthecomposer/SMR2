@@ -174,7 +174,7 @@ class Bolts():
                 6: "nas1802-3-9",
                 7: "nas1802-4-07",
                 8: "nas6305-10",
-                9: "none"
+                9: "v647p23b"
             }
             return REV_CLASS_MAP
         elif sub_ass == 2:

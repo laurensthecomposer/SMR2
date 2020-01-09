@@ -6,15 +6,15 @@ import os
 
 
 # arrays for saving
-succes_rate = [0,0,0,0,0,0]
-total_test = [0,0,0,0,0,0]
-succes_percentage = [0,0,0,0,0,0]
+succes_rate = [0,0,0,0,0,0,0,0,0,0]
+total_test = [0,0,0,0,0,0,0,0,0,0]
+succes_percentage = [0,0,0,0,0,0,0,0,0,0]
 
 #filepath = "Users\laure\Documents\SMR2\augmenting_image\1.jpg"
 
 
 folderpath = os.getcwd()
-main_folder = "green_tes"
+main_folder = "image_data_better_camera_split"
 filepath = os.path.join(folderpath, main_folder, "test")
 
 files = os.listdir(filepath)
@@ -24,19 +24,23 @@ amount = len (files) - 1
 folder = 0
 
 REV_CLASS_MAP = {
-    0: "ms9557-16",
-    1: "ms9557-20",
-    2: "nas1802-3-7",
-    3: "nas1802-3-9",
-    4: "nas6305-10",
-    5: "v647p23b"
+    0: "m59557-10",
+    1: "m59557-16",
+    2: "m59557-20",
+    3: "nas1802-3-6",
+    4: "nas1802-3-7",
+    5: "nas1802-3-8",
+    6: "nas1802-3-9",
+    7: "nas1802-4-07",
+    8: "nas6305-10",
+    9: "v647p23b"
 }
 
 
 def mapper(val):
     return REV_CLASS_MAP[val]
 
-model = load_model("C:/Users/marce/PycharmProjects/SMR2/green_tes_v3_640px.h5")
+model = load_model("C:/Users/marce/PycharmProjects/SMR2/new_camera_v6_350px.h5")
 
 while folder <= amount:
     correct_amount = 0
@@ -54,7 +58,7 @@ while folder <= amount:
         # prepare the image
         img = cv2.imread(picpath)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        img = cv2.resize(img, (640, 640))
+        img = cv2.resize(img, (350, 350))
 
         # predict the picture
         pred = model.predict(np.array([img]))
@@ -65,9 +69,9 @@ while folder <= amount:
         pic_code = np.argmax(pred[0])
         pic_name = mapper(pic_code)
 
-        # print("Predicted: {}".format(pic_name))
+        print("Predicted: {}".format(pic_name))
         # print(pic_code)
-        # print(pred)
+        print(pred)
         if str(pic_name) == str(boltname):
             correct_amount += 1
             succes_rate[folder] = correct_amount
@@ -83,7 +87,7 @@ while folder <= amount:
 
 # print(total_test)
 # print(succes_rate)
-# print(succes_percentage)
+print(succes_percentage)
 
 
 #

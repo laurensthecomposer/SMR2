@@ -24,7 +24,7 @@ CLASS_MAP = {
     "nas1802-3-9": 6,
     "nas1802-4-07": 7,
     "nas6305-10": 8,
-    "none": 9
+    "v647p23b": 9
 }
 
 NUM_CLASSES = len(CLASS_MAP)
