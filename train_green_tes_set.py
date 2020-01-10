@@ -44,7 +44,7 @@ model = get_model()
 model.compile(optimizer=Adam(lr=0.0001),loss='categorical_crossentropy', metrics=['acc'])
 
 epochs = 4
-model.fit_generator(train_it, steps_per_epoch=10, validation_data=val_it, validation_steps=1, epochs=epochs, verbose=1)
+model.fit_generator(train_it, steps_per_epoch=(amount_train_images/train_batch_size), validation_data=val_it, validation_steps=(amount_validation_images/validation_batch_size), epochs=epochs, verbose=1)
 
 name = ''.join(["green_tes_v3_640px.h5"])
 
