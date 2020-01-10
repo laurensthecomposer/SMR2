@@ -119,7 +119,7 @@ class SortingMachine():
         except FileExistsError:
             # Find location of directory
             currentfolderpath = os.getcwd()
-            print(currentfolderpath)
+            # print(currentfolderpath)
             path = ''.join([currentfolderpath, "/", IMG_SAVE_PATH, "/", bolt_type])
             available = os.listdir(str(path))  # Check the files in the directory
 
@@ -148,7 +148,7 @@ class SortingMachine():
         np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
 
         pic_code = np.argmax(pred[0])
-        print(pic_code)
+        # print(pic_code)
         # Todo Laurens part 1 (cant get right value from REV_CLASS_MAP) when putting in PIC code, so this prints 4 and sould then take the REV_CLASS_MAP value from class BOLTS
         pic_name = REV_CLASS_MAP[pic_code]
 
