@@ -3,12 +3,16 @@ import cv2.cv2 as cv2
 import numpy as np
 import sys
 import os
-
+import sorting_robot
 
 # arrays for saving
 succes_rate = [0,0,0,0,0,0,0,0,0,0]
 total_test = [0,0,0,0,0,0,0,0,0,0]
 succes_percentage = [0,0,0,0,0,0,0,0,0,0]
+
+bolts = sorting_robot.Bolts()
+
+REV_CLASS_MAP, model = bolts.bolts_in_model(sub_ass=2)
 
 #filepath = "Users\laure\Documents\SMR2\augmenting_image\1.jpg"
 
@@ -23,17 +27,17 @@ amount = len (files) - 1
 
 folder = 0
 
-REV_CLASS_MAP = {
-    0: "m59557-10",
-    1: "m59557-16",
-    2: "m59557-20",
-    3: "nas1802-3-6",
-    4: "nas1802-3-7",
-    5: "nas1802-3-8",
-    6: "nas1802-3-9",
-    7: "nas1802-4-07",
-    8: "nas6305-10",
-    9: "v647p23b"
+# REV_CLASS_MAP = {
+#     0: "m59557-10",
+#     1: "m59557-16",
+#     2: "m59557-20",
+#     3: "nas1802-3-6",
+#     4: "nas1802-3-7",
+#     5: "nas1802-3-8",
+#     6: "nas1802-3-9",
+#     7: "nas1802-4-07",
+#     8: "nas6305-10",
+#     9: "v647p23b"
 }
 
 
