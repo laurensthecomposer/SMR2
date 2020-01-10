@@ -186,6 +186,7 @@ class Bolts():
 
             # model_name = "more_pictures_cleaned_v1_350px.h5"
             return REV_CLASS_MAP, file_path
+
         elif sub_ass == 2:
             REV_CLASS_MAP = {
                 0: "nas1802-3-6",

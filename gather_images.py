@@ -22,7 +22,7 @@ REV_CLASS_MAP = {
     8: "nas6305-10",
     9: "v647p23b"
 }
-bolt_type = REV_CLASS_MAP[5]
+bolt_type = REV_CLASS_MAP[6]
 num_samples = 200
 count = 0
 rob_move = 0
