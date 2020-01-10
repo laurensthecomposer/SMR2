@@ -14,7 +14,7 @@ succes_percentage = [0,0,0,0,0,0,0,0,0,0]
 
 
 folderpath = os.getcwd()
-main_folder = "image_data_better_camera_split"
+main_folder = "image_data_better_camera_more_split"
 filepath = os.path.join(folderpath, main_folder, "test")
 
 files = os.listdir(filepath)
@@ -40,7 +40,7 @@ REV_CLASS_MAP = {
 def mapper(val):
     return REV_CLASS_MAP[val]
 
-model = load_model("C:/Users/marce/PycharmProjects/SMR2/new_camera_v6_350px.h5")
+model = load_model("C:/Users/marce/PycharmProjects/SMR2/new_camera_cleaned_v1_350px.h5")
 
 while folder <= amount:
     correct_amount = 0

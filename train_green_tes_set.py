@@ -11,16 +11,29 @@ from keras.preprocessing.image import ImageDataGenerator
 
 datagen = ImageDataGenerator()
 
-train_it = datagen.flow_from_directory(os.path.abspath('green_tes/train'),target_size=(227,227), class_mode='categorical', batch_size=20)
+amount_train_images = 1296
 
-val_it = datagen.flow_from_directory(os.path.abspath('green_tes/validate'),target_size=(227,227), class_mode='categorical', batch_size=20)
+amount_validation_images = 373
+
+train_batch_size = 40
+
+validation_batch_size = 20
+
+train_it = datagen.flow_from_directory(os.path.abspath('image_data_better_camera_more_split/train'),target_size=(350,350), class_mode='categorical', batch_size=train_batch_size)
+
+val_it = datagen.flow_from_directory(os.path.abspath('image_data_better_camera_more_split/validate'),target_size=(350,350), class_mode='categorical', batch_size=validation_batch_size)
+
+amount_classes = len ( os.listdir(os.path.abspath('image_data_better_camera_more_split/train')) )
+
+
+
 
 def get_model():
     model = Sequential([
         #change model res
-        SqueezeNet(input_shape=(227, 227, 3), include_top=False),
+        SqueezeNet(input_shape=(350, 350, 3), include_top=False),
         Dropout(0.5),
-        Convolution2D(6, (1, 1), padding='valid'),
+        Convolution2D(amount_classes, (1, 1), padding='valid'),
         Activation('relu'),
         GlobalAveragePooling2D(),
         Activation('softmax')
@@ -28,27 +41,14 @@ def get_model():
     return model
 
 model = get_model()
-model.compile(
-<<<<<<< Updated upstream
-    optimizer=Adam(lr=0.0001),
-=======
-    optimizer=Adam(lr=0.0008),
->>>>>>> Stashed changes
-    loss='categorical_crossentropy',
-    metrics=['acc']
-)
+model.compile(optimizer=Adam(lr=0.0001),loss='categorical_crossentropy', metrics=['acc'])
 
 epochs = 4
 model.fit_generator(train_it, steps_per_epoch=10, validation_data=val_it, validation_steps=1, epochs=epochs, verbose=1)
 
 name = ''.join(["green_tes_v3_640px.h5"])
 
-<<<<<<< Updated upstream
-=======
-name = ''.join(["green_black_tes_v1.h5"])
-
 # save the model for later use
->>>>>>> Stashed changes
 model.save(name)
 
 #score = model.evaluate(np.array(data), np.array(labels))

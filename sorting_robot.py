@@ -152,7 +152,7 @@ class SortingMachine():
         # Todo Laurens part 1 (cant get right value from REV_CLASS_MAP) when putting in PIC code, so this prints 4 and sould then take the REV_CLASS_MAP value from class BOLTS
         pic_name = REV_CLASS_MAP[pic_code]
 
-        return pic_name, pred
+        return pic_name, pred, pic_code
 
     def set_camera(self):
         cap = ueye_camera.UeyeCameraCapture(1)
@@ -178,7 +178,10 @@ class Bolts():
                 8: "nas6305-10",
                 9: "v647p23b"
             }
-            model_name = "NAS_green_v1_350pix.h5"
+            # best model till 9-1-2020
+            model_name = "new_camera_cleaned_v1_350px.h5"
+
+            # model_name = "more_pictures_cleaned_v1_350px.h5"
             return REV_CLASS_MAP, model_name
         elif sub_ass == 2:
             REV_CLASS_MAP = {
