@@ -187,7 +187,7 @@ class UeyeCameraCapture( object ):
         else:
             return False, None
 
-    def exit_camera(self):
+    def release(self):
         # Releases an image memory that was allocated using is_AllocImageMem() and removes it from the driver management
         ueye.is_FreeImageMem( self.hCam, self.pcImageMemory, self.MemID )
 
@@ -198,11 +198,11 @@ class UeyeCameraCapture( object ):
 
     def __del__(self):
         print('destructor called')
-        self.exit_camera()
+        self.release()
 
 if __name__ == "__main__":
 
-    cam = UeyeCameraCapture(0)
+    cam = UeyeCameraCapture(1)
     import time
     time.sleep( 1 )
     ret, frame = cam.read()
