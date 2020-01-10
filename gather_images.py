@@ -8,9 +8,23 @@ import sorting_robot
 
 
 # Name of folder where to save data to
-IMG_SAVE_PATH = 'image_data_green'
-bolt_type = "nas1802-3-9"
-num_samples = 120
+IMG_SAVE_PATH = 'image_data_new_view_data'
+
+REV_CLASS_MAP = {
+    0: "m59557-10",
+    1: "m59557-16",
+    2: "m59557-20",
+    3: "nas1802-3-6",
+    4: "nas1802-3-7",
+    5: "nas1802-3-8",
+    6: "nas1802-3-9",
+    7: "nas1802-4-07",
+    8: "nas6305-10",
+    9: "v647p23b"
+}
+bolt_type = REV_CLASS_MAP[5]
+num_samples = 200
+count = 0
 rob_move = 0
 
 # amount before_move
@@ -31,11 +45,6 @@ count, num_samples, IMG_CLASS_PATH = machine.save_pictures(IMG_SAVE_PATH, bolt_t
 
 # Setup camera
 cap = machine.set_camera()
-
-# Size of region of interest
-square_size = 660
-x_offset = 500
-y_offset = 190
 
 # Start gather images on booth
 start = True
@@ -59,8 +68,6 @@ while True:
             ret, frame = cap.read()
             ret, frame = cap.read()
 
-            roi = frame[y_offset:y_offset + square_size, x_offset:x_offset + square_size]
-            cv2.imshow( "roi", roi )
             cv2.imshow( "Collecting images", frame )
             cv2.waitKey(1)
 

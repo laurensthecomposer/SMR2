@@ -30,14 +30,7 @@ while images_augmented <= total_images:
     image = cv2.imread(image_loc)
     img1 = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 
-    height, width = img1.shape
 
-    h_centre = int(height / 2)
-    w_centre = int(width / 2)
-
-    thickness = 100
-
-    cv2.circle(image, (h_centre, w_centre), w_centre + int(thickness / 2), (0, 0, 0), thickness=thickness)
 
 
     cv2.imwrite(os.path.join(path, names[images_augmented]), image)

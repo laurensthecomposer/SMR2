@@ -12,7 +12,7 @@ import logger_csv
 
 # Name of folder where to save data to
 IMG_SAVE_PATH = 'image_test'
-bolt_type_path = "nas6305-10"
+bolt_type_path = "test_bolts"
 num_samples = 100
 rob_move = 0
 
@@ -34,8 +34,8 @@ cap = machine.set_camera()
 
 # Select data to be used in model
 bolts = sorting_robot.Bolts()
-REV_CLASS_MAP, model_name = bolts.bolts_in_model( sub_ass=1 )
-model = load_model( model_name )
+REV_CLASS_MAP, file_path = bolts.bolts_in_model( sub_ass=1 )
+model = load_model( file_path )
 
 # Start machine
 start = True
@@ -75,7 +75,10 @@ while True:
             cv2.imwrite( save_path, frame )
 
             # test image to model and output bolt type
-            bolt_type, pred = machine.test_img( frame, model, REV_CLASS_MAP, size=(350, 350) )
+            bolt_type, pred, bolt_code = machine.test_img(frame, model, REV_CLASS_MAP, size=(350, 350))
+
+
+
             count += 1
 
             time.sleep( 1 )
