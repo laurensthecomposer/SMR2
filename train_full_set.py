@@ -8,14 +8,17 @@ from keras.models import Sequential
 import tensorflow as tf
 import os
 from keras.preprocessing.image import ImageDataGenerator
+from keras.callbacks import EarlyStopping
 
+#TODO: tweak these values for stopping on the right time. See "Interesting Machine Learning/Existing machines" where to find info about this
+earlystopping_callback = EarlyStopping(monitor = "val_loss", min_delta = 0, patience = 1, verbose = 1, mode = "auto")
 
 
 datagen = ImageDataGenerator()
 
-train_it = datagen.flow_from_directory('/Users/marcdudley/Downloads/SMR2/old_image_data/archive3_train',target_size=(227,227), class_mode='categorical', batch_size=89)
+train_it = datagen.flow_from_directory('image_data_better_camera_more_split\\train',target_size=(227,227), class_mode='categorical', batch_size=89)
 
-val_it = datagen.flow_from_directory('/Users/marcdudley/Downloads/SMR2/old_image_data/archive3_val',target_size=(227,227), class_mode='categorical', batch_size=100)
+val_it = datagen.flow_from_directory('image_data_better_camera_more_split\\validate',target_size=(227,227), class_mode='categorical', batch_size=100)
 
 
 
@@ -57,29 +60,6 @@ def get_model():
 
 
 # load images from the directory
-dataset = []
-for directory in os.listdir(IMG_SAVE_PATH):
-    path = os.path.join(IMG_SAVE_PATH, directory)
-    if not os.path.isdir(path):
-        continue
-    for item in os.listdir(path):
-        # to make sure no hidden files get in our way
-        if item.startswith("."):
-            continue
-        img = cv2.imread(os.path.join(path, item))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        #higher img res?
-        img = cv2.resize(img, (227, 227))
-        dataset.append([img, directory])
-
-
-data, labels = zip(*dataset)
-labels = list(map(mapper, labels))
-
-
-
-# one hot encode the labels
-labels = np_utils.to_categorical(labels)
 
 # define the model
 model = get_model()
@@ -91,9 +71,8 @@ model.compile(
 
 
 # start training
-
 epochs = 15
-model.fit_generator(train_it, steps_per_epoch=10, validation_data=val_it, validation_steps=1, epochs=epochs, verbose=1)
+model.fit_generator(train_it, steps_per_epoch=10, callbacks=[earlystopping_callback], validation_data=val_it, validation_steps=1, epochs=epochs, verbose=1)
 
 
 name = ''.join(["nas_class_set_v1.h5"])
