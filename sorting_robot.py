@@ -179,10 +179,13 @@ class Bolts():
                 9: "v647p23b"
             }
             # best model till 9-1-2020
+            model_folder = "ml_bolt_models"
             model_name = "new_camera_cleaned_v1_350px.h5"
+            file_path = os.path.join(model_folder, model_name)
+
 
             # model_name = "more_pictures_cleaned_v1_350px.h5"
-            return REV_CLASS_MAP, model_name
+            return REV_CLASS_MAP, file_path
         elif sub_ass == 2:
             REV_CLASS_MAP = {
                 0: "nas1802-3-6",

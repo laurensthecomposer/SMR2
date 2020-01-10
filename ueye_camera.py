@@ -205,9 +205,12 @@ if __name__ == "__main__":
     cam = UeyeCameraCapture(1)
     import time
     time.sleep( 1 )
-    ret, frame = cam.read()
-    cv2.imshow('hi', frame)
-    cv2.waitKey(0)
+
+    while True:
+        ret, frame = cam.read()
+        cv2.imshow('hi', frame)
+        cv2.waitKey(1)
+
 
 
     # Destroys the OpenCv windows
