@@ -19,7 +19,7 @@ def mapper(val):
 model = load_model("/Users/marcdudley/Downloads/SMR2/bc_NAS_only_v1_750pix.h5")
 
 # image folder
-folder_path = '/Users/marcdudley/Downloads/SMR2/old_image_data/image_data_bc_nas_only/test/nas1802-3-7'
+folder_path = '/Users/marcdudley/Downloads/SMR2/old_image_data/image_data_bc_nas_only/test/nas1802-3-6'
 # path to model
 
 # dimensions of images
