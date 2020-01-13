@@ -1,0 +1,1 @@
+from .QCollectBox import QCollectBox
