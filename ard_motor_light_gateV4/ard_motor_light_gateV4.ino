@@ -21,7 +21,7 @@ int in4 = 6;
 int enC = 10; // pwm port
 int in5 = 9;
 int in6 = 8;
-
+int pwm = 125;
 int timer;
 
 void setup() {
@@ -89,7 +89,7 @@ if(Serial.available()>0){
       data = 5;     
       digitalWrite(in1, LOW);
       digitalWrite(in2, HIGH); 
-      analogWrite(enA, 255);
+      analogWrite(enA, pwm);
       
       Serial.println(data);
     }
@@ -98,7 +98,7 @@ if(Serial.available()>0){
       data = 6;
       digitalWrite(in3, HIGH);
       digitalWrite(in4, LOW);
-      analogWrite(enB, 255);
+      analogWrite(enB, pwm);
       
       Serial.println(data);
     }
@@ -113,7 +113,7 @@ if(Serial.available()>0){
       data = 8;     
       digitalWrite(in3, LOW);
       digitalWrite(in4, HIGH); 
-      analogWrite(enB, 255);
+      analogWrite(enB, pwm);
       
       Serial.println(data);
     }
@@ -122,7 +122,7 @@ if(Serial.available()>0){
       data = 9;
       digitalWrite(in5, HIGH);
       digitalWrite(in6, LOW);
-      analogWrite(enC, 255);
+      analogWrite(enC, pwm);
       
       Serial.println(data);
     }
@@ -137,7 +137,7 @@ if(Serial.available()>0){
       data = 11;     
       digitalWrite(in5, LOW);
       digitalWrite(in6, HIGH); 
-      analogWrite(enC, 255);
+      analogWrite(enC, pwm);
       
       Serial.println(data);
       
@@ -161,13 +161,13 @@ if(Serial.available()>0){
       data = 13;     
       digitalWrite(in1, HIGH);
       digitalWrite(in2, LOW); 
-      analogWrite(enA, 255);
+      analogWrite(enA, pwm);
       digitalWrite(in3, HIGH);
       digitalWrite(in4, LOW); 
-      analogWrite(enB, 255);
+      analogWrite(enB, pwm);
       digitalWrite(in5, HIGH);
       digitalWrite(in6, LOW); 
-      analogWrite(enC, 255);
+      analogWrite(enC, pwm);
       
       Serial.println(data);
     }
