@@ -3,15 +3,17 @@
 int data = 0;
 int gatePin =12;
 char pyInput;
-int pwm = 125;
+int pwm = 200;
 
 bool gateStatus; 
 
 // connect motor controller pins to Arduino digital pins
 // motor one
 int enA = 3; // pwm port 
-int in1 = 2;
-int in2 = 4;
+int in1 = 4;
+int in2 = 2;
+
+int pmwM1_diff = 150; 
 
 // motor two
 int enB = 5; // pwm port
@@ -75,7 +77,7 @@ if(Serial.available()>0){
       data = 3;
       digitalWrite(in1, HIGH);
       digitalWrite(in2, LOW);
-      analogWrite(enA, (pwm-55));
+      analogWrite(enA, (pwm-pmwM1_diff));
       
       Serial.println(data);
     }
@@ -162,7 +164,7 @@ if(Serial.available()>0){
       data = 13;     
       digitalWrite(in1, HIGH);
       digitalWrite(in2, LOW); 
-      analogWrite(enA, pwm);
+      analogWrite(enA, (pwm-pmwM1_diff));
       digitalWrite(in3, HIGH);
       digitalWrite(in4, LOW); 
       analogWrite(enB, pwm);
