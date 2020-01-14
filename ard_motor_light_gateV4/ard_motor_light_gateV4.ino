@@ -3,6 +3,7 @@
 int data = 0;
 int gatePin =12;
 char pyInput;
+int pwm = 125;
 
 bool gateStatus; 
 
@@ -21,7 +22,7 @@ int in4 = 6;
 int enC = 10; // pwm port
 int in5 = 9;
 int in6 = 8;
-int pwm = 125;
+
 int timer;
 
 void setup() {
@@ -74,7 +75,7 @@ if(Serial.available()>0){
       data = 3;
       digitalWrite(in1, HIGH);
       digitalWrite(in2, LOW);
-      analogWrite(enA, 200);
+      analogWrite(enA, (pwm-55));
       
       Serial.println(data);
     }
