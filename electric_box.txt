@@ -1,6 +1,6 @@
 what we need to think about when making the electric box:
 
-    how box does the electric box needs to be 
+    how big does the electric box needs to be 
     what comes in the electric box 
     where do we put the box
     how are the wires managed 
