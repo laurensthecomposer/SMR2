@@ -8,13 +8,21 @@ bool gateStatus;
 
 // connect motor controller pins to Arduino digital pins
 // motor one
-int enA = 10;
-int in1 = 9;
-int in2 = 8;
+int enA = 3; // pwm port 
+int in1 = 4;
+int in2 = 2;
 
-int enB = 5;
+
+
+// motor two
+int enB = 5; // pwm port
 int in3 = 7;
 int in4 = 6;
+
+// motor three
+int enC = 10; // pwm port
+int in5 = 9;
+int in6 = 8;
 int timer;
 
 void setup() {
@@ -35,6 +43,10 @@ digitalWrite(gatePin, HIGH); // turn on the pullup
 
 
 
+ pinMode(enC, OUTPUT);
+ pinMode(in5, OUTPUT);
+ pinMode(in6, OUTPUT);
+
 }
 
 void loop() {
@@ -44,12 +56,12 @@ void loop() {
   
   data = 3;
     
-  digitalWrite(in3, HIGH);
-  digitalWrite(in4, LOW);
-  for(int i = 80; i <= 255 && i >= 0; i+=5){
+  digitalWrite(in5, HIGH);
+  digitalWrite(in6, LOW);
+  for(int i = 150; i <= 255 && i >= 0; i+=5){
     
   
-    analogWrite(enB, i);
+    analogWrite(enC, i);
     Serial.println(i);
     delay(3000);
   }
