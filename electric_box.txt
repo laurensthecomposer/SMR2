@@ -1,0 +1,9 @@
+what we need to think about when making the electric box:
+
+    how box does the electric box needs to be 
+    what comes in the electric box 
+    where do we put the box
+    how are the wires managed 
+    where comes the laptop (for usb cable)
+    how do we put the light on and off
+    How do we ground the light
