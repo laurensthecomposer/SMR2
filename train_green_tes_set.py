@@ -33,20 +33,31 @@ from keras.preprocessing.image import ImageDataGenerator
 #                              interpolation_order=1,
 #                              dtype='float32')
 
-datagen = ImageDataGenerator()
+train_datagen = ImageDataGenerator(
+        rescale=1./255,
+        shear_range=0.2,
+        zoom_range=0.2,
+        horizontal_flip=True)
 
-train_batch_size = 40
+test_datagen = ImageDataGenerator()
+
+# settings
+train_batch_size = 20
 val_batch_size = 20
 roi_square_size = 350
+epochs = 4
+amount_train_images = 1296
+amount_val_images = 373
 
-train_it = datagen.flow_from_directory(
+
+train_it = train_datagen.flow_from_directory(
     os.path.abspath( 'image_data_better_camera_more_split/train' ),
     target_size=(roi_square_size, roi_square_size),
     class_mode='categorical',
     batch_size=train_batch_size
 )
 
-val_it = datagen.flow_from_directory(
+val_it = test_datagen.flow_from_directory(
     os.path.abspath( 'image_data_better_camera_more_split/validate' ),
     target_size=(roi_square_size, roi_square_size),
     class_mode='categorical',
@@ -54,12 +65,6 @@ val_it = datagen.flow_from_directory(
 )
 
 amount_classes = len( os.listdir( os.path.abspath( 'image_data_better_camera_more_split/train' ) ) )
-
-epochs = 4
-amount_train_images = 1296
-
-amount_val_images = 373
-
 
 def get_model(amount_classes):
     model = Sequential( [
@@ -82,8 +87,8 @@ model.compile(
 )  # lr = learning rate
 
 # start training
-model.fit_generator( train_it, steps_per_epoch=(amount_train_images / train_batch_size), validation_data=val_it,
-                     validation_steps=(amount_val_images / val_batch_size), epochs=epochs, verbose=1 )
+history = model.fit_generator( train_it, steps_per_epoch=2, validation_data=val_it,
+                     validation_steps=2, epochs=epochs, verbose=1 )
 # model.fit_generator(train_it, steps_per_epoch=10, validation_data=val_it, validation_steps=1, epochs=epochs,
 # verbose=1)
 name = 'green_tes_v3_640px.h5'
