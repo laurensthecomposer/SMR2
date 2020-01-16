@@ -179,7 +179,7 @@ class Bolts():
                 9: "v647p23b"
             }
             # best model till 9-1-2020
-            model_folder = "ml_bolt_models"
+            model_folder = "models"
             model_name = "new_camera_cleaned_v1_350px.h5"
             file_path = os.path.join(model_folder, model_name)
 
