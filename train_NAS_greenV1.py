@@ -12,12 +12,10 @@ datagen = ImageDataGenerator()
 train_it = datagen.flow_from_directory('/Users/marcdudley/Downloads/SMR2/old_image_data/image_data_bc_nas_only/train',target_size=(750,750), class_mode='categorical', batch_size=40)
 
 val_it = datagen.flow_from_directory('/Users/marcdudley/Downloads/SMR2/old_image_data/image_data_bc_nas_only/validate',target_size=(750,750), class_mode='categorical', batch_size=20)
-
 def get_model():
     model = Sequential([
         #change model res
         SqueezeNet(input_shape=(750, 750, 3), include_top=False),
-        Dropout(0.5),
         Convolution2D(4, (1, 1), padding='valid'),
         Activation('relu'),
         GlobalAveragePooling2D(),
