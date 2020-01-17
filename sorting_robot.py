@@ -6,7 +6,7 @@ import os
 import cv2
 import arduino_controller
 import numpy as np
-
+import ueye_camera
 
 class Robot(urx.Robot):
     def __init__(self, host="192.168.0.1", use_rt=True):
@@ -69,8 +69,8 @@ class Robot(urx.Robot):
         nas180237 = [0.43, 0.20, 0.23, 1.0945, 2.88, -0.167]
         nas180238 = [0.55, 0.20, 0.23, 1.0945, 2.88, -0.167]
         nas180239 = [0.67, 0.20, 0.23, 1.0945, 2.88, -0.167]
-        drop_loc = [-0.05926119038282123, -0.6900939148643027, 0.09265212533873536, -1.8691329331934325,
-                    0.818416169672539, 0.63033805270759]
+        drop_loc = [-0.03732405870401914, -0.7264878419647537, 0.19349249899716156, 0.7697092455981598, 1.5737713639826518, -1.9839122811031933]
+
 
         # dropping
         if train == True:
@@ -119,7 +119,7 @@ class SortingMachine():
         except FileExistsError:
             # Find location of directory
             currentfolderpath = os.getcwd()
-            print(currentfolderpath)
+            # print(currentfolderpath)
             path = ''.join([currentfolderpath, "/", IMG_SAVE_PATH, "/", bolt_type])
             available = os.listdir(str(path))  # Check the files in the directory
 
@@ -137,6 +137,7 @@ class SortingMachine():
     def test_img(self, img, model, REV_CLASS_MAP=[], size=(227, 227)):
         # prepare the image
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
         img = cv2.resize(img, size)
         cv2.imshow("test", img)
 
@@ -147,28 +148,14 @@ class SortingMachine():
         np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
 
         pic_code = np.argmax(pred[0])
-        print(pic_code)
+        # print(pic_code)
         # Todo Laurens part 1 (cant get right value from REV_CLASS_MAP) when putting in PIC code, so this prints 4 and sould then take the REV_CLASS_MAP value from class BOLTS
         pic_name = REV_CLASS_MAP[pic_code]
-        return pic_name
+
+        return pic_name, pred, pic_code
 
     def set_camera(self):
-        cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-        cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)  # turn the autofocus off
-        cap.set(cv2.CAP_PROP_FOCUS, 30)  # set the focus of camera
-        cap.set(cv2.CAP_PROP_AUTO_WB, 0)
-        cap.set(cv2.CAP_PROP_XI_AUTO_WB, 0)
-        cap.set(cv2.CAP_PROP_EXPOSUREPROGRAM, 0)
-        cap.set(cv2.CAP_PROP_XI_AEAG, 0)
-        cap.set(cv2.CAP_PROP_BRIGHTNESS, 128.0)
-        cap.set(cv2.CAP_PROP_CONTRAST, 128.0)
-        cap.set(cv2.CAP_PROP_SATURATION, 128.0)
-        cap.set(cv2.CAP_PROP_HUE, -1.0)  # 13.0
-        cap.set(cv2.CAP_PROP_GAIN, 5.0)
-        cap.set(cv2.CAP_PROP_EXPOSURE, -5.0)
-        cap.set(cv2.CAP_PROP_SPEED, 1)
+        cap = ueye_camera.UeyeCameraCapture(1)
         return cap
 
     # Todo LAURENS PART 1
@@ -189,9 +176,17 @@ class Bolts():
                 6: "nas1802-3-9",
                 7: "nas1802-4-07",
                 8: "nas6305-10",
-                9: "none"
+                9: "v647p23b"
             }
-            return REV_CLASS_MAP
+            # best model till 9-1-2020
+            model_folder = "models"
+            model_name = "new_camera_cleaned_v1_350px.h5"
+            file_path = os.path.join(model_folder, model_name)
+
+
+            # model_name = "more_pictures_cleaned_v1_350px.h5"
+            return REV_CLASS_MAP, file_path
+
         elif sub_ass == 2:
             REV_CLASS_MAP = {
                 0: "nas1802-3-6",
