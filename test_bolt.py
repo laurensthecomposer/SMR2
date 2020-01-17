@@ -11,7 +11,7 @@ import sorting_robot
 import logger_csv
 
 # Name of folder where to save data to
-IMG_SAVE_PATH = 'image_test'
+IMG_SAVE_PATH = 'dataset/image_test'
 bolt_type_path = "test_bolts"
 num_samples = 100
 rob_move = 0

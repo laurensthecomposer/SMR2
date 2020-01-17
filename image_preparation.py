@@ -6,9 +6,9 @@ import shutil
 import crop_single_file
 from sklearn.model_selection import train_test_split
 
-IMG_SAVE_PATH = 'image_data_better_camera_more'
+IMG_SAVE_PATH = 'dataset/image_data_better_camera_more'
 
-NEW_SAVE_PATH = 'image_data_better_camera_more_split'
+NEW_SAVE_PATH = 'dataset/image_data_better_camera_more_split'
 
 IMG_SAVE_PATH = os.path.abspath(IMG_SAVE_PATH)
 NEW_SAVE_PATH = os.path.abspath(NEW_SAVE_PATH)

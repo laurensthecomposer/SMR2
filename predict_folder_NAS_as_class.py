@@ -15,11 +15,13 @@ REV_CLASS_MAP = {
 
 def mapper(val):
     return REV_CLASS_MAP[val]
-
-model = load_model("/Users/marcdudley/Downloads/SMR2/bc_NAS_only_v1_750pix.h5")
+model_path = "models/bc_NAS_only_v1_750pix.h5"
+model_path = os.path.abspath(model_path)
+model = load_model(model_path)
 
 # image folder
-folder_path = '/Users/marcdudley/Downloads/SMR2/old_image_data/image_data_bc_nas_only/test/nas1802-3-9'
+folder_path = 'dataset/old_image_data/image_data_bc_nas_only/test/nas1802-3-9'
+folder_path = os.path.abspath(folder_path)
 # path to model
 
 # dimensions of images

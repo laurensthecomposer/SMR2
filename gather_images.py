@@ -8,7 +8,7 @@ import sorting_robot
 
 
 # Name of folder where to save data to
-IMG_SAVE_PATH = 'image_data_new_view_data'
+IMG_SAVE_PATH = 'dataset/image_data_new_view_data'
 
 REV_CLASS_MAP = {
     0: "m59557-10",

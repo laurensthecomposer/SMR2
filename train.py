@@ -33,11 +33,11 @@ from keras.preprocessing.image import ImageDataGenerator
 #                              interpolation_order=1,
 #                              dtype='float32')
 
-train_datagen = ImageDataGenerator(
-        rescale=1./255,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True)
+train_datagen = ImageDataGenerator()
+# rescale=1./255,
+# shear_range=0.2,
+# zoom_range=0.2,
+# horizontal_flip=True)
 
 test_datagen = ImageDataGenerator()
 
@@ -49,22 +49,27 @@ epochs = 4
 amount_train_images = 1296
 amount_val_images = 373
 
+epochs = int( (amount_train_images / train_batch_size) ) * 3
+print( "epochs", epochs )
+print( "train_batch_size", train_batch_size)
+print( "val_batch_size", val_batch_size )
 
 train_it = train_datagen.flow_from_directory(
-    os.path.abspath( 'image_data_better_camera_more_split/train' ),
+    os.path.abspath( 'dataset/image_data_better_camera_more_split/train' ),
     target_size=(roi_square_size, roi_square_size),
     class_mode='categorical',
     batch_size=train_batch_size
 )
 
 val_it = test_datagen.flow_from_directory(
-    os.path.abspath( 'image_data_better_camera_more_split/validate' ),
+    os.path.abspath( 'dataset/image_data_better_camera_more_split/validate' ),
     target_size=(roi_square_size, roi_square_size),
     class_mode='categorical',
     batch_size=val_batch_size
 )
 
-amount_classes = len( os.listdir( os.path.abspath( 'image_data_better_camera_more_split/train' ) ) )
+amount_classes = len( os.listdir( os.path.abspath( 'dataset/image_data_better_camera_more_split/train' ) ) )
+
 
 def get_model(amount_classes):
     model = Sequential( [
@@ -88,7 +93,7 @@ model.compile(
 
 # start training
 history = model.fit_generator( train_it, steps_per_epoch=2, validation_data=val_it,
-                     validation_steps=2, epochs=epochs, verbose=1 )
+                               validation_steps=2, epochs=epochs, verbose=1 )
 # model.fit_generator(train_it, steps_per_epoch=10, validation_data=val_it, validation_steps=1, epochs=epochs,
 # verbose=1)
 name = 'green_tes_v3_640px.h5'

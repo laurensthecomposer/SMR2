@@ -18,7 +18,7 @@ REV_CLASS_MAP, model = bolts.bolts_in_model(sub_ass=2)
 
 
 folderpath = os.getcwd()
-main_folder = "image_data_better_camera_split"
+main_folder = "dataset/image_data_better_camera_split"
 filepath = os.path.join(folderpath, main_folder, "test")
 
 files = os.listdir(filepath)
@@ -38,13 +38,13 @@ folder = 0
 #     7: "nas1802-4-07",
 #     8: "nas6305-10",
 #     9: "v647p23b"
-}
+# }
 
 
 def mapper(val):
     return REV_CLASS_MAP[val]
 
-model = load_model("C:/Users/marce/PycharmProjects/SMR2/new_camera_v6_350px.h5")
+model = load_model("models/new_camera_v6_350px.h5")
 
 while folder <= amount:
     correct_amount = 0

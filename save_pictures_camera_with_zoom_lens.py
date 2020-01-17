@@ -43,7 +43,7 @@ import sorting_robot
 import os
 # ---------------------------------------------------------------------------------------------------------------------------------------
 
-IMG_SAVE_PATH = 'image_data_better_camera'
+IMG_SAVE_PATH = 'dataset/image_data_better_camera'
 REV_CLASS_MAP = {
     0: "m59557-10",
     1: "m59557-16",
