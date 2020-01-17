@@ -108,3 +108,5 @@ venv.bak/
 .idea/
 
 train_green_tes_set.py
+
+dataset/
