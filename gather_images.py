@@ -32,7 +32,7 @@ rob_move = 0
 
 # start Arduino connection
 controller = arduino_controller.Arduino()
-
+controller.blocker_close()
 # Connect to robot & machine
 # rob = sorting_robot.Robot()
 machine = sorting_robot.SortingMachine()
@@ -77,7 +77,8 @@ while True:
 
             count += 1
             rob_move += 1
-
+            controller.blocker_open()
+            time.sleep(0.5)
             controller.all_forward()
 
             time.sleep( 0.5 )  # wait until object is gone
