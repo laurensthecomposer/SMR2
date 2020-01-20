@@ -59,14 +59,29 @@ while True:
                 arduinoData = ser.readline().decode('ascii')
                 print(arduinoData)
 
-    if userInput == 'a':  # reverse motoru
+    if userInput == 'a':  # start all motors forwards
 
                 ser.write(b'a')
                 arduinoData = ser.readline().decode('ascii')
                 print(arduinoData)
 
 
-    if userInput == 'q':  # reverse motoru
+    if userInput == 'e':  # open blocker
+
+
+                ser.write(b'e')
+                arduinoData = ser.readline().decode('ascii')
+                print(arduinoData)
+
+    if userInput == 'i':  # close blocker
+
+
+                ser.write(b'i')
+                arduinoData = ser.readline().decode('ascii')
+                print(arduinoData)
+
+
+    if userInput == 'q':  # stop all motors
 
 
                 ser.write(b'q')
