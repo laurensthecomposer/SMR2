@@ -27,13 +27,13 @@ const int in2 = 2;
 
 // motor two
 const int enB = 5; // pwm port
-const int in3 = 7;
-const int in4 = 6;  
+const int in3 = 6;
+const int in4 = 7;  
 
 // motor three
 const int enC = 10; // pwm port
-const int in5 = 9;
-const int in6 = 8;
+const int in5 = 8;
+const int in6 = 9;
 
 int timer;
 
