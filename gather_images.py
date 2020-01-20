@@ -8,7 +8,7 @@ import sorting_robot
 
 
 # Name of folder where to save data to
-IMG_SAVE_PATH = 'dataset/image_data_new_view_data'
+IMG_SAVE_PATH = 'dataset/image_data_blue_light'
 
 REV_CLASS_MAP = {
     0: "m59557-10",
@@ -22,8 +22,8 @@ REV_CLASS_MAP = {
     8: "nas6305-10",
     9: "v647p23b"
 }
-bolt_type = REV_CLASS_MAP[6]
-num_samples = 200
+bolt_type = REV_CLASS_MAP[0]
+num_samples = 50
 count = 0
 rob_move = 0
 
@@ -61,6 +61,7 @@ while True:
     if start:
         if controller.gate_state:
             print(bolt_type, ",", count)
+            time.sleep(0.3) #prevents big bolt from bouncing
             controller.all_stop()
             time.sleep(3)
 
@@ -80,9 +81,9 @@ while True:
             controller.blocker_open()
             time.sleep(0.5)
             controller.all_forward()
-
-            time.sleep( 0.5 )  # wait until object is gone
-
+            
+            time.sleep( 0.6 )  # wait until object is gone
+            controller.blocker_close() #close gate
             # if rob_move == amount_test_bolts:
             #     controller.all_stop()
             #     rob.drop(bolt_type, pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train, train=True)

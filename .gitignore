@@ -108,3 +108,7 @@ venv.bak/
 .idea/
 
 dataset/
+
+.vs/
+
+.vscode/
