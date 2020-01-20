@@ -207,7 +207,7 @@ else if(pyInput == 'e'){ // open blocker
       Serial.println(data);
     }
 
-else if(pyInput == 'i'){ // close blocker
+else if(pyInput == 'f'){ // close blocker
       data = 17;     
       blocker.write(180);
          

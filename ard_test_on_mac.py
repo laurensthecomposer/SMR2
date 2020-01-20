@@ -73,10 +73,10 @@ while True:
                 arduinoData = ser.readline().decode('ascii')
                 print(arduinoData)
 
-    if userInput == 'i':  # close blocker
+    if userInput == 'f':  # close blocker
 
 
-                ser.write(b'i')
+                ser.write(b'f')
                 arduinoData = ser.readline().decode('ascii')
                 print(arduinoData)
 
