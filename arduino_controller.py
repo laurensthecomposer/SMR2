@@ -59,27 +59,40 @@ class Arduino( object ):
         elif arduinoData == 2: # unbroken
             return False
 
+    def convert_to_bytes(self, character):
+        return bytes( character, 'ascii' ) if type( character ) == str else bytes( character )
+
+    def write_and_get_data(self, character):
+        self.connection.write( self.convert_to_bytes(character) )
+        self.connection.flush()  # flush the writes from the buffer to the serial port
+        return self.connection.readline().decode('ascii')
+
+    def blocker_open(self):
+        self.write_and_get_data('e')
+
+    def blocker_close(self):
+        self.write_and_get_data('f')
+
+    def bulk_feeder_start(self):
+        self.write_and_get_data('x')
+
+    def bulk_feeder_stop(self):
+        self.write_and_get_data('y')
+
 
 class Belts( object ):
     def __init__(self, connection: Arduino,  forward_letter : str, stop_letter: str, reverse_letter: str ):
-        self.f = bytes(forward_letter, 'ascii')
-        self.s = bytes(stop_letter, 'ascii')
-        self.r = bytes(reverse_letter, 'ascii')
+        self.f = bytes(forward_letter, 'ascii')     # forward
+        self.s = bytes(stop_letter, 'ascii')        # stop
+        self.r = bytes(reverse_letter, 'ascii')     # reverse
         self.arduino: Arduino = connection
 
     def forward(self):
-        self.arduino.connection.write( self.f)
-        self.arduino.connection.flush()
-        arduinoData = self.arduino.connection.readline().decode('ascii')
+        arduinoData = self.arduino.write_and_get_data( self.f )
 
     def stop(self):
-        self.arduino.connection.write(self.s)
-        self.arduino.connection.flush()
-        arduinoData = self.arduino.connection.readline().decode('ascii')
+        arduinoData = self.arduino.write_and_get_data( self.s )
 
     def backwards(self):
-        self.arduino.connection.write( self.r)
-        self.arduino.connection.flush()
-        arduinoData = self.arduino.connection.readline().decode('ascii')
-
+        arduinoData = self.arduino.write_and_get_data( self.r )
 
