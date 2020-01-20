@@ -3,9 +3,12 @@
 Servo blocker;
 
 int data = 0;
-int gatePin =12;
-int loaderPin = 11;
-int blockerPin = A1;
+const int gatePin =12;
+const int bulkFeederPin = 14;
+
+const int blockerPin = 11;
+const int blockerOpen = 90;
+const int blockerClosed = 180;
 
 const int pwm_m1 = 100;
 const int pwm_m2 = 200;
@@ -37,6 +40,7 @@ int timer;
 void setup() {
   // put your setup code here, to run once:
 
+pinMode(blockerPin, OUTPUT);
 blocker.attach(11);
 
 Serial.begin(9600);
@@ -57,8 +61,7 @@ digitalWrite(gatePin, HIGH); // turn on the pullup
  pinMode(in5, OUTPUT);
  pinMode(in6, OUTPUT);
 
- pinMode(loaderPin, OUTPUT);
- pinMode(blockerPin, OUTPUT);
+ pinMode(bulkFeederPin, OUTPUT);
 
 
 }
@@ -75,12 +78,12 @@ if(Serial.available()>0){
   pyInput = Serial.read();
   
 
-    if(pyInput == 'l' && gateStatus == LOW){ // return the gate status
+    if(pyInput == 'l' && gateStatus == LOW){ // return the gate status when the light gate is broken
       data = 1;
       Serial.println(data);
 
     }
-    else if(pyInput == 'l' && gateStatus == HIGH){ // return the gate status
+    else if(pyInput == 'l' && gateStatus == HIGH){ // return the gate status when the light gate is unbroken
       data = 2;
       Serial.println(data);
     }
@@ -188,30 +191,30 @@ if(Serial.available()>0){
     }
 
 
-else if(pyInput == 'x'){ // start loader
+else if(pyInput == 'x'){ // start bulkFeeder
       data = 14;     
-      digitalWrite(loaderPin, HIGH);
+      digitalWrite(bulkFeederPin, HIGH);
          
       Serial.println(data);
     }
 
-else if(pyInput == 'y'){ // stop loader
+else if(pyInput == 'y'){ // stop bulkFeeder
       data = 15;     
-      digitalWrite(loaderPin, LOW);
+      digitalWrite(bulkFeederPin, LOW);
          
       Serial.println(data);
     }
 
 else if(pyInput == 'e'){ // open blocker
       data = 16;     
-      blocker.write(0);
+      blocker.write(blockerOpen);
          
       Serial.println(data);
     }
 
 else if(pyInput == 'f'){ // close blocker
       data = 17;     
-      blocker.write(180);
+      blocker.write(blockerClosed);
          
       Serial.println(data);
     }
