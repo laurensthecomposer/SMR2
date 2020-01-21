@@ -54,6 +54,7 @@ while True:
     controller.all_forward()
 
     if count == num_samples:
+        controller.blocker_open()
         controller.all_forward()
         time.sleep( 10 )
         controller.all_stop()
