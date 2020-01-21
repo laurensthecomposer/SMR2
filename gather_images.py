@@ -62,7 +62,7 @@ while True:
     if start:
         if controller.gate_state:
             print(bolt_type, ",", count)
-            time.sleep(0.3) #prevents big bolt from bouncing
+            time.sleep(0.1) #prevents big bolt from bouncing
             controller.all_stop()
             time.sleep(3)
 
@@ -83,7 +83,7 @@ while True:
             time.sleep(0.5)
             controller.all_forward()
             
-            time.sleep( 0.6 )  # wait until object is gone
+            time.sleep( 0.4 )  # wait until object is gone (don't go lower)
             controller.blocker_close() #close gate
             # if rob_move == amount_test_bolts:
             #     controller.all_stop()
