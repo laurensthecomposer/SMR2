@@ -12,13 +12,13 @@ succes_percentage = [0,0,0,0,0,0,0,0,0,0]
 
 bolts = sorting_robot.Bolts()
 
-REV_CLASS_MAP, model = bolts.bolts_in_model(sub_ass=2)
+REV_CLASS_MAP, model = bolts.bolts_in_model(sub_ass=1)
 
 #filepath = "Users\laure\Documents\SMR2\augmenting_image\1.jpg"
 
 
 folderpath = os.getcwd()
-main_folder = "dataset/image_data_better_camera_split"
+main_folder = "dataset/image_data_blue_light_split"
 filepath = os.path.join(folderpath, main_folder, "test")
 
 files = os.listdir(filepath)
@@ -44,7 +44,6 @@ folder = 0
 def mapper(val):
     return REV_CLASS_MAP[val]
 
-model = load_model("models/new_camera_v6_350px.h5")
 
 while folder <= amount:
     correct_amount = 0

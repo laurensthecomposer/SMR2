@@ -6,9 +6,9 @@ import shutil
 import crop_single_file
 from sklearn.model_selection import train_test_split
 
-IMG_SAVE_PATH = 'dataset/image_data_better_camera_more'
+IMG_SAVE_PATH = 'dataset/image_data_blue_light'
 
-NEW_SAVE_PATH = 'dataset/image_data_better_camera_more_split'
+NEW_SAVE_PATH = 'dataset/image_data_blue_light_split'
 
 IMG_SAVE_PATH = os.path.abspath(IMG_SAVE_PATH)
 NEW_SAVE_PATH = os.path.abspath(NEW_SAVE_PATH)
@@ -22,9 +22,9 @@ crop = {
 }
 
 split_folders = {
-    "train": 0.7,
+    "train": 0.6,
     "validate": 0.2,
-    "test": 0.1
+    "test": 0.2
 }
 
 show_example_on_first = True
