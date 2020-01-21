@@ -2,8 +2,7 @@ import arduino_controller
 import time
 
 # connect to Arduino
-controller = arduino_controller.Arduino()
-
+controller = arduino_controller.Arduino(com= '/dev/cu.usbmodem14101')
 # test the belts
 for i in range(0, 3): # loop through 0, 1, 2
     print(i)

@@ -68,7 +68,7 @@ val_it = test_datagen.flow_from_directory(
     batch_size=val_batch_size
 )
 
-amount_classes = len( os.listdir( os.path.abspath( 'dataset/image_data_better_camera_more_split/train' ) ) )
+amount_classes = len( os.listdir( os.path.abspath( 'dataset/image_data_blue_light' ) ) )
 
 
 def get_model(amount_classes):
@@ -96,11 +96,10 @@ history = model.fit_generator( train_it, steps_per_epoch=2, validation_data=val_
                                validation_steps=2, epochs=epochs, verbose=1 )
 # model.fit_generator(train_it, steps_per_epoch=10, validation_data=val_it, validation_steps=1, epochs=epochs,
 # verbose=1)
-name = 'green_tes_v3_640px.h5'
+name = 'LB_nas_only_350px.h5'
 
 # save the model for later use
 model.save( name )
 
 # score = model.evaluate(np.array(data), np.array(labels))
-
-# print(score)
+print(score)
