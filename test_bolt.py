@@ -48,6 +48,7 @@ first_df_print = True
 
 while True:
     if count == num_samples:
+        controller.blocker_open()
         controller.all_forward()
         time.sleep( 10 )
         controller.all_stop()
@@ -57,6 +58,7 @@ while True:
         controller.all_forward()
 
         if controller.gate_state:
+            time.sleep(0.1) #prevents big bolt from bouncing
             # print( 'found object, taking picture' )
             controller.all_stop()
 
@@ -75,17 +77,21 @@ while True:
             cv2.imwrite( save_path, frame )
 
             # test image to model and output bolt type
+            # Todo put in right size of final images
             bolt_type, pred, bolt_code = machine.test_img(frame, model, REV_CLASS_MAP, size=(350, 350))
 
 
 
             count += 1
-
-            time.sleep( 1 )
-
+            time.sleep(1)
+            
+            controller.blocker_open()
+            time.sleep(0.5)
             controller.all_forward()
+            time.sleep( 0.4 )  # wait until object is gone (don't go lower)
+            controller.blocker_close() #close gate
 
-            time.sleep( 0.5 )
+            time.sleep( 0.1 ) #bolt goes into robot/output
 
             controller.all_stop()
 
