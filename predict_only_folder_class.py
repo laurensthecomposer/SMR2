@@ -20,10 +20,10 @@ REV_CLASS_MAP = {
 def mapper(val):
     return REV_CLASS_MAP[val]
 
-model = load_model("models/image_data_blue_light_split_sq350_e72_tb20_vb20_aug-hor-rotran20-briran0_8;1_2).h5")
+model = load_model("tf1_test_350px.h5")
 
 # image folder
-folder_path = 'green_tes/test/nas1802-3-7'
+folder_path = 'dataset/image_data_blue_light_split/test/m59557-10'
 # path to model
 
 # dimensions of images
@@ -41,7 +41,9 @@ for img in os.listdir(folder_path):
     img = np.expand_dims(img, axis=0)
     images.append(img)
 
+np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
 # stack up images list to pass for prediction
 images = np.vstack(images)
-classes = model.predict(images, batch_size=1)
+
+classes = model.predict_classes(images, batch_size=1)
 print(classes)
