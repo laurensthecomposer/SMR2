@@ -1,4 +1,5 @@
-
+import tensorflow
+print(tensorflow.__version__)
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -25,8 +26,9 @@ REV_CLASS_MAP = {
 def mapper(val):
     return REV_CLASS_MAP[val]
 
-model = load_model("models/image_data_blue_light_split_sq350_e120_tb40_vb40_aug-hor-rotran20-briran0_8;1_2).h5")
-model.summary()
+# model = load_model(os.path.abspath("models/image_data_blue_light_split_sq350_e120_tb40_vb40_aug-hor-rotran20-briran0_8;1_2.h5"))
+model = load_model("/Users/marcdudley/Downloads/SMR2/models/image_data_blue_light_split_sq350_e120_tb40_vb40_aug-hor-rotran20-briran0_8;1_2.h5")
+# model.summary()
 
 # image folder
 folder_path = 'dataset/image_data_blue_light_split/test/'
