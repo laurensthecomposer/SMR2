@@ -45,30 +45,30 @@ test_datagen = ImageDataGenerator()
 train_batch_size = 20
 val_batch_size = 20
 roi_square_size = 350
-epochs = 4
+epochs = 1
 amount_train_images = 1296
 amount_val_images = 373
 
-epochs = int( (amount_train_images / train_batch_size) ) * 3
+#epochs = int( (amount_train_images / train_batch_size) ) * 1
 print( "epochs", epochs )
 print( "train_batch_size", train_batch_size)
 print( "val_batch_size", val_batch_size )
 
 train_it = train_datagen.flow_from_directory(
-    os.path.abspath( 'dataset/image_data_better_camera_more_split/train' ),
+    os.path.abspath( 'dataset/image_data_blue_light_split/train' ),
     target_size=(roi_square_size, roi_square_size),
     class_mode='categorical',
     batch_size=train_batch_size
 )
 
 val_it = test_datagen.flow_from_directory(
-    os.path.abspath( 'dataset/image_data_better_camera_more_split/validate' ),
+    os.path.abspath( 'dataset/image_data_blue_light_split/validate' ),
     target_size=(roi_square_size, roi_square_size),
     class_mode='categorical',
     batch_size=val_batch_size
 )
 
-amount_classes = len( os.listdir( os.path.abspath( 'dataset/image_data_blue_light' ) ) )
+amount_classes = len( os.listdir( os.path.abspath( 'dataset/image_data_blue_light_split/validate' ) ) )
 
 
 def get_model(amount_classes):
@@ -96,10 +96,10 @@ history = model.fit_generator( train_it, steps_per_epoch=2, validation_data=val_
                                validation_steps=2, epochs=epochs, verbose=1 )
 # model.fit_generator(train_it, steps_per_epoch=10, validation_data=val_it, validation_steps=1, epochs=epochs,
 # verbose=1)
-name = 'LB_nas_only_350px.h5'
+name = 'tf1_test_350px.h5'
 
 # save the model for later use
 model.save( name )
 
 # score = model.evaluate(np.array(data), np.array(labels))
-print(score)
+#print(score)
