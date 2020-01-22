@@ -5,28 +5,25 @@ import os
 
 REV_CLASS_MAP = {
 
-
-    0: "nas1802-3-6",
-    1: "nas1802-3-7",
-
-
-
-   # 0: "m59557-16",
-    #1: "m59557-20",
-    #2: "nas1802-3-7",
-    #3: "nas1802-3-9",
-    #4: "nas6305-10",
-    #5: "v647p23b",
+    0: "m59557-10",
+    1: "m59557-16",
+    2: "m59557-20",
+    3: "nas1802-3-6",
+    4: "nas1802-3-7",
+    5: "nas1802-3-8",
+    6: "nas1802-3-9",
+    7: "nas1802-4-07",
+    8: "v647p23b"
 
 }
 
 def mapper(val):
     return REV_CLASS_MAP[val]
 
-model = load_model("/Users/marcdudley/Downloads/SMR2/green_tes_v2_350px.h5")
+model = load_model("models/image_data_blue_light_split_sq350_e72_tb20_vb20_aug-hor-rotran20-briran0_8;1_2).h5")
 
 # image folder
-folder_path = '/Users/marcdudley/Downloads/SMR2/green_tes/test/nas1802-3-7'
+folder_path = 'green_tes/test/nas1802-3-7'
 # path to model
 
 # dimensions of images
