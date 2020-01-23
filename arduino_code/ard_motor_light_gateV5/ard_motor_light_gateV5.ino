@@ -4,7 +4,7 @@ Servo blocker;
 
 int data = 0;
 const int gatePin =12;
-const int bulkFeederPin = 14;
+const int bulkFeederPin = 13;
 
 const int blockerPin = 11;
 const int blockerOpen = 90;
