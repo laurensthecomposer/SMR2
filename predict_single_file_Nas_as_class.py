@@ -13,12 +13,16 @@ filepath = "/Users/marcdudley/Downloads/SMR2/green_tes/test/ms9557-16/8.jpg"
 
 REV_CLASS_MAP = {
 
-    0: "m59557-16",
-    1: "m59557-20",
-    2: "nas1802-3-7",
-    3: "nas1802-3-9",
-    4: "nas6305-10",
-    5: "v647p23b",
+         0: "m59557-10",
+         1: "m59557-16",
+         2: "m59557-20",
+         3: "nas1802-3-6",
+         4: "nas1802-3-7",
+         5: "nas1802-3-8",
+         6: "nas1802-3-9",
+         7: "nas1802-4-07",
+         8: "nas6305-10",
+         9: "v647p23b"
 }
 
 def mapper(val):
