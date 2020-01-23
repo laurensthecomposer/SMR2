@@ -3,6 +3,9 @@
 Servo blocker;
 
 int data = 0;
+bool gateStatus = 1;
+bool oldGateStatus = 1;
+bool SecondGateStatus;
 const int gatePin =12;
 const int bulkFeederPin = 13;
 
@@ -17,7 +20,6 @@ const int pwm_m3 = 255;
 char pyInput;
 int blockerVal = 0;
 
-bool gateStatus; 
 
 // connect motor controller pins to Arduino digital pins
 // motor one
@@ -73,13 +75,18 @@ void loop() {
 
 if(Serial.available()>0){
 
-
+  oldGateStatus = gateStatus;     //used for checking old gateStatus with the new one
   gateStatus = digitalRead(gatePin);
   pyInput = Serial.read();
-  
+    if(oldGateStatus == HIGH && gateStatus == LOW){ // compares if the lightgate switched from no bolt to bolt
+      SecondGateStatus = HIGH;
+      //Serial.println();
 
-    if(pyInput == 'l' && gateStatus == LOW){ // return the gate status when the light gate is broken
+    }  
+    // return the gate status when the light gate is broken, or was broken since the gate was closed
+    if((pyInput == 'l' && gateStatus == LOW)||(pyInput == 'l' && SecondGateStatus == HIGH)){ 
       data = 1;
+      SecondGateStatus = LOW;
       Serial.println(data);
 
     }
@@ -214,6 +221,7 @@ else if(pyInput == 'e'){ // open blocker
 
 else if(pyInput == 'f'){ // close blocker
       data = 17;     
+      SecondGateStatus = 0;           // set signal to check for lightgate
       blocker.write(blockerClosed);
          
       Serial.println(data);

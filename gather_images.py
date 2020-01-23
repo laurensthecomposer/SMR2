@@ -6,7 +6,6 @@ import time
 import arduino_controller
 import sorting_robot
 
-
 # Name of folder where to save data to
 IMG_SAVE_PATH = 'dataset/image_data_blue_light_more'
 
@@ -25,6 +24,7 @@ REV_CLASS_MAP = {
 bolt_type = REV_CLASS_MAP[0]
 num_samples = 120
 count = 0
+counter = 1
 rob_move = 0
 
 # amount before_move
@@ -57,14 +57,14 @@ while True:
     if count == num_samples:
         controller.blocker_open()
         controller.all_forward()
-        time.sleep( 10 )
+        time.sleep(10)
         controller.all_stop()
         controller.bulk_feeder_stop()
         break
     if start:
         if controller.gate_state:
-            print(bolt_type, ",", count)
-            time.sleep(0.1) #prevents big bolt from bouncing
+            print(bolt_type, ",", count, ",", counter)
+            time.sleep(0.1)  # prevents big bolt from bouncing
             controller.all_stop()
             time.sleep(3)
 
@@ -72,34 +72,35 @@ while True:
             ret, frame = cap.read()
             ret, frame = cap.read()
 
-            cv2.imshow( "Collecting images", frame )
+            cv2.imshow("Collecting images", frame)
             cv2.waitKey(1)
 
-            k = cv2.waitKey( 100 )
-            save_path = os.path.join( IMG_CLASS_PATH, '{}.jpg'.format( count + 1 ) )
-            cv2.imwrite( save_path, frame )
+            k = cv2.waitKey(100)
+            save_path = os.path.join(IMG_CLASS_PATH, '{}.jpg'.format(count + 1))
+            cv2.imwrite(save_path, frame)
 
             count += 1
+            counter += 1
             rob_move += 1
             controller.blocker_open()
             time.sleep(0.5)
             controller.all_forward()
-            
-            time.sleep( 0.4 )  # wait until object is gone (don't go lower)
-            controller.blocker_close() #close gate
+
+            time.sleep(0.4)  # wait until object is gone (don't go lower)
+            controller.blocker_close()  # close gate
             # if rob_move == amount_test_bolts:
             #     controller.all_stop()
             #     rob.drop(bolt_type, pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train, train=True)
             #     controller.all_forward()
-                # rob_move = 0
+            # rob_move = 0
 
-    k = cv2.waitKey( 1 )
+    k = cv2.waitKey(1)
 
-    if k == ord( 'q' ): # Exit program
+    if k == ord('q'):  # Exit program
         controller.all_stop()
         controller.bulk_feeder_stop()
         break
 
-print( "\n{} image(s) saved in {}".format( count, IMG_CLASS_PATH ) )
+print("\n{} image(s) saved in {}".format(count, IMG_CLASS_PATH))
 cap.release()
 cv2.destroyAllWindows()
