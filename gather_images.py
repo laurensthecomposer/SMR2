@@ -7,7 +7,7 @@ import arduino_controller
 import sorting_robot
 
 # Name of folder where to save data to
-IMG_SAVE_PATH = 'dataset/image_data_blue_light'
+IMG_SAVE_PATH = 'dataset/image_data_blue_light_more'
 
 REV_CLASS_MAP = {
     0: "m59557-10",
@@ -22,7 +22,7 @@ REV_CLASS_MAP = {
     9: "v647p23b"
 }
 bolt_type = REV_CLASS_MAP[0]
-num_samples = 50
+num_samples = 120
 count = 0
 counter = 1
 rob_move = 0
@@ -49,6 +49,7 @@ cap = machine.set_camera()
 # Start gather images on booth
 start = True
 print("Collecting test data started.")
+controller.bulk_feeder_start()
 
 while True:
     controller.all_forward()
@@ -58,6 +59,7 @@ while True:
         controller.all_forward()
         time.sleep(10)
         controller.all_stop()
+        controller.bulk_feeder_stop()
         break
     if start:
         if controller.gate_state:
@@ -96,6 +98,7 @@ while True:
 
     if k == ord('q'):  # Exit program
         controller.all_stop()
+        controller.bulk_feeder_stop()
         break
 
 print("\n{} image(s) saved in {}".format(count, IMG_CLASS_PATH))

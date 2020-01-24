@@ -7,7 +7,7 @@ bool gateStatus = 1;
 bool oldGateStatus = 1;
 bool SecondGateStatus;
 const int gatePin =12;
-const int bulkFeederPin = 14;
+const int bulkFeederPin = 13;
 
 const int blockerPin = 11;
 const int blockerOpen = 90;
