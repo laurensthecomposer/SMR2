@@ -7,12 +7,12 @@ from ui_bolts import Ui_MainWindow
 from cv2 import cv2
 
 from PySide2.QtCore import Signal, Slot
-
+import ueye_camera
 class Thread(QThread):
     changePixmap = Signal(QImage)
 
     def run(self):
-        cap = cv2.VideoCapture(0)
+        cap = ueye_camera.UeyeCameraCapture(1)
         while True:
             ret, frame = cap.read()
             if ret:
@@ -37,7 +37,7 @@ class App(QWidget):
         # self.setWindowTitle(self.title)
 
         # self.setGeometry(self.left, self.top, self.width, self.height)
-        self.resize(1800, 1200)
+        self.resize(1000, 1000)
         # create a label
         self.label = QLabel(self)
         self.label.move(280, 120)
