@@ -14,7 +14,6 @@ class MainWindow(QMainWindow):
         self.ui.next_button.clicked.connect(self.goToNext)
         self.ui.prev_button.setEnabled(True)
         self.ui.prev_button.clicked.connect(self.goToPrev)
-        print(self.ui.stackedWidget.)
 
     def goToNext(self):
         index = self.ui.stackedWidget.currentIndex()

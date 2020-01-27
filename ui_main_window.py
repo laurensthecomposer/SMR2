@@ -24,17 +24,17 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.pushButton_2 = QPushButton(self.centralwidget)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setEnabled(False)
+        self.prev_button = QPushButton(self.centralwidget)
+        self.prev_button.setObjectName(u"prev_button")
+        self.prev_button.setEnabled(False)
 
-        self.gridLayout.addWidget(self.pushButton_2, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.prev_button, 1, 0, 1, 1)
 
-        self.pushButton_3 = QPushButton(self.centralwidget)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setEnabled(False)
+        self.next_button = QPushButton(self.centralwidget)
+        self.next_button.setObjectName(u"next_button")
+        self.next_button.setEnabled(False)
 
-        self.gridLayout.addWidget(self.pushButton_3, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.next_button, 1, 1, 1, 1)
 
         self.stackedWidget = QStackedWidget(self.centralwidget)
         self.stackedWidget.setObjectName(u"stackedWidget")
@@ -415,8 +415,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Previous <<", None))
-        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Next >>", None))
+        self.prev_button.setText(QCoreApplication.translate("MainWindow", u"Previous <<", None))
+        self.next_button.setText(QCoreApplication.translate("MainWindow", u"Next >>", None))
         self.title.setText(QCoreApplication.translate("MainWindow", u"System Check", None))
         self.checkBox.setText(QCoreApplication.translate("MainWindow", u"The machine is empty", None))
         self.checkBox_2.setText(QCoreApplication.translate("MainWindow", u"The bins are empty", None))
