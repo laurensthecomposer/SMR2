@@ -12,8 +12,8 @@ class MachineController(object):
         # Name of folder where to save data to
         self.IMG_SAVE_PATH = 'dataset/image_test'
         self.bolt_type_path = start_time.strftime("%Y%m%d_%H%M")
-        self.machine = sorting_robot.SortingMachine()
-        self.data = sorting_robot.Bolts()
+        print("self.machine = sorting_robot.SortingMachine()")
+        print("self.data = sorting_robot.Bolts()")
         self.crop_dim = {
             "pos_x": 520,
             "pos_y": 200,
@@ -23,28 +23,13 @@ class MachineController(object):
         self.model_img_size = (550, 550)
 
     def connect_arduino(self):
-        try:
-            self.arduino = arduino_controller.Arduino()
-            return True
-        except:
-            print("arduinofalse")
-            return False
+        return True
 
     def connect_camera(self):
-        try:
-            self.camera = self.machine.set_camera()
-            return True
-        except:
-            print("camerafalse")
-            return False
+        return True
 
     def connect_robot(self):
-        try:
-            self.rob = sorting_robot.Robot()
-            return True
-        except:
-            print("robotfalse")
-            return False
+        return True
 
     def data_startup(self):
         self.count, _, self.IMG_CLASS_PATH = self.machine.save_pictures(self.IMG_SAVE_PATH, self.bolt_type_path, 0)
@@ -52,6 +37,7 @@ class MachineController(object):
         self.model = load_model(self.file_path)
 
     def machine_startup(self):
+        print("")
         self.rob.startup(self.arduino)
         self.arduino.blocker_close()
         time.sleep(0.5)
