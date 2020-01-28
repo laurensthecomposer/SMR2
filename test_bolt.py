@@ -62,14 +62,13 @@ while True:
         controller.all_forward()
 
         if controller.gate_state:
-            time.sleep(0.1) #prevents big bolt from bouncing
+            time.sleep(0.1) # prevents big bolt from bouncing
             # print( 'found object, taking picture' )
             controller.all_stop()
-
+            controller.bulk_feeder_stop()
             time.sleep( 4 )
             ret, frame = cap.read()
             ret, frame = cap.read()
-            time.sleep( 2 )
 
             # show image
             cv2.imshow( "Collecting images", frame )
@@ -87,8 +86,7 @@ while True:
 
 
             count += 1
-            time.sleep(1)
-            
+
             controller.blocker_open()
             time.sleep(0.5)
             controller.all_forward()
@@ -109,10 +107,9 @@ while True:
                 first_df_print = False
             logger.print_latest()
             print(pred)
-            controller.bulk_feeder_stop()
             rob.drop(controller, bolt_type)
             controller.bulk_feeder_start()
-            qq
+
             # print( "Dropped: ", bolt_type )
             # print( "Accuracy: ", pred )
 
