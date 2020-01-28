@@ -17,7 +17,8 @@ int pos = 0;    // variable to store the servo position
 int onoff_signal = 6;// 
 int = binSignal = 2;
 
-
+int i = 0;
+int j = 0;
 
 void setup() {
   pinMode(onoff_signal, INPUT);
@@ -31,18 +32,24 @@ void setup() {
 void loop() {
 Serial.println(digitalRead(onoff_signal));
 if (digitalRead(onoff_signal) == HIGH){
-  for (pos = 0; pos <= 160; pos++) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    Serial.println(pos);
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(60);                       // waits 15ms for the servo to reach the position
+    if (i <= 160){
+        Serial.println(i);
+        myservo.write(i);              // tell servo to go to position in variable 'pos'
+        delay(60);                       // waits 15ms for the servo to reach the position
+        i += 1;
+        j += 1;
+        if (i == 160){
+            i = 0;
+        }
     }
-  for (pos = 160; pos >= 0; pos--) { // goes from 180 degrees to 0 degrees
-    
-    Serial.println(pos);
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(10);                       // waits 15ms for the servo to reach the position
+    if (j >= 160){
+        Serial.println(j - i);
+        myservo.write(j - i);              // tell servo to go to position in variable 'pos'
+        delay(10);                       // waits 15ms for the servo to reach the position
+        if ((j - i)<= 0 )
+            j = 0;
+            i = 0;
+            delay(1000);
+         }
     }
-  delay(1000);
-  }
 }
