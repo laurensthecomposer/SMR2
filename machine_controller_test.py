@@ -59,7 +59,7 @@ class MachineController(object):
 
     def img_capture(self):
         self.frame = cv2.imread("dataset/image_data_blue_light_more/nas1802-3-7/16.jpg")
-        return self.frame
+        return True, self.frame
 
     def img_processing(self, frame):
         crop_img = self.crop(frame, self.crop_dim['pos_x'], self.crop_dim['pos_y'], self.crop_dim['width'], self.crop_dim['height'])

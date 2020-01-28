@@ -19,7 +19,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1102, 769)
+        MainWindow.resize(1102, 1041)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
@@ -139,11 +139,6 @@ class Ui_MainWindow(object):
         self.page_subassembly_overview.setObjectName(u"page_subassembly_overview")
         self.gridLayout_3 = QGridLayout(self.page_subassembly_overview)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.title_4 = QLabel(self.page_subassembly_overview)
-        self.title_4.setObjectName(u"title_4")
-
-        self.gridLayout_3.addWidget(self.title_4, 0, 2, 1, 1)
-
         self.selected_title_2 = QLabel(self.page_subassembly_overview)
         self.selected_title_2.setObjectName(u"selected_title_2")
 
@@ -230,6 +225,11 @@ class Ui_MainWindow(object):
         self.tableWidget.verticalHeader().setStretchLastSection(False)
 
         self.gridLayout_3.addWidget(self.tableWidget, 2, 0, 1, 3)
+
+        self.title_4 = QLabel(self.page_subassembly_overview)
+        self.title_4.setObjectName(u"title_4")
+
+        self.gridLayout_3.addWidget(self.title_4, 0, 0, 1, 3)
 
         self.stackedWidget.addWidget(self.page_subassembly_overview)
         self.page_machine = QWidget()
@@ -357,7 +357,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_img_camera.sizePolicy().hasHeightForWidth())
         self.label_img_camera.setSizePolicy(sizePolicy)
-        self.label_img_camera.setMinimumSize(QSize(320, 256))
+        self.label_img_camera.setMinimumSize(QSize(480, 384))
         self.label_img_camera.setFrameShape(QFrame.Box)
 
         self.verticalLayout_3.addWidget(self.label_img_camera)
@@ -373,7 +373,7 @@ class Ui_MainWindow(object):
         self.label_img_bolt.setObjectName(u"label_img_bolt")
         sizePolicy.setHeightForWidth(self.label_img_bolt.sizePolicy().hasHeightForWidth())
         self.label_img_bolt.setSizePolicy(sizePolicy)
-        self.label_img_bolt.setMinimumSize(QSize(320, 256))
+        self.label_img_bolt.setMinimumSize(QSize(480, 384))
         self.label_img_bolt.setFrameShape(QFrame.Box)
 
         self.verticalLayout_3.addWidget(self.label_img_bolt)
@@ -455,7 +455,6 @@ class Ui_MainWindow(object):
         self.selected_status.setText(QCoreApplication.translate("MainWindow", u"engine/subassembly", None))
         self.title_3.setText(QCoreApplication.translate("MainWindow", u"Select subassembly", None))
         self.search_title.setText(QCoreApplication.translate("MainWindow", u"Search:", None))
-        self.title_4.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.selected_title_2.setText(QCoreApplication.translate("MainWindow", u"Selected engine/subassembly", None))
         self.selected_status_2.setText(QCoreApplication.translate("MainWindow", u"engine/subassembly", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
@@ -527,6 +526,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem31.setText(QCoreApplication.translate("MainWindow", u"10", None));
         self.tableWidget.setSortingEnabled(__sortingEnabled1)
 
+        self.title_4.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.selected_title_3.setText(QCoreApplication.translate("MainWindow", u"selected engine/subassembly:", None))
         self.selected_status_3.setText(QCoreApplication.translate("MainWindow", u"engine/subassembly", None))
         ___qtablewidgetitem32 = self.tableWidget_2.horizontalHeaderItem(0)
