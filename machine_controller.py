@@ -3,13 +3,15 @@ import arduino_controller
 from keras.models import load_model
 import os, time
 import cv2.cv2 as cv2
+from datetime import date, datetime
 
 
 class MachineController(object):
     def __init__(self):
+        start_time = datetime.now()
         # Name of folder where to save data to
         self.IMG_SAVE_PATH = 'dataset/image_test'
-        self.bolt_type_path = "test_bolts"
+        self.bolt_type_path = start_time.strftime("%Y%m%d_%H%M")
         self.machine = sorting_robot.SortingMachine()
         self.data = sorting_robot.Bolts()
         self.crop_dim = {
@@ -107,8 +109,9 @@ class MachineController(object):
 
 
 
-# if __name__ == "__main__":
-#     machine = MachineController()
-#     machine.connect_camera()
-#     machine.connect_arduino()
-#     machine.connect_robot()
+if __name__ == "__main__":
+    machine = MachineController()
+    machine.connect_camera()
+    machine.connect_arduino()
+    machine.connect_robot()
+    machine.data_startup()

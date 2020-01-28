@@ -50,13 +50,13 @@ controller.bulk_feeder_start()
 controller.blocker_close()
 
 while True:
-    if count == num_samples:
-        controller.blocker_open()
-        controller.all_forward()
-        controller.bulk_feeder_stop()
-        time.sleep( 10 )
-        controller.all_stop()
-        break
+    # if count == num_samples:
+    #     controller.blocker_open()
+    #     controller.all_forward()
+    #     controller.bulk_feeder_stop()
+    #     time.sleep( 10 )
+    #     controller.all_stop()
+    #     break
 
     if start:
         controller.all_forward()
@@ -71,8 +71,8 @@ while True:
             ret, frame = cap.read()
 
             # show image
-            cv2.imshow( "Collecting images", frame )
-            k = cv2.waitKey( 100 )
+            # cv2.imshow( "Collecting images", frame )
+            # k = cv2.waitKey( 100 )
 
             # save image
             filename = '{}.jpg'.format( count + 1 )
