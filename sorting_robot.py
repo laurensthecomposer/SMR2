@@ -16,9 +16,11 @@ class Robot(urx.Robot):
         self.tcp = (0, 0, 0, 0, 0, 0)
         self.set_payload(0.5, (0, 0, 0))  # Set payload for joints
         time.sleep(0.2)  # leave some time to robot to process the setup commands
+        self.arduino = arduino_controller.Arduino()
+        self.arduino.bin_closed()
         drop_loc = [-0.36631595075034457, 0.010530619638235254, 0.11319565764023887, -1.1743545255671206, 2.873501497878966, -0.07976037840156265]
         self.movel(drop_loc, 0.01, 0.1)
-        self.arduino = arduino_controller.Arduino()
+
 
     def move_joint(self, joint_index, degrees, acc=0.05, vel=0.5):
         # print(degrees)

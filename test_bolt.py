@@ -47,7 +47,6 @@ logger = logger_csv.Logger(column_names, IMG_SAVE_PATH, 'test_log.csv' )
 first_df_print = True
 controller.bulk_feeder_start()
 controller.blocker_close()
-controller.bin_closed()
 
 while True:
     if count == num_samples:
