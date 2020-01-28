@@ -9,17 +9,21 @@
 
 #include <Servo.h>
 
-Servo myservo;  // create servo object to control a servo
+Servo myservo; 
+Servo bin// create servo object to control a servo
 // twelve servo objects can be created on most boards
 
 int pos = 0;    // variable to store the servo position
 int onoff_signal = 6;// 
+int = binSignal = 2;
 
 
 
 void setup() {
   pinMode(onoff_signal, INPUT);
+  pinMode(binSignal, INPUT);
   myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  bin.attach(10);
 
   Serial.begin(9600);
 }

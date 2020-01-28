@@ -80,6 +80,19 @@ while True:
                 arduinoData = ser.readline().decode('ascii')
                 print(arduinoData)
 
+    if userInput == 'b':  # open bin
+
+
+                ser.write(b'b')
+                arduinoData = ser.readline().decode('ascii')
+                print(arduinoData)
+
+    if userInput == 'c':  # close bin
+
+                ser.write(b'c')
+                arduinoData = ser.readline().decode('ascii')
+                print(arduinoData)
+
 
     if userInput == 'q':  # stop all motors
 
