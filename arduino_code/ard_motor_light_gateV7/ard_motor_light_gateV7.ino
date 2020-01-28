@@ -17,7 +17,7 @@ const int blockerClosed = 180;
 const int binOpen = 120;
 const int binClosed = 255;
 
-const int pwm_m1 = 100;
+const int pwm_m1 = 75;
 const int pwm_m2 = 200;
 const int pwm_m3 = 255;
 
