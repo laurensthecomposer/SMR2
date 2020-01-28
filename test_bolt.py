@@ -21,6 +21,7 @@ controller = arduino_controller.Arduino()
 
 # Connect to robot & machine
 rob = sorting_robot.Robot()
+rob.startup(controller)
 machine = sorting_robot.SortingMachine()
 
 
@@ -94,13 +95,11 @@ while True:
             time.sleep( 0.4 )  # wait until object is gone (don't go lower)
             controller.blocker_close() #close gate
 
-            time.sleep( 0.1 ) #bolt goes into robot/output
+            time.sleep( 0.4 ) #bolt goes into robot/output
 
             controller.all_stop()
 
             # Todo turn on for bolt drop
-            rob.drop(bolt_type)
-
             positive = (bolt_type_path == bolt_type)
             arr = [IMG_CLASS_PATH, filename, positive, bolt_type_path, bolt_type, pred]
             logger.append(arr)
@@ -110,7 +109,10 @@ while True:
                 first_df_print = False
             logger.print_latest()
             print(pred)
-
+            controller.bulk_feeder_stop()
+            rob.drop(controller, bolt_type)
+            controller.bulk_feeder_start()
+            qq
             # print( "Dropped: ", bolt_type )
             # print( "Accuracy: ", pred )
 

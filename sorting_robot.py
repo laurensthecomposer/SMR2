@@ -16,8 +16,9 @@ class Robot(urx.Robot):
         self.tcp = (0, 0, 0, 0, 0, 0)
         self.set_payload(0.5, (0, 0, 0))  # Set payload for joints
         time.sleep(0.2)  # leave some time to robot to process the setup commands
-        self.arduino = arduino_controller.Arduino()
-        self.arduino.bin_closed()
+
+    def startup(self, arduino):
+        arduino.bin_closed()
         drop_loc = [-0.36631595075034457, 0.010530619638235254, 0.11319565764023887, -1.1743545255671206, 2.873501497878966, -0.07976037840156265]
         self.movel(drop_loc, 0.01, 0.1)
 
@@ -28,7 +29,7 @@ class Robot(urx.Robot):
         a[joint_index] = math.radians(degrees)
         super().movej(a, acc, vel)
 
-    def drop(self, bolt_type="", acc=0.02, vel=0.2):
+    def drop(self, arduino, bolt_type="", acc=0.02, vel=0.2):
         # drop locations
         m5955710 = [-0.32504072318747923, -0.39318955109641723, 0.18666989850907775, 2.8428185625446596, -1.1824626229075792, -2.5769697464202658e-05]
         m5955716 = [-0.2165225007215927, -0.4138486562860415, 0.17576298309224656, 2.824796585196249, -1.207647475705301, 0.015021960712533795]
@@ -68,9 +69,9 @@ class Robot(urx.Robot):
             self.movel(nas1802407, acc, vel)
         elif bolt_type == "v647p23b":
             self.movel(v647p23b, acc, vel)
-        self.arduino.bin_open()
+        arduino.bin_open()
         time.sleep(0.5)
-        self.arduino.bin_closed()
+        arduino.bin_closed()
         self.movel(safe_pos, acc, vel)
         self.movel(drop_loc, acc, vel)
 
