@@ -58,28 +58,28 @@ class UeyeCameraCapture( object ):
         self.m_nColorMode = ueye.INT()  # Y8/RGB16/RGB24/REG32
         self.bytes_per_pixel = int( self.nBitsPerPixel / 8 )
         # ---------------------------------------------------------------------------------------------------------------------------------------
-        print( "START" )
-        print()
+        # print( "START" )
+        # print()
 
         # Starts the driver and establishes the connection to the camera
         self.nRet = ueye.is_InitCamera( self.hCam, None )
         if self.nRet != ueye.IS_SUCCESS:
-            print( "is_InitCamera ERROR" )
+            raise Exception( "is_InitCamera ERROR" )
 
         # Reads out the data hard-coded in the non-volatile camera memory and writes it to the data structure that self.cInfo
         # points to
         self.nRet = ueye.is_GetCameraInfo( self.hCam, self.cInfo )
         if self.nRet != ueye.IS_SUCCESS:
-            print( "is_GetCameraInfo ERROR" )
+            raise Exception( "is_GetCameraInfo ERROR" )
 
         # You can query additional information about the sensor type used in the camera
         self.nRet = ueye.is_GetSensorInfo( self.hCam, self.sInfo )
         if self.nRet != ueye.IS_SUCCESS:
-            print( "is_GetSensorInfo ERROR" )
+            raise Exception( "is_GetSensorInfo ERROR" )
 
         self.nRet = ueye.is_ResetToDefault( self.hCam )
         if self.nRet != ueye.IS_SUCCESS:
-            print( "is_ResetToDefault ERROR" )
+            raise Exception( "is_ResetToDefault ERROR" )
 
         # Set display mode to DIB
         self.nRet = ueye.is_SetDisplayMode( self.hCam, ueye.IS_SET_DM_DIB )
@@ -127,7 +127,7 @@ class UeyeCameraCapture( object ):
         # Can be used to set the size and position of an "area of interest"(AOI) within an image
         self.nRet = ueye.is_AOI( self.hCam, ueye.IS_AOI_IMAGE_GET_AOI, self.rectAOI, ueye.sizeof( self.rectAOI ) )
         if self.nRet != ueye.IS_SUCCESS:
-            print( "is_AOI ERROR" )
+            raise Exception( "is_AOI ERROR" )
 
         self.width = self.rectAOI.s32Width
         self.height = self.rectAOI.s32Height
@@ -145,12 +145,12 @@ class UeyeCameraCapture( object ):
         # defined by nBitsPerPixel
         self.nRet = ueye.is_AllocImageMem( self.hCam, self.width, self.height, self.nBitsPerPixel, self.pcImageMemory, self.MemID )
         if self.nRet != ueye.IS_SUCCESS:
-            print( "is_AllocImageMem ERROR" )
+            raise Exception( "is_AllocImageMem ERROR" )
         else:
             # Makes the specified image memory the active memory
             self.nRet = ueye.is_SetImageMem( self.hCam, self.pcImageMemory, self.MemID )
             if self.nRet != ueye.IS_SUCCESS:
-                print( "is_SetImageMem ERROR" )
+                raise Exception( "is_SetImageMem ERROR" )
             else:
                 # Set the desired color mode
                 self.nRet = ueye.is_SetColorMode( self.hCam, self.m_nColorMode )
@@ -158,12 +158,12 @@ class UeyeCameraCapture( object ):
         # Activates the camera's live video mode (free run mode)
         self.nRet = ueye.is_CaptureVideo( self.hCam, ueye.IS_DONT_WAIT )
         if self.nRet != ueye.IS_SUCCESS:
-            print( "is_CaptureVideo ERROR" )
+            raise Exception("is_CaptureVideo ERROR" )
 
         # Enables the queue mode for existing image memory sequences
         self.nRet = ueye.is_InquireImageMem( self.hCam, self.pcImageMemory, self.MemID, self.width, self.height, self.nBitsPerPixel, self.pitch )
         if self.nRet != ueye.IS_SUCCESS:
-            print( "is_InquireImageMem ERROR" )
+            raise Exception("is_InquireImageMem ERROR" )
         else:
             print( "Camera Connection success")
         # ---------------------------------------------------------------------------------------------------------------------------------------

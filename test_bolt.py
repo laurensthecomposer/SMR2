@@ -20,11 +20,11 @@ rob_move = 0
 controller = arduino_controller.Arduino()
 
 # Connect to robot & machine
-# rob = sorting_robot.Robot()
+rob = sorting_robot.Robot()
+rob.startup(controller)
 machine = sorting_robot.SortingMachine()
 
-# Calculate robot coordinates
-# pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train = rob.get_waypoints()
+
 
 # Set save path
 count, num_samples, IMG_CLASS_PATH = machine.save_pictures( IMG_SAVE_PATH, bolt_type_path, num_samples )
@@ -40,36 +40,39 @@ model = load_model( file_path )
 # Start machine
 start = True
 
+np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
+
 # setup pandas dataframe
 column_names = ['foldername', 'filename', 'positive[T/F]', 'real_class', 'pred_class', 'pred_array']
 logger = logger_csv.Logger(column_names, IMG_SAVE_PATH, 'test_log.csv' )
 first_df_print = True
-
+controller.bulk_feeder_start()
+controller.blocker_close()
 
 while True:
-    if count == num_samples:
-        controller.blocker_open()
-        controller.all_forward()
-        time.sleep( 10 )
-        controller.all_stop()
-        break
+    # if count == num_samples:
+    #     controller.blocker_open()
+    #     controller.all_forward()
+    #     controller.bulk_feeder_stop()
+    #     time.sleep( 10 )
+    #     controller.all_stop()
+    #     break
 
     if start:
         controller.all_forward()
 
         if controller.gate_state:
-            time.sleep(0.1) #prevents big bolt from bouncing
+            time.sleep(0.1) # prevents big bolt from bouncing
             # print( 'found object, taking picture' )
             controller.all_stop()
-
+            controller.bulk_feeder_stop()
             time.sleep( 4 )
             ret, frame = cap.read()
             ret, frame = cap.read()
-            time.sleep( 2 )
 
             # show image
-            cv2.imshow( "Collecting images", frame )
-            k = cv2.waitKey( 100 )
+            # cv2.imshow( "Collecting images", frame )
+            # k = cv2.waitKey( 100 )
 
             # save image
             filename = '{}.jpg'.format( count + 1 )
@@ -78,26 +81,23 @@ while True:
 
             # test image to model and output bolt type
             # Todo put in right size of final images
-            bolt_type, pred, bolt_code = machine.test_img(frame, model, REV_CLASS_MAP, size=(350, 350))
+            bolt_type, pred, bolt_code = machine.test_img(frame, model, REV_CLASS_MAP, size=(550, 550))
 
 
 
             count += 1
-            time.sleep(1)
-            
+
             controller.blocker_open()
             time.sleep(0.5)
             controller.all_forward()
             time.sleep( 0.4 )  # wait until object is gone (don't go lower)
             controller.blocker_close() #close gate
 
-            time.sleep( 0.1 ) #bolt goes into robot/output
+            time.sleep( 0.4 ) #bolt goes into robot/output
 
             controller.all_stop()
 
             # Todo turn on for bolt drop
-            # rob.drop(bolt_type, pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train, train=False)
-
             positive = (bolt_type_path == bolt_type)
             arr = [IMG_CLASS_PATH, filename, positive, bolt_type_path, bolt_type, pred]
             logger.append(arr)
@@ -106,6 +106,9 @@ while True:
                 logger.print_header()
                 first_df_print = False
             logger.print_latest()
+            print(pred)
+            rob.drop(controller, bolt_type)
+            controller.bulk_feeder_start()
 
             # print( "Dropped: ", bolt_type )
             # print( "Accuracy: ", pred )
@@ -113,6 +116,7 @@ while True:
     k = cv2.waitKey( 1 )
 
     if k == ord( 'q' ):
+        controller.bulk_feeder_stop()
         controller.all_stop()
         break
 

@@ -86,6 +86,7 @@ class Arduino( object ):
         self.write_and_get_data('c')
 
 
+
 class Belts( object ):
     def __init__(self, connection: Arduino,  forward_letter : str, stop_letter: str, reverse_letter: str ):
         self.f = bytes(forward_letter, 'ascii')     # forward
