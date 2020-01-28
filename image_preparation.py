@@ -6,9 +6,9 @@ import shutil
 import crop_single_file
 from sklearn.model_selection import train_test_split
 
-IMG_SAVE_PATH = 'dataset/image_data_blue_light'
+IMG_SAVE_PATH = 'dataset/image_data_blue_light_band'
 
-NEW_SAVE_PATH = 'dataset/image_data_blue_light_split'
+NEW_SAVE_PATH = 'dataset/image_data_blue_light_band_split'
 
 IMG_SAVE_PATH = os.path.abspath(IMG_SAVE_PATH)
 NEW_SAVE_PATH = os.path.abspath(NEW_SAVE_PATH)

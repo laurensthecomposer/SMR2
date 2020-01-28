@@ -20,11 +20,10 @@ rob_move = 0
 controller = arduino_controller.Arduino()
 
 # Connect to robot & machine
-# rob = sorting_robot.Robot()
+rob = sorting_robot.Robot()
 machine = sorting_robot.SortingMachine()
 
-# Calculate robot coordinates
-# pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train = rob.get_waypoints()
+
 
 # Set save path
 count, num_samples, IMG_CLASS_PATH = machine.save_pictures( IMG_SAVE_PATH, bolt_type_path, num_samples )
@@ -40,16 +39,21 @@ model = load_model( file_path )
 # Start machine
 start = True
 
+np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
+
 # setup pandas dataframe
 column_names = ['foldername', 'filename', 'positive[T/F]', 'real_class', 'pred_class', 'pred_array']
 logger = logger_csv.Logger(column_names, IMG_SAVE_PATH, 'test_log.csv' )
 first_df_print = True
-
+controller.bulk_feeder_start()
+controller.blocker_close()
+controller.bin_closed()
 
 while True:
     if count == num_samples:
         controller.blocker_open()
         controller.all_forward()
+        controller.bulk_feeder_stop()
         time.sleep( 10 )
         controller.all_stop()
         break
@@ -78,7 +82,7 @@ while True:
 
             # test image to model and output bolt type
             # Todo put in right size of final images
-            bolt_type, pred, bolt_code = machine.test_img(frame, model, REV_CLASS_MAP, size=(350, 350))
+            bolt_type, pred, bolt_code = machine.test_img(frame, model, REV_CLASS_MAP, size=(550, 550))
 
 
 
@@ -96,7 +100,7 @@ while True:
             controller.all_stop()
 
             # Todo turn on for bolt drop
-            # rob.drop(bolt_type, pickup_point, safe_pos, table_clear, pre_drop, zy_train, x_train, train=False)
+            rob.drop(bolt_type)
 
             positive = (bolt_type_path == bolt_type)
             arr = [IMG_CLASS_PATH, filename, positive, bolt_type_path, bolt_type, pred]
@@ -106,6 +110,7 @@ while True:
                 logger.print_header()
                 first_df_print = False
             logger.print_latest()
+            print(pred)
 
             # print( "Dropped: ", bolt_type )
             # print( "Accuracy: ", pred )
@@ -113,6 +118,7 @@ while True:
     k = cv2.waitKey( 1 )
 
     if k == ord( 'q' ):
+        controller.bulk_feeder_stop()
         controller.all_stop()
         break
 
