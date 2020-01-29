@@ -64,8 +64,8 @@ class CameraThread(QThread):
     changePixmap = Signal(QImage)
 
     def run(self):
-        # cap = ueye_camera.UeyeCameraCapture(1)
-        cap = cv2.VideoCapture(0)
+        cap = ueye_camera.UeyeCameraCapture(1)
+        # cap = cv2.VideoCapture(0)
         while True:
             ret, frame = cap.read()
             if ret:
@@ -140,6 +140,7 @@ class MainWindow(QMainWindow):
     @Slot(QImage)
     def setImage(self, image):
         self.ui.label_img_camera.setPixmap(QPixmap.fromImage(image))
+        self.ui.label_img_bolt.setPixmap(QPixmap.fromImage(image).scaled(self.ui.label_img_bolt.size(),aspectMode=Qt.KeepAspectRatio))
 
     @Slot(np.ndarray)
     def setBoltFrame(self, frame): # np array
@@ -183,7 +184,7 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.currentChanged.connect(self.handlePageChange)
 
         # set connect as first page
-        self.ui.stackedWidget.setCurrentIndex(self.page_index['page_select_subassembly'])
+        self.ui.stackedWidget.setCurrentIndex(self.page_index['page_machine'])
 
         self.setupConnect()
 

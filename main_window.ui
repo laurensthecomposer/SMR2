@@ -38,7 +38,7 @@
     <item row="0" column="0" colspan="2">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="page_connect">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -119,10 +119,28 @@
       </widget>
       <widget class="QWidget" name="page_select_subassembly">
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="search_box"/>
+        <item row="2" column="1">
+         <widget class="QLabel" name="selected_status">
+          <property name="text">
+           <string>engine/subassembly</string>
+          </property>
+         </widget>
         </item>
-        <item row="2" column="0" colspan="2">
+        <item row="0" column="0" colspan="2">
+         <widget class="QLabel" name="title_3">
+          <property name="text">
+           <string>Select subassembly</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="selected_title">
+          <property name="text">
+           <string>Selected engine/subassembly:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
          <widget class="QTreeWidget" name="treeWidget">
           <property name="animated">
            <bool>true</bool>
@@ -189,34 +207,6 @@
             </property>
            </item>
           </item>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="selected_title">
-          <property name="text">
-           <string>Selected engine/subassembly:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="selected_status">
-          <property name="text">
-           <string>engine/subassembly</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" colspan="2">
-         <widget class="QLabel" name="title_3">
-          <property name="text">
-           <string>Select subassembly</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="search_title">
-          <property name="text">
-           <string>Search:</string>
-          </property>
          </widget>
         </item>
        </layout>
@@ -426,29 +416,61 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="3" column="0">
-           <widget class="QLabel" name="selected_title_3">
+          <item row="0" column="1">
+           <widget class="QPushButton" name="stop_machine_button">
             <property name="text">
-             <string>selected engine/subassembly:</string>
+             <string>stop</string>
             </property>
            </widget>
           </item>
-          <item row="5" column="0" colspan="2">
+          <item row="2" column="0" colspan="2">
            <widget class="QProgressBar" name="progressBar">
             <property name="value">
              <number>0</number>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
+          <item row="1" column="1">
            <widget class="QLabel" name="selected_status_3">
             <property name="text">
              <string>XEN/X99</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="0" colspan="2">
+          <item row="0" column="0">
+           <widget class="QPushButton" name="start_machine_button">
+            <property name="text">
+             <string>start sorting machine</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="selected_title_3">
+            <property name="text">
+             <string>selected engine/subassembly:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="2">
            <widget class="QTableWidget" name="tableWidget_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>350</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>400</height>
+             </size>
+            </property>
             <property name="alternatingRowColors">
              <bool>true</bool>
             </property>
@@ -628,32 +650,7 @@
             </item>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QPushButton" name="start_machine_button">
-            <property name="text">
-             <string>start sorting machine</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QPushButton" name="stop_machine_button">
-            <property name="text">
-             <string>stop</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="Line" name="line_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
+          <item row="4" column="0" colspan="2">
            <widget class="QLabel" name="label_img_camera">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -675,17 +672,14 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="Line" name="line">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
            <widget class="QLabel" name="label_img_bolt">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -707,7 +701,7 @@
           <item>
            <widget class="QLabel" name="detected_bolt_type">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>

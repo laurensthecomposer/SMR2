@@ -228,21 +228,31 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.gridLayout_4 = QGridLayout()
         self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.selected_title_3 = QLabel(self.page_machine)
-        self.selected_title_3.setObjectName(u"selected_title_3")
+        self.stop_machine_button = QPushButton(self.page_machine)
+        self.stop_machine_button.setObjectName(u"stop_machine_button")
 
-        self.gridLayout_4.addWidget(self.selected_title_3, 3, 0, 1, 1)
+        self.gridLayout_4.addWidget(self.stop_machine_button, 0, 1, 1, 1)
 
         self.progressBar = QProgressBar(self.page_machine)
         self.progressBar.setObjectName(u"progressBar")
         self.progressBar.setValue(0)
 
-        self.gridLayout_4.addWidget(self.progressBar, 5, 0, 1, 2)
+        self.gridLayout_4.addWidget(self.progressBar, 2, 0, 1, 2)
 
         self.selected_status_3 = QLabel(self.page_machine)
         self.selected_status_3.setObjectName(u"selected_status_3")
 
-        self.gridLayout_4.addWidget(self.selected_status_3, 3, 1, 1, 1)
+        self.gridLayout_4.addWidget(self.selected_status_3, 1, 1, 1, 1)
+
+        self.start_machine_button = QPushButton(self.page_machine)
+        self.start_machine_button.setObjectName(u"start_machine_button")
+
+        self.gridLayout_4.addWidget(self.start_machine_button, 0, 0, 1, 1)
+
+        self.selected_title_3 = QLabel(self.page_machine)
+        self.selected_title_3.setObjectName(u"selected_title_3")
+
+        self.gridLayout_4.addWidget(self.selected_title_3, 1, 0, 1, 1)
 
         self.tableWidget_2 = QTableWidget(self.page_machine)
         if (self.tableWidget_2.columnCount() < 3):
@@ -316,58 +326,44 @@ class Ui_MainWindow(object):
         __qtablewidgetitem64 = QTableWidgetItem()
         self.tableWidget_2.setItem(9, 2, __qtablewidgetitem64)
         self.tableWidget_2.setObjectName(u"tableWidget_2")
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.tableWidget_2.sizePolicy().hasHeightForWidth())
+        self.tableWidget_2.setSizePolicy(sizePolicy)
+        self.tableWidget_2.setMinimumSize(QSize(0, 350))
+        self.tableWidget_2.setMaximumSize(QSize(16777215, 400))
         self.tableWidget_2.setAlternatingRowColors(True)
         self.tableWidget_2.horizontalHeader().setCascadingSectionResizes(False)
         self.tableWidget_2.horizontalHeader().setStretchLastSection(True)
         self.tableWidget_2.verticalHeader().setStretchLastSection(False)
 
-        self.gridLayout_4.addWidget(self.tableWidget_2, 6, 0, 1, 2)
+        self.gridLayout_4.addWidget(self.tableWidget_2, 3, 0, 1, 2)
 
-        self.start_machine_button = QPushButton(self.page_machine)
-        self.start_machine_button.setObjectName(u"start_machine_button")
+        self.label_img_camera = QLabel(self.page_machine)
+        self.label_img_camera.setObjectName(u"label_img_camera")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.label_img_camera.sizePolicy().hasHeightForWidth())
+        self.label_img_camera.setSizePolicy(sizePolicy1)
+        self.label_img_camera.setMinimumSize(QSize(480, 384))
+        self.label_img_camera.setFrameShape(QFrame.Box)
 
-        self.gridLayout_4.addWidget(self.start_machine_button, 0, 0, 1, 1)
-
-        self.stop_machine_button = QPushButton(self.page_machine)
-        self.stop_machine_button.setObjectName(u"stop_machine_button")
-
-        self.gridLayout_4.addWidget(self.stop_machine_button, 0, 1, 1, 1)
+        self.gridLayout_4.addWidget(self.label_img_camera, 4, 0, 1, 2)
 
 
         self.horizontalLayout.addLayout(self.gridLayout_4)
 
-        self.line_2 = QFrame(self.page_machine)
-        self.line_2.setObjectName(u"line_2")
-        self.line_2.setFrameShape(QFrame.VLine)
-        self.line_2.setFrameShadow(QFrame.Sunken)
-
-        self.horizontalLayout.addWidget(self.line_2)
-
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.label_img_camera = QLabel(self.page_machine)
-        self.label_img_camera.setObjectName(u"label_img_camera")
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_img_camera.sizePolicy().hasHeightForWidth())
-        self.label_img_camera.setSizePolicy(sizePolicy)
-        self.label_img_camera.setMinimumSize(QSize(480, 384))
-        self.label_img_camera.setFrameShape(QFrame.Box)
-
-        self.verticalLayout_3.addWidget(self.label_img_camera)
-
-        self.line = QFrame(self.page_machine)
-        self.line.setObjectName(u"line")
-        self.line.setFrameShape(QFrame.HLine)
-        self.line.setFrameShadow(QFrame.Sunken)
-
-        self.verticalLayout_3.addWidget(self.line)
-
         self.label_img_bolt = QLabel(self.page_machine)
         self.label_img_bolt.setObjectName(u"label_img_bolt")
-        sizePolicy.setHeightForWidth(self.label_img_bolt.sizePolicy().hasHeightForWidth())
-        self.label_img_bolt.setSizePolicy(sizePolicy)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.label_img_bolt.sizePolicy().hasHeightForWidth())
+        self.label_img_bolt.setSizePolicy(sizePolicy2)
         self.label_img_bolt.setMinimumSize(QSize(480, 384))
         self.label_img_bolt.setFrameShape(QFrame.Box)
 
@@ -375,11 +371,11 @@ class Ui_MainWindow(object):
 
         self.detected_bolt_type = QLabel(self.page_machine)
         self.detected_bolt_type.setObjectName(u"detected_bolt_type")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.detected_bolt_type.sizePolicy().hasHeightForWidth())
-        self.detected_bolt_type.setSizePolicy(sizePolicy1)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.detected_bolt_type.sizePolicy().hasHeightForWidth())
+        self.detected_bolt_type.setSizePolicy(sizePolicy3)
         self.detected_bolt_type.setMinimumSize(QSize(320, 0))
 
         self.verticalLayout_3.addWidget(self.detected_bolt_type)
@@ -402,7 +398,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(4)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -521,8 +517,10 @@ class Ui_MainWindow(object):
         self.tableWidget.setSortingEnabled(__sortingEnabled1)
 
         self.title_4.setText(QCoreApplication.translate("MainWindow", u"Subassembly overview", None))
-        self.selected_title_3.setText(QCoreApplication.translate("MainWindow", u"selected engine/subassembly:", None))
+        self.stop_machine_button.setText(QCoreApplication.translate("MainWindow", u"stop", None))
         self.selected_status_3.setText(QCoreApplication.translate("MainWindow", u"XEN/X99", None))
+        self.start_machine_button.setText(QCoreApplication.translate("MainWindow", u"start sorting machine", None))
+        self.selected_title_3.setText(QCoreApplication.translate("MainWindow", u"selected engine/subassembly:", None))
         ___qtablewidgetitem32 = self.tableWidget_2.horizontalHeaderItem(0)
         ___qtablewidgetitem32.setText(QCoreApplication.translate("MainWindow", u"bolt type", None));
         ___qtablewidgetitem33 = self.tableWidget_2.horizontalHeaderItem(1)
@@ -594,8 +592,6 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem64.setText(QCoreApplication.translate("MainWindow", u"10", None));
         self.tableWidget_2.setSortingEnabled(__sortingEnabled2)
 
-        self.start_machine_button.setText(QCoreApplication.translate("MainWindow", u"start sorting machine", None))
-        self.stop_machine_button.setText(QCoreApplication.translate("MainWindow", u"stop", None))
         self.label_img_camera.setText(QCoreApplication.translate("MainWindow", u"Live camera feed", None))
         self.label_img_bolt.setText(QCoreApplication.translate("MainWindow", u"Detected bolt image", None))
         self.detected_bolt_type.setText(QCoreApplication.translate("MainWindow", u"Detected bolt", None))
