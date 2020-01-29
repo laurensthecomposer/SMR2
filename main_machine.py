@@ -135,6 +135,8 @@ class ConnectCameraThread(ConnectDeviceThread):
                 self.resultReady.emit("Camera couldn't find")
 
 class MainWindow(QMainWindow):
+    SelectSubassembly = Signal(str)
+
     @Slot(QImage)
     def setImage(self, image):
         self.ui.label_img_camera.setPixmap(QPixmap.fromImage(image))
@@ -181,7 +183,7 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.currentChanged.connect(self.handlePageChange)
 
         # set connect as first page
-        self.ui.stackedWidget.setCurrentIndex(self.page_index['page_machine'])
+        self.ui.stackedWidget.setCurrentIndex(self.page_index['page_select_subassembly'])
 
         self.setupConnect()
 
@@ -198,6 +200,21 @@ class MainWindow(QMainWindow):
         self.machineThread = MachineThread()
         self.setupMachine()
 
+        # page select subassembly
+        self.ui.treeWidget.expandAll()
+        self.ui.treeWidget.itemClicked.connect(self.handleTreeSelect)
+        self.SelectSubassembly.connect(lambda x: self.ui.selected_status.setText(x))
+        self.SelectSubassembly.connect(lambda x: self.ui.selected_status_2.setText(x))
+        self.SelectSubassembly.connect(lambda x: self.ui.selected_status_3.setText(x))
+
+    @Slot(QTreeWidgetItem, int)
+    def handleTreeSelect(self, item:QTreeWidgetItem, column:int):
+        a = item.flags()
+        if bool(Qt.ItemIsSelectable & a):
+            self.SelectSubassembly.emit(item.parent().text(0) +'/'+ item.text(0))
+            self.ui.next_button.setEnabled(True)
+
+
     # def exitSystemCheck(self):
     def handlePageChange(self, index):
         if index == self.page_index['page_connect']:
@@ -205,11 +222,11 @@ class MainWindow(QMainWindow):
         elif index == self.page_index['page_system_check']:
             self.enter_system_check()
         elif index == self.page_index['page_select_subassembly']:
-            print('pg_con')
+            self.enter_select_subassembly()
         elif index == self.page_index['page_subassembly_overview']:
-            print('pg_con')
+            self.enter_subassembly_overview()
         elif index == self.page_index['page_machine']:
-            print('pg_con')
+            self.enter_machine()
 
     def setup_system_check(self):
         self.ui.checkBox.clicked.connect(self.check_confirm_release)
@@ -239,18 +256,29 @@ class MainWindow(QMainWindow):
         self.ui.checkBox.setEnabled(True)
         self.ui.checkBox_2.setEnabled(True)
 
+    def enter_select_subassembly(self):
+        self.ui.prev_button.setDisabled(True)
+
+    def enter_subassembly_overview(self):
+        self.ui.prev_button.setEnabled(True)
+        self.ui.next_button.setEnabled(True)
+
+    def enter_machine(self):
+        self.ui.next_button.setDisabled(True)
+        self.ui.start_machine_button.setEnabled(True)
+        self.ui.stop_machine_button.setDisabled(True)
+        self.ui.progressBar.setValue(0)
 
     def setupMachine(self):
         self.bolts_total = self.sum_column_table(2)
         print(self.bolts_total)
-
-        self.ui.stop_machine_button.setDisabled(True)
 
         # add thread to run button
         self.ui.start_machine_button.clicked.connect(self.machineThread.start)
         self.ui.start_machine_button.clicked.connect(lambda: self.ui.stop_machine_button.setEnabled(True))
         self.machineThread.started.connect(lambda: self.ui.start_machine_button.setDisabled(True))
         self.machineThread.started.connect(lambda: self.ui.start_machine_button.setText("running..."))
+        self.machineThread.started.connect(lambda: self.ui.prev_button.setDisabled(True))
         # self.machineThread.finished.connect(lambda: self.ui.start_machine_button.setEnabled(True))
         self.machineThread.finished.connect(self.machineThread.start) # repeat thread
 
@@ -271,6 +299,7 @@ class MainWindow(QMainWindow):
         self.ui.start_machine_button.setText("sorted subassembly")
         self.ui.next_button.setText("Empty System Check >>")
         self.ui.next_button.setEnabled(True)
+        self.ui.prev_button.setDisabled(True)
 
 
     def sum_column_table(self, column_no):

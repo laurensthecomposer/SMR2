@@ -98,10 +98,20 @@ class Ui_MainWindow(object):
         self.page_select_subassembly.setObjectName(u"page_select_subassembly")
         self.gridLayout_2 = QGridLayout(self.page_select_subassembly)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.search_box = QLineEdit(self.page_select_subassembly)
-        self.search_box.setObjectName(u"search_box")
+        self.selected_status = QLabel(self.page_select_subassembly)
+        self.selected_status.setObjectName(u"selected_status")
 
-        self.gridLayout_2.addWidget(self.search_box, 1, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.selected_status, 2, 1, 1, 1)
+
+        self.title_3 = QLabel(self.page_select_subassembly)
+        self.title_3.setObjectName(u"title_3")
+
+        self.gridLayout_2.addWidget(self.title_3, 0, 0, 1, 2)
+
+        self.selected_title = QLabel(self.page_select_subassembly)
+        self.selected_title.setObjectName(u"selected_title")
+
+        self.gridLayout_2.addWidget(self.selected_title, 2, 0, 1, 1)
 
         self.treeWidget = QTreeWidget(self.page_select_subassembly)
         __qtreewidgetitem = QTreeWidgetItem(self.treeWidget)
@@ -112,27 +122,7 @@ class Ui_MainWindow(object):
         self.treeWidget.setObjectName(u"treeWidget")
         self.treeWidget.setAnimated(True)
 
-        self.gridLayout_2.addWidget(self.treeWidget, 2, 0, 1, 2)
-
-        self.selected_title = QLabel(self.page_select_subassembly)
-        self.selected_title.setObjectName(u"selected_title")
-
-        self.gridLayout_2.addWidget(self.selected_title, 3, 0, 1, 1)
-
-        self.selected_status = QLabel(self.page_select_subassembly)
-        self.selected_status.setObjectName(u"selected_status")
-
-        self.gridLayout_2.addWidget(self.selected_status, 3, 1, 1, 1)
-
-        self.title_3 = QLabel(self.page_select_subassembly)
-        self.title_3.setObjectName(u"title_3")
-
-        self.gridLayout_2.addWidget(self.title_3, 0, 0, 1, 2)
-
-        self.search_title = QLabel(self.page_select_subassembly)
-        self.search_title.setObjectName(u"search_title")
-
-        self.gridLayout_2.addWidget(self.search_title, 1, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.treeWidget, 1, 0, 1, 2)
 
         self.stackedWidget.addWidget(self.page_select_subassembly)
         self.page_subassembly_overview = QWidget()
@@ -412,7 +402,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -431,6 +421,9 @@ class Ui_MainWindow(object):
         self.checkBox.setText(QCoreApplication.translate("MainWindow", u"The machine is empty", None))
         self.checkBox_2.setText(QCoreApplication.translate("MainWindow", u"The bins are empty", None))
         self.confirm_button.setText(QCoreApplication.translate("MainWindow", u"confirm", None))
+        self.selected_status.setText(QCoreApplication.translate("MainWindow", u"engine/subassembly", None))
+        self.title_3.setText(QCoreApplication.translate("MainWindow", u"Select subassembly", None))
+        self.selected_title.setText(QCoreApplication.translate("MainWindow", u"Selected engine/subassembly:", None))
         ___qtreewidgetitem = self.treeWidget.headerItem()
         ___qtreewidgetitem.setText(2, QCoreApplication.translate("MainWindow", u"No. of items", None));
         ___qtreewidgetitem.setText(1, QCoreApplication.translate("MainWindow", u"No. of types", None));
@@ -456,10 +449,6 @@ class Ui_MainWindow(object):
         ___qtreewidgetitem4.setText(0, QCoreApplication.translate("MainWindow", u"X-99", None));
         self.treeWidget.setSortingEnabled(__sortingEnabled)
 
-        self.selected_title.setText(QCoreApplication.translate("MainWindow", u"Selected engine/subassembly:", None))
-        self.selected_status.setText(QCoreApplication.translate("MainWindow", u"engine/subassembly", None))
-        self.title_3.setText(QCoreApplication.translate("MainWindow", u"Select subassembly", None))
-        self.search_title.setText(QCoreApplication.translate("MainWindow", u"Search:", None))
         self.selected_title_2.setText(QCoreApplication.translate("MainWindow", u"Selected engine/subassembly", None))
         self.selected_status_2.setText(QCoreApplication.translate("MainWindow", u"XEN/X99", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
