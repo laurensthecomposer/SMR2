@@ -36,15 +36,14 @@ class MachineThread(QThread):
         # timer.start(3000) # test
         # # start timer
         # # if timer then stop machine and stop thread
-        # while not bolt_sorter_machine.lightgate(): # wait until bolt detected
-        #
-        #     continue
+        while not bolt_sorter_machine.lightgate(): # wait until bolt detected
+            continue
         # timer.stop()
 
         # reset timer
         bolt_sorter_machine.img_stop()
         ret, frame = bolt_sorter_machine.img_capture()
-        self.BoltFrame.emit(np.empty((1,2)))
+        self.BoltFrame.emit(convertCv2ToQt(frame))
         print("emitted boltframe!")
         # todo: SIGNAL IMG
         bolt_sorter_machine.img_save(frame)
@@ -75,6 +74,14 @@ class CameraThread(QThread):
                 p = convertToQtFormat.scaled(640, 512, Qt.KeepAspectRatio)
                 self.changePixmap.emit(p)
 
+def convertCv2ToQt(frame):
+    rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    h, w, ch = rgbImage.shape
+    bytesPerLine = ch * w
+    convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+    p = convertToQtFormat.scaled(640, 512, Qt.KeepAspectRatio)
+    return p
 
 class ConnectDeviceThread(QThread):
     resultReady = Signal(str)
@@ -127,11 +134,10 @@ class MainWindow(QMainWindow):
     @Slot(QImage)
     def setImage(self, image):
         self.ui.label_img_camera.setPixmap(QPixmap.fromImage(image))
-        self.ui.label_img_bolt.setPixmap(QPixmap.fromImage(image))
 
     @Slot(np.ndarray)
     def setBoltFrame(self, frame): # np array
-        print(frame)
+        self.ui.label_img_bolt.setPixmap(QPixmap.fromImage(frame))
         print('received at slot')
 
     def __init__(self):
