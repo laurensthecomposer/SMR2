@@ -175,16 +175,13 @@ class Bolts():
                 8: "nas6305-10",
                 9: "v647p23b"
             }
-            # best model till 9-1-2020
+
             model_folder = "models"
             model_name = "blue_light_moreV1_sq550_e472_tb20_vb20_aug-hor-briran0_8;1_2.h5"
             # model_name = "blue_light_split2_sq550_e520_tb20_vb20_aug-hor-briran0_8;1_2.h5"
             # model_name = "image_data_blue_light_split_sq350_e72_tb20_vb20_aug-hor-rotran20-briran0_8;1_2).h5"
-            # model_name = "new_camera_cleaned_v1_350px.h5"
             file_path = os.path.join(model_folder, model_name)
 
-
-            # model_name = "more_pictures_cleaned_v1_350px.h5"
             return REV_CLASS_MAP, file_path
 
         elif sub_ass == 2:
