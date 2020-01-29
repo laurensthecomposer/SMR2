@@ -18,38 +18,37 @@ class MachineThread(QThread):
         self.wait()
 
     def run(self):
-        while True:
-            print("====== begin run")
-            if self.first_run:
-                bolt_sorter_machine.data_startup()
-                bolt_sorter_machine.machine_startup()
+        print("====== begin run")
+        if self.first_run:
+            bolt_sorter_machine.data_startup()
+            bolt_sorter_machine.machine_startup()
 
-                self.first_run = False
+            self.first_run = False
 
-            bolt_sorter_machine.belts_roll()
+        bolt_sorter_machine.belts_roll()
 
-            # timer = QTimer()
-            # timer.setSingleShot(True)
-            # timer.connect(bolt_sorter_machine.machine_startup)
-            # timer.connect(self.terminate())
-            # # timer.start(int(1000*60*3)) # timeout after 3 minutes
-            # timer.start(3000) # test
-            # # start timer
-            # # if timer then stop machine and stop thread
-            # while not bolt_sorter_machine.lightgate(): # wait until bolt detected
-            #
-            #     continue
-            # timer.stop()
+        # timer = QTimer()
+        # timer.setSingleShot(True)
+        # timer.connect(bolt_sorter_machine.machine_startup)
+        # timer.connect(self.terminate())
+        # # timer.start(int(1000*60*3)) # timeout after 3 minutes
+        # timer.start(3000) # test
+        # # start timer
+        # # if timer then stop machine and stop thread
+        # while not bolt_sorter_machine.lightgate(): # wait until bolt detected
+        #
+        #     continue
+        # timer.stop()
 
-            # reset timer
-            bolt_sorter_machine.img_stop()
-            ret, frame = bolt_sorter_machine.img_capture()
-            # todo: SIGNAL IMG
-            bolt_sorter_machine.img_save(frame)
-            bolt_type, pred, bolt_code, counts = bolt_sorter_machine.img_classify(frame)
-            # todo: SIGNAL BOLT_TYPE, COUNTS_UPDATE
-            bolt_sorter_machine.exit_classified_bolt()
-            bolt_sorter_machine.robot_drop(bolt_type)
+        # reset timer
+        bolt_sorter_machine.img_stop()
+        ret, frame = bolt_sorter_machine.img_capture()
+        # todo: SIGNAL IMG
+        bolt_sorter_machine.img_save(frame)
+        bolt_type, pred, bolt_code, counts = bolt_sorter_machine.img_classify(frame)
+        # todo: SIGNAL BOLT_TYPE, COUNTS_UPDATE
+        bolt_sorter_machine.exit_classified_bolt()
+        bolt_sorter_machine.robot_drop(bolt_type)
 
 
 
@@ -161,9 +160,11 @@ class MainWindow(QMainWindow):
 
         # add thread to run button
         self.machineThread = MachineThread()
-        self.ui.pushButton_4.clicked.connect(self.machineThread.start)
-        self.machineThread.started.connect(lambda: self.ui.pushButton_4.setDisabled(True))
-        self.machineThread.finished.connect(lambda: self.ui.pushButton_4.setEnabled(True))
+        self.ui.start_machine_button.clicked.connect(self.machineThread.start)
+        self.machineThread.started.connect(lambda: self.ui.start_machine_button.setDisabled(True))
+        # self.machineThread.finished.connect(lambda: self.ui.start_machine_button.setEnabled(True))
+        self.machineThread.finished.connect(lambda: self.machineThread.start())
+
 
 
     def setupConnect(self):

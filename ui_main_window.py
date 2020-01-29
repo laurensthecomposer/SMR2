@@ -247,7 +247,7 @@ class Ui_MainWindow(object):
         self.progressBar.setObjectName(u"progressBar")
         self.progressBar.setValue(0)
 
-        self.gridLayout_4.addWidget(self.progressBar, 4, 0, 1, 2)
+        self.gridLayout_4.addWidget(self.progressBar, 5, 0, 1, 2)
 
         self.selected_status_3 = QLabel(self.page_machine)
         self.selected_status_3.setObjectName(u"selected_status_3")
@@ -331,12 +331,17 @@ class Ui_MainWindow(object):
         self.tableWidget_2.horizontalHeader().setStretchLastSection(True)
         self.tableWidget_2.verticalHeader().setStretchLastSection(False)
 
-        self.gridLayout_4.addWidget(self.tableWidget_2, 5, 0, 1, 2)
+        self.gridLayout_4.addWidget(self.tableWidget_2, 6, 0, 1, 2)
 
-        self.pushButton_4 = QPushButton(self.page_machine)
-        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.start_machine_button = QPushButton(self.page_machine)
+        self.start_machine_button.setObjectName(u"start_machine_button")
 
-        self.gridLayout_4.addWidget(self.pushButton_4, 0, 0, 1, 2)
+        self.gridLayout_4.addWidget(self.start_machine_button, 0, 0, 1, 1)
+
+        self.stop_machine_button = QPushButton(self.page_machine)
+        self.stop_machine_button.setObjectName(u"stop_machine_button")
+
+        self.gridLayout_4.addWidget(self.stop_machine_button, 0, 1, 1, 1)
 
 
         self.horizontalLayout.addLayout(self.gridLayout_4)
@@ -600,7 +605,8 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem64.setText(QCoreApplication.translate("MainWindow", u"10", None));
         self.tableWidget_2.setSortingEnabled(__sortingEnabled2)
 
-        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"start sorting machine", None))
+        self.start_machine_button.setText(QCoreApplication.translate("MainWindow", u"start sorting machine", None))
+        self.stop_machine_button.setText(QCoreApplication.translate("MainWindow", u"stop", None))
         self.label_img_camera.setText(QCoreApplication.translate("MainWindow", u"Live camera feed", None))
         self.label_img_bolt.setText(QCoreApplication.translate("MainWindow", u"Detected bolt image", None))
         self.detected_bolt_type.setText(QCoreApplication.translate("MainWindow", u"Detected bolt", None))
