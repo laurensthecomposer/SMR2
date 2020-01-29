@@ -79,7 +79,7 @@ class Robot(urx.Robot):
             self.movel(nas1802407, acc, vel)
         elif bolt_type == "v647p23b":
             self.movel(v647p23b, acc, vel)
-        elif bolt_type == "Disaproverd":
+        elif bolt_type == "Disaproved":
             print("Bolt dropped because it is below threshold.")
 
         arduino.bin_open()
@@ -90,6 +90,20 @@ class Robot(urx.Robot):
             self.movel(drop_loc, acc, vel)
 
 class SortingMachine():
+    def __init__(self):
+        self.bolt_count = {
+            "m59557-10": 0,
+            "m59557-16": 0,
+            "m59557-20": 0,
+            "nas1802-3-6": 0,
+            "nas1802-3-7": 0,
+            "nas1802-3-8": 0,
+            "nas1802-3-9": 0,
+            "nas1802-4-07": 0,
+            "nas6305-10": 0,
+            "v647p23b": 0,
+            "Disaproved": 0
+        }
     def save_pictures(self, IMG_SAVE_PATH, bolt_type, num_samples):
         IMG_CLASS_PATH = os.path.join(IMG_SAVE_PATH, bolt_type)
         try:
@@ -141,9 +155,10 @@ class SortingMachine():
         cap = ueye_camera.UeyeCameraCapture(1)
         return cap
 
-    # # Todo LAURENS PART 1
-    # def mapper(self, val, REV_CLASS_MAP):
-    #     return REV_CLASS_MAP[val]
+    def bolt_counter(self, bolt_type):
+        self.bolt_count[bolt_type] += 1
+        return self.bolt_count
+
 
 class Bolts():
     def bolts_in_model(self, sub_ass):

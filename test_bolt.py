@@ -61,12 +61,14 @@ while True:
 
     if start:
         controller.all_forward()
+        controller.bin_open()
 
         if controller.gate_state:
             time.sleep(0.1) # prevents big bolt from bouncing
             # print( 'found object, taking picture' )
             controller.all_stop()
             controller.bulk_feeder_stop()
+            controller.bin_closed()
             time.sleep( 2 )
             ret, frame = cap.read()
             ret, frame = cap.read()
@@ -81,24 +83,21 @@ while True:
             cv2.imwrite( save_path, frame )
 
             # test image to model and output bolt type
-            # Todo put in right size of final images
             bolt_type, pred, bolt_code = machine.test_img(frame, model, REV_CLASS_MAP, size=(550, 550))
 
-
-
+            bolt_count = machine.bolt_counter(bolt_type)
             count += 1
 
             controller.blocker_open()
             time.sleep(0.5)
             controller.all_forward()
-            time.sleep( 0.4 )  # wait until object is gone (don't go lower)
-            controller.blocker_close() #close gate
+            time.sleep( 0.4 )
+            controller.blocker_close()
 
-            time.sleep( 0.4 ) #bolt goes into robot/output
+            time.sleep( 0.4 )
 
             controller.all_stop()
 
-            # Todo turn on for bolt drop
             positive = (bolt_type_path == bolt_type)
             arr = [IMG_CLASS_PATH, filename, positive, bolt_type_path, bolt_type, pred]
             logger.append(arr)
