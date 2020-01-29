@@ -38,7 +38,7 @@
     <item row="0" column="0" colspan="2">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="page_connect">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -109,7 +109,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="confirm_button">
           <property name="text">
            <string>confirm</string>
           </property>
@@ -233,7 +233,7 @@
         <item row="1" column="1">
          <widget class="QLabel" name="selected_status_2">
           <property name="text">
-           <string>engine/subassembly</string>
+           <string>XEN/X99</string>
           </property>
          </widget>
         </item>
@@ -416,7 +416,7 @@
         <item row="0" column="0" colspan="3">
          <widget class="QLabel" name="title_4">
           <property name="text">
-           <string>TextLabel</string>
+           <string>Subassembly overview</string>
           </property>
          </widget>
         </item>
@@ -443,7 +443,7 @@
           <item row="3" column="1">
            <widget class="QLabel" name="selected_status_3">
             <property name="text">
-             <string>engine/subassembly</string>
+             <string>XEN/X99</string>
             </property>
            </widget>
           </item>

@@ -38,32 +38,6 @@ class Ui_MainWindow(object):
 
         self.stackedWidget = QStackedWidget(self.centralwidget)
         self.stackedWidget.setObjectName(u"stackedWidget")
-        self.page_system_check = QWidget()
-        self.page_system_check.setObjectName(u"page_system_check")
-        self.verticalLayout = QVBoxLayout(self.page_system_check)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.title = QLabel(self.page_system_check)
-        self.title.setObjectName(u"title")
-        self.title.setMaximumSize(QSize(16777215, 50))
-
-        self.verticalLayout.addWidget(self.title)
-
-        self.checkBox = QCheckBox(self.page_system_check)
-        self.checkBox.setObjectName(u"checkBox")
-
-        self.verticalLayout.addWidget(self.checkBox)
-
-        self.checkBox_2 = QCheckBox(self.page_system_check)
-        self.checkBox_2.setObjectName(u"checkBox_2")
-
-        self.verticalLayout.addWidget(self.checkBox_2)
-
-        self.pushButton = QPushButton(self.page_system_check)
-        self.pushButton.setObjectName(u"pushButton")
-
-        self.verticalLayout.addWidget(self.pushButton)
-
-        self.stackedWidget.addWidget(self.page_system_check)
         self.page_connect = QWidget()
         self.page_connect.setObjectName(u"page_connect")
         self.verticalLayout_2 = QVBoxLayout(self.page_connect)
@@ -94,6 +68,32 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.button_connect)
 
         self.stackedWidget.addWidget(self.page_connect)
+        self.page_system_check = QWidget()
+        self.page_system_check.setObjectName(u"page_system_check")
+        self.verticalLayout = QVBoxLayout(self.page_system_check)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.title = QLabel(self.page_system_check)
+        self.title.setObjectName(u"title")
+        self.title.setMaximumSize(QSize(16777215, 50))
+
+        self.verticalLayout.addWidget(self.title)
+
+        self.checkBox = QCheckBox(self.page_system_check)
+        self.checkBox.setObjectName(u"checkBox")
+
+        self.verticalLayout.addWidget(self.checkBox)
+
+        self.checkBox_2 = QCheckBox(self.page_system_check)
+        self.checkBox_2.setObjectName(u"checkBox_2")
+
+        self.verticalLayout.addWidget(self.checkBox_2)
+
+        self.confirm_button = QPushButton(self.page_system_check)
+        self.confirm_button.setObjectName(u"confirm_button")
+
+        self.verticalLayout.addWidget(self.confirm_button)
+
+        self.stackedWidget.addWidget(self.page_system_check)
         self.page_select_subassembly = QWidget()
         self.page_select_subassembly.setObjectName(u"page_select_subassembly")
         self.gridLayout_2 = QGridLayout(self.page_select_subassembly)
@@ -412,7 +412,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -422,15 +422,15 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.prev_button.setText(QCoreApplication.translate("MainWindow", u"Previous <<", None))
         self.next_button.setText(QCoreApplication.translate("MainWindow", u"Next >>", None))
-        self.title.setText(QCoreApplication.translate("MainWindow", u"System Check", None))
-        self.checkBox.setText(QCoreApplication.translate("MainWindow", u"The machine is empty", None))
-        self.checkBox_2.setText(QCoreApplication.translate("MainWindow", u"The bins are empty", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"confirm", None))
         self.title_2.setText(QCoreApplication.translate("MainWindow", u"Connect to devices", None))
         self.status_robot.setText(QCoreApplication.translate("MainWindow", u"robot unconnnected", None))
         self.status_arduino.setText(QCoreApplication.translate("MainWindow", u"arduino unconnected", None))
         self.status_camera.setText(QCoreApplication.translate("MainWindow", u"camera unconnected", None))
         self.button_connect.setText(QCoreApplication.translate("MainWindow", u"connect everything", None))
+        self.title.setText(QCoreApplication.translate("MainWindow", u"System Check", None))
+        self.checkBox.setText(QCoreApplication.translate("MainWindow", u"The machine is empty", None))
+        self.checkBox_2.setText(QCoreApplication.translate("MainWindow", u"The bins are empty", None))
+        self.confirm_button.setText(QCoreApplication.translate("MainWindow", u"confirm", None))
         ___qtreewidgetitem = self.treeWidget.headerItem()
         ___qtreewidgetitem.setText(2, QCoreApplication.translate("MainWindow", u"No. of items", None));
         ___qtreewidgetitem.setText(1, QCoreApplication.translate("MainWindow", u"No. of types", None));
@@ -461,7 +461,7 @@ class Ui_MainWindow(object):
         self.title_3.setText(QCoreApplication.translate("MainWindow", u"Select subassembly", None))
         self.search_title.setText(QCoreApplication.translate("MainWindow", u"Search:", None))
         self.selected_title_2.setText(QCoreApplication.translate("MainWindow", u"Selected engine/subassembly", None))
-        self.selected_status_2.setText(QCoreApplication.translate("MainWindow", u"engine/subassembly", None))
+        self.selected_status_2.setText(QCoreApplication.translate("MainWindow", u"XEN/X99", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"bolt type", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
@@ -531,9 +531,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem31.setText(QCoreApplication.translate("MainWindow", u"10", None));
         self.tableWidget.setSortingEnabled(__sortingEnabled1)
 
-        self.title_4.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.title_4.setText(QCoreApplication.translate("MainWindow", u"Subassembly overview", None))
         self.selected_title_3.setText(QCoreApplication.translate("MainWindow", u"selected engine/subassembly:", None))
-        self.selected_status_3.setText(QCoreApplication.translate("MainWindow", u"engine/subassembly", None))
+        self.selected_status_3.setText(QCoreApplication.translate("MainWindow", u"XEN/X99", None))
         ___qtablewidgetitem32 = self.tableWidget_2.horizontalHeaderItem(0)
         ___qtablewidgetitem32.setText(QCoreApplication.translate("MainWindow", u"bolt type", None));
         ___qtablewidgetitem33 = self.tableWidget_2.horizontalHeaderItem(1)

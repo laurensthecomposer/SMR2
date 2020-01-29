@@ -144,6 +144,7 @@ class MainWindow(QMainWindow):
         self.ui.label_img_bolt.setPixmap(QPixmap.fromImage(frame))
         print('received at slot')
 
+    @Slot(list)
     def updateBoltCounts(self, counts):
         print('update_bolt_counts: ',counts)
         table = self.ui.tableWidget_2
@@ -151,6 +152,7 @@ class MainWindow(QMainWindow):
             item = QTableWidgetItem(str(counts[i]))
             item = table.setItem(i,1,item)
 
+    @Slot(list)
     def updateProgress(self, counts):
         progress = (self.sum_column_table(1)/self.bolts_total)*100
         print(progress)
@@ -168,13 +170,15 @@ class MainWindow(QMainWindow):
         self.ui.prev_button.clicked.connect(self.goToPrev)
 
         self.page_index = {
-            "page_system_check": self.ui.stackedWidget.indexOf(self.ui.page_system_check),
             "page_connect": self.ui.stackedWidget.indexOf(self.ui.page_connect),
+            "page_system_check": self.ui.stackedWidget.indexOf(self.ui.page_system_check),
             "page_select_subassembly": self.ui.stackedWidget.indexOf(self.ui.page_select_subassembly),
             "page_subassembly_overview": self.ui.stackedWidget.indexOf(self.ui.page_subassembly_overview),
             "page_machine": self.ui.stackedWidget.indexOf(self.ui.page_machine)
         }
         print(self.page_index)
+
+        self.ui.stackedWidget.currentChanged.connect(self.handlePageChange)
 
         # set connect as first page
         self.ui.stackedWidget.setCurrentIndex(self.page_index['page_machine'])
@@ -183,13 +187,57 @@ class MainWindow(QMainWindow):
 
         self.connected_devices = 0
 
-        # add signal to connect arduino
+        # system check setup
+        self.setup_system_check()
+
+        # todo: only start after camera connect!
         th = CameraThread(self)
         th.changePixmap.connect(self.setImage)
         th.start()
 
         self.machineThread = MachineThread()
         self.setupMachine()
+
+    # def exitSystemCheck(self):
+    def handlePageChange(self, index):
+        if index == self.page_index['page_connect']:
+            print('pg_con')
+        elif index == self.page_index['page_system_check']:
+            self.enter_system_check()
+        elif index == self.page_index['page_select_subassembly']:
+            print('pg_con')
+        elif index == self.page_index['page_subassembly_overview']:
+            print('pg_con')
+        elif index == self.page_index['page_machine']:
+            print('pg_con')
+
+    def setup_system_check(self):
+        self.ui.checkBox.clicked.connect(self.check_confirm_release)
+        self.ui.checkBox_2.clicked.connect(self.check_confirm_release)
+        self.ui.confirm_button.clicked.connect(lambda:self.ui.next_button.setEnabled(True))
+        self.ui.confirm_button.clicked.connect(lambda:self.ui.confirm_button.setDisabled(True))
+        self.ui.confirm_button.clicked.connect(lambda:self.ui.checkBox.setDisabled(True))
+        self.ui.confirm_button.clicked.connect(lambda:self.ui.checkBox_2.setDisabled(True))
+
+    def check_confirm_release(self):
+        if bool(self.ui.checkBox.checkState()) and bool(self.ui.checkBox_2.checkState()):
+            self.ui.confirm_button.setEnabled(True)
+        else:
+            self.ui.confirm_button.setEnabled(False)
+
+    def enter_system_check(self):
+        self.ui.next_button.setDisabled(True)
+        self.ui.prev_button.setDisabled(True)
+        self.ui.confirm_button.setDisabled(True)
+
+        self.ui.next_button.setText("Next >>")
+        self.ui.confirm_button.setText("confirm")
+
+        self.ui.checkBox.setCheckState(Qt.Unchecked)
+        self.ui.checkBox_2.setCheckState(Qt.Unchecked)
+
+        self.ui.checkBox.setEnabled(True)
+        self.ui.checkBox_2.setEnabled(True)
 
 
     def setupMachine(self):
@@ -221,8 +269,9 @@ class MainWindow(QMainWindow):
         self.ui.stop_machine_button.setDisabled(True)
         self.ui.stop_machine_button.setText("stopped")
         self.ui.start_machine_button.setText("sorted subassembly")
-        self.ui.next_button.setText("Measure new subassembly >>")
+        self.ui.next_button.setText("Empty System Check >>")
         self.ui.next_button.setEnabled(True)
+
 
     def sum_column_table(self, column_no):
         # count sum of total on x bus
