@@ -167,17 +167,17 @@ class MainWindow(QMainWindow):
         self.ui.prev_button.setEnabled(False)
         self.ui.prev_button.clicked.connect(self.goToPrev)
 
-        page_index = {
+        self.page_index = {
             "page_system_check": self.ui.stackedWidget.indexOf(self.ui.page_system_check),
             "page_connect": self.ui.stackedWidget.indexOf(self.ui.page_connect),
             "page_select_subassembly": self.ui.stackedWidget.indexOf(self.ui.page_select_subassembly),
             "page_subassembly_overview": self.ui.stackedWidget.indexOf(self.ui.page_subassembly_overview),
             "page_machine": self.ui.stackedWidget.indexOf(self.ui.page_machine)
         }
-        print(page_index)
+        print(self.page_index)
 
         # set connect as first page
-        self.ui.stackedWidget.setCurrentIndex(page_index['page_machine'])
+        self.ui.stackedWidget.setCurrentIndex(self.page_index['page_machine'])
 
         self.setupConnect()
 
@@ -196,16 +196,20 @@ class MainWindow(QMainWindow):
         self.bolts_total = self.sum_column_table(2)
         print(self.bolts_total)
 
+        self.ui.stop_machine_button.setDisabled(True)
+
         # add thread to run button
         self.ui.start_machine_button.clicked.connect(self.machineThread.start)
+        self.ui.start_machine_button.clicked.connect(lambda: self.ui.stop_machine_button.setEnabled(True))
         self.machineThread.started.connect(lambda: self.ui.start_machine_button.setDisabled(True))
+        self.machineThread.started.connect(lambda: self.ui.start_machine_button.setText("running..."))
         # self.machineThread.finished.connect(lambda: self.ui.start_machine_button.setEnabled(True))
-        self.machineThread.finished.connect(self.machineThread.start)
+        self.machineThread.finished.connect(self.machineThread.start) # repeat thread
 
         self.ui.stop_machine_button.clicked.connect(self.machineThread.stop_machine)
         self.ui.stop_machine_button.clicked.connect(lambda: self.machineThread.disconnect(self.machineThread))
-
-        self.machineThread.finished.connect(self.machineThread.start)
+        self.ui.stop_machine_button.clicked.connect(lambda: self.ui.stop_machine_button.setText("stopping ..."))
+        self.ui.stop_machine_button.clicked.connect(lambda: self.machineThread.finished.connect(self.machineDone))
 
 
         self.machineThread.BoltFrame.connect(self.setBoltFrame)
@@ -213,6 +217,12 @@ class MainWindow(QMainWindow):
         self.machineThread.BoltCounts.connect(self.updateBoltCounts)
         self.machineThread.BoltCounts.connect(self.updateProgress)
 
+    def machineDone(self):
+        self.ui.stop_machine_button.setDisabled(True)
+        self.ui.stop_machine_button.setText("stopped")
+        self.ui.start_machine_button.setText("sorted subassembly")
+        self.ui.next_button.setText("Measure new subassembly >>")
+        self.ui.next_button.setEnabled(True)
 
     def sum_column_table(self, column_no):
         # count sum of total on x bus
@@ -266,7 +276,10 @@ class MainWindow(QMainWindow):
 
     def goToNext(self):
         index = self.ui.stackedWidget.currentIndex()
-        self.ui.stackedWidget.setCurrentIndex(index + 1)
+        new_index = index + 1
+        if(index == self.page_index['page_machine']):
+            new_index = self.page_index['page_system_check']
+        self.ui.stackedWidget.setCurrentIndex(new_index)
 
     def goToPrev(self):
         index = self.ui.stackedWidget.currentIndex()
