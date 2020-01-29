@@ -60,10 +60,9 @@ class CameraThread(QThread):
 
     def run(self):
         # cap = ueye_camera.UeyeCameraCapture(1)
-        # cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(0)
         while True:
-            # ret, frame = cap.read()
-            ret, frame = bolt_sorter_machine.img_capture()
+            ret, frame = cap.read()
             if ret:
                 # https://stackoverflow.com/a/55468544/6622587
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
