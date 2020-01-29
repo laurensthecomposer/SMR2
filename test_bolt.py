@@ -67,7 +67,7 @@ while True:
             # print( 'found object, taking picture' )
             controller.all_stop()
             controller.bulk_feeder_stop()
-            time.sleep( 4 )
+            time.sleep( 2 )
             ret, frame = cap.read()
             ret, frame = cap.read()
 
