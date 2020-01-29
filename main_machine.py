@@ -4,18 +4,65 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 import sys, time
 import machine_controller_test as machine_controller
-controller = machine_controller.MachineController()
+bolt_sorter_machine = machine_controller.MachineController()
 
 from cv2 import cv2
 import ueye_camera
-class Thread(QThread):
+
+class MachineThread(QThread):
+    first_run = True
+
+    def timeOut(self):
+        bolt_sorter_machine.machine_stop()
+        self.exit()
+        self.wait()
+
+    def run(self):
+        while True:
+            print("====== begin run")
+            if self.first_run:
+                bolt_sorter_machine.data_startup()
+                bolt_sorter_machine.machine_startup()
+
+                self.first_run = False
+
+            bolt_sorter_machine.belts_roll()
+
+            # timer = QTimer()
+            # timer.setSingleShot(True)
+            # timer.connect(bolt_sorter_machine.machine_startup)
+            # timer.connect(self.terminate())
+            # # timer.start(int(1000*60*3)) # timeout after 3 minutes
+            # timer.start(3000) # test
+            # # start timer
+            # # if timer then stop machine and stop thread
+            # while not bolt_sorter_machine.lightgate(): # wait until bolt detected
+            #
+            #     continue
+            # timer.stop()
+
+            # reset timer
+            bolt_sorter_machine.img_stop()
+            ret, frame = bolt_sorter_machine.img_capture()
+            # todo: SIGNAL IMG
+            bolt_sorter_machine.img_save(frame)
+            bolt_type, pred, bolt_code, counts = bolt_sorter_machine.img_classify(frame)
+            # todo: SIGNAL BOLT_TYPE, COUNTS_UPDATE
+            bolt_sorter_machine.exit_classified_bolt()
+            bolt_sorter_machine.robot_drop(bolt_type)
+
+
+
+
+class CameraThread(QThread):
     changePixmap = Signal(QImage)
 
     def run(self):
         # cap = ueye_camera.UeyeCameraCapture(1)
-        cap = cv2.VideoCapture(0)
+        # cap = cv2.VideoCapture(0)
         while True:
-            ret, frame = cap.read()
+            # ret, frame = cap.read()
+            ret, frame = bolt_sorter_machine.img_capture()
             if ret:
                 # https://stackoverflow.com/a/55468544/6622587
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -25,6 +72,7 @@ class Thread(QThread):
                 convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                 p = convertToQtFormat.scaled(640, 512, Qt.KeepAspectRatio)
                 self.changePixmap.emit(p)
+
 
 class ConnectDeviceThread(QThread):
     resultReady = Signal(str)
@@ -36,7 +84,7 @@ class ConnectRobotThread(ConnectDeviceThread):
     def run(self):
         if not self.is_connected:
             print('run RobotThread')
-            device = controller.connect_arduino()
+            device = bolt_sorter_machine.connect_arduino()
             if device:
                 self.deviceConnected.emit(self)
                 # todo: remove signal from connect
@@ -50,7 +98,7 @@ class ConnectArduinoThread(ConnectDeviceThread):
     def run(self):
         if not self.is_connected:
             print('run ArduinoThread')
-            device = controller.connect_arduino()
+            device = bolt_sorter_machine.connect_arduino()
             if device:
                 self.deviceConnected.emit(self)
                 # todo: remove signal from connect
@@ -64,7 +112,7 @@ class ConnectCameraThread(ConnectDeviceThread):
     def run(self):
         if not self.is_connected:
             print('run CameraThread')
-            device = controller.connect_arduino()
+            device = bolt_sorter_machine.connect_arduino()
             if device:
                 self.deviceConnected.emit(self)
                 # todo: remove signal from connect
@@ -72,7 +120,6 @@ class ConnectCameraThread(ConnectDeviceThread):
                 self.is_connected=True
             else:
                 self.resultReady.emit("Camera couldn't find")
-
 
 class MainWindow(QMainWindow):
     @Slot(QImage)
@@ -108,9 +155,16 @@ class MainWindow(QMainWindow):
         self.connected_devices = 0
 
         # add signal to connect arduino
-        th = Thread(self)
+        th = CameraThread(self)
         th.changePixmap.connect(self.setImage)
         th.start()
+
+        # add thread to run button
+        self.machineThread = MachineThread()
+        self.ui.pushButton_4.clicked.connect(self.machineThread.start)
+        self.machineThread.started.connect(lambda: self.ui.pushButton_4.setDisabled(True))
+        self.machineThread.finished.connect(lambda: self.ui.pushButton_4.setEnabled(True))
+
 
     def setupConnect(self):
         self.connectRobotThread = ConnectRobotThread()

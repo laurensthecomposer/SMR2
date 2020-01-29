@@ -21,6 +21,7 @@ class MachineController(object):
             "height": 640
         }
         self.model_img_size = (550, 550)
+        self.count = 0
 
     def connect_arduino(self):
         print("connected arduino")
@@ -35,9 +36,9 @@ class MachineController(object):
         return True
 
     def data_startup(self):
-        self.count, _, self.IMG_CLASS_PATH = self.machine.save_pictures(self.IMG_SAVE_PATH, self.bolt_type_path, 0)
-        self.REV_CLASS_MAP, self.file_path = self.data.bolts_in_model(sub_ass=1)
-        self.model = load_model(self.file_path)
+        # self.count, _, self.IMG_CLASS_PATH = self.machine.save_pictures(self.IMG_SAVE_PATH, self.bolt_type_path, 0)
+        # self.REV_CLASS_MAP, self.file_path = self.data.bolts_in_model(sub_ass=1)
+        # self.model = load_model(self.file_path)
         print("Loaded model")
 
     def machine_startup(self):
@@ -70,15 +71,18 @@ class MachineController(object):
         return img[y:y + height, x:x + width]
 
     def img_save(self, frame):
-        filename = '{}.jpg'.format(self.count + 1)
-        save_path = os.path.join(self.IMG_CLASS_PATH, filename)
-        cv2.imwrite(save_path, frame)
+        # filename = '{}.jpg'.format(self.count + 1)
+        # save_path = os.path.join(self.IMG_CLASS_PATH, filename)
+        # cv2.imwrite(save_path, frame)
+        time.sleep(0.1)
         print("Image Saved")
 
     def img_classify(self, frame):
-        bolt_type, pred, bolt_code = self.machine.test_img(frame, self.model, self.REV_CLASS_MAP, size=self.model_img_size)
-        self.count += 1
-        return bolt_type, pred, bolt_code
+        # bolt_type, pred, bolt_code = self.machine.test_img(frame, self.model, self.REV_CLASS_MAP, size=self.model_img_size)
+        # self.count += 1
+        # bolt_counts = self.machine.bolt_counter(bolt_type)
+        bolt_type, pred, bolt_code, bolt_counts = "nas1802-3-6", [[0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0]], 4, [1,2,3,4,5,6,7,8,9,self.count]
+        return bolt_type, pred, bolt_code, bolt_counts
 
     def exit_classified_bolt(self):
         print("Bolt thrown out")
