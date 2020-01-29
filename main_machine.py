@@ -11,11 +11,10 @@ import ueye_camera
 
 class MachineThread(QThread):
     first_run = True
-
-    def timeOut(self):
+    BoltFrame =
+    def stop_machine(self):
         bolt_sorter_machine.machine_stop()
-        self.exit()
-        self.wait()
+        self.quit()
 
     def run(self):
         print("====== begin run")
@@ -163,8 +162,10 @@ class MainWindow(QMainWindow):
         self.ui.start_machine_button.clicked.connect(self.machineThread.start)
         self.machineThread.started.connect(lambda: self.ui.start_machine_button.setDisabled(True))
         # self.machineThread.finished.connect(lambda: self.ui.start_machine_button.setEnabled(True))
-        self.machineThread.finished.connect(lambda: self.machineThread.start())
+        self.machineThread.finished.connect(self.machineThread.start)
 
+        self.ui.stop_machine_button.clicked.connect(self.machineThread.stop_machine)
+        self.ui.stop_machine_button.clicked.connect(lambda: self.machineThread.disconnect(self.machineThread))
 
 
     def setupConnect(self):
