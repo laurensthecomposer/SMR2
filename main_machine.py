@@ -13,6 +13,8 @@ import ueye_camera
 class MachineThread(QThread):
     first_run = True
     BoltFrame = Signal(np.ndarray)
+    BoltType = Signal(str)
+    BoltCounts = Signal(list)
 
     def stop_machine(self):
         bolt_sorter_machine.machine_stop()
@@ -44,11 +46,14 @@ class MachineThread(QThread):
         bolt_sorter_machine.img_stop()
         ret, frame = bolt_sorter_machine.img_capture()
         self.BoltFrame.emit(convertCv2ToQt(frame))
-        print("emitted boltframe!")
-        # todo: SIGNAL IMG
+
         bolt_sorter_machine.img_save(frame)
+
         bolt_type, pred, bolt_code, counts = bolt_sorter_machine.img_classify(frame)
-        # todo: SIGNAL BOLT_TYPE, COUNTS_UPDATE
+
+        self.BoltType.emit(bolt_type)
+        self.BoltCounts.emit(counts)
+
         bolt_sorter_machine.exit_classified_bolt()
         bolt_sorter_machine.robot_drop(bolt_type)
 
@@ -139,6 +144,18 @@ class MainWindow(QMainWindow):
         self.ui.label_img_bolt.setPixmap(QPixmap.fromImage(frame))
         print('received at slot')
 
+    def updateBoltCounts(self, counts):
+        print('update_bolt_counts: ',counts)
+        table = self.ui.tableWidget_2
+        for i in range(0,table.rowCount()):
+            item = QTableWidgetItem(str(counts[i]))
+            item = table.setItem(i,1,item)
+
+    def updateProgress(self, counts):
+        progress = (self.sum_column_table(1)/self.bolts_total)*100
+        print(progress)
+        self.ui.progressBar.setValue(progress)
+
     def __init__(self):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
@@ -171,8 +188,15 @@ class MainWindow(QMainWindow):
         th.changePixmap.connect(self.setImage)
         th.start()
 
-        # add thread to run button
         self.machineThread = MachineThread()
+        self.setupMachine()
+
+
+    def setupMachine(self):
+        self.bolts_total = self.sum_column_table(2)
+        print(self.bolts_total)
+
+        # add thread to run button
         self.ui.start_machine_button.clicked.connect(self.machineThread.start)
         self.machineThread.started.connect(lambda: self.ui.start_machine_button.setDisabled(True))
         # self.machineThread.finished.connect(lambda: self.ui.start_machine_button.setEnabled(True))
@@ -181,7 +205,23 @@ class MainWindow(QMainWindow):
         self.ui.stop_machine_button.clicked.connect(self.machineThread.stop_machine)
         self.ui.stop_machine_button.clicked.connect(lambda: self.machineThread.disconnect(self.machineThread))
 
+        self.machineThread.finished.connect(self.machineThread.start)
+
+
         self.machineThread.BoltFrame.connect(self.setBoltFrame)
+        self.machineThread.BoltType.connect(lambda x: self.ui.detected_bolt_type.setText(x))
+        self.machineThread.BoltCounts.connect(self.updateBoltCounts)
+        self.machineThread.BoltCounts.connect(self.updateProgress)
+
+
+    def sum_column_table(self, column_no):
+        # count sum of total on x bus
+        table = self.ui.tableWidget_2
+        sum = 0
+        for i in range(0,table.rowCount()):
+            item:QTableWidgetItem= table.item(i,column_no)
+            sum+=int(item.text())
+        return sum
 
 
     def setupConnect(self):

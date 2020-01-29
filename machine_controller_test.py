@@ -79,7 +79,7 @@ class MachineController(object):
 
     def img_classify(self, frame):
         # bolt_type, pred, bolt_code = self.machine.test_img(frame, self.model, self.REV_CLASS_MAP, size=self.model_img_size)
-        # self.count += 1
+        self.count += 1
         # bolt_counts = self.machine.bolt_counter(bolt_type)
         bolt_type, pred, bolt_code, bolt_counts = "nas1802-3-6", [[0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0]], 4, [1,2,3,4,5,6,7,8,9,self.count]
         return bolt_type, pred, bolt_code, bolt_counts
