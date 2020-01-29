@@ -107,6 +107,9 @@ while True:
                 first_df_print = False
             logger.print_latest()
             print(pred)
+            percentage = pred[bolt_code]
+            if percentage < 1:
+                bolt_type = "Disaproved"
             rob.drop(controller, bolt_type)
             controller.bulk_feeder_start()
 

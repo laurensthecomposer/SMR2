@@ -52,7 +52,10 @@ class Robot(urx.Robot):
 
 
         # dropping
-        self.movel(safe_pos, acc, vel)
+
+        if not bolt_type == "Disaproved":
+            self.movel(safe_pos, acc, vel)
+
         if bolt_type == "m59557-10":
             self.movel(m5955710,acc,vel)
         elif bolt_type == "m59557-16":
@@ -73,11 +76,15 @@ class Robot(urx.Robot):
             self.movel(nas1802407, acc, vel)
         elif bolt_type == "v647p23b":
             self.movel(v647p23b, acc, vel)
+        elif bolt_type == "Disaproverd":
+            print("Bolt dropped because it is below threshold.")
+
         arduino.bin_open()
         time.sleep(0.5)
         arduino.bin_closed()
-        self.movel(safe_pos, acc, vel)
-        self.movel(drop_loc, acc, vel)
+        if not bolt_type == "Disaproved":
+            self.movel(safe_pos, acc, vel)
+            self.movel(drop_loc, acc, vel)
 
 class SortingMachine():
     def save_pictures(self, IMG_SAVE_PATH, bolt_type, num_samples):
