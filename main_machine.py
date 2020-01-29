@@ -4,6 +4,7 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 import sys, time
 import machine_controller_test as machine_controller
+import numpy as np
 bolt_sorter_machine = machine_controller.MachineController()
 
 from cv2 import cv2
@@ -11,7 +12,8 @@ import ueye_camera
 
 class MachineThread(QThread):
     first_run = True
-    BoltFrame =
+    BoltFrame = Signal(np.ndarray)
+
     def stop_machine(self):
         bolt_sorter_machine.machine_stop()
         self.quit()
@@ -42,6 +44,8 @@ class MachineThread(QThread):
         # reset timer
         bolt_sorter_machine.img_stop()
         ret, frame = bolt_sorter_machine.img_capture()
+        self.BoltFrame.emit(np.empty((1,2)))
+        print("emitted boltframe!")
         # todo: SIGNAL IMG
         bolt_sorter_machine.img_save(frame)
         bolt_type, pred, bolt_code, counts = bolt_sorter_machine.img_classify(frame)
@@ -125,6 +129,11 @@ class MainWindow(QMainWindow):
         self.ui.label_img_camera.setPixmap(QPixmap.fromImage(image))
         self.ui.label_img_bolt.setPixmap(QPixmap.fromImage(image))
 
+    @Slot(np.ndarray)
+    def setBoltFrame(self, frame): # np array
+        print(frame)
+        print('received at slot')
+
     def __init__(self):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
@@ -166,6 +175,8 @@ class MainWindow(QMainWindow):
 
         self.ui.stop_machine_button.clicked.connect(self.machineThread.stop_machine)
         self.ui.stop_machine_button.clicked.connect(lambda: self.machineThread.disconnect(self.machineThread))
+
+        self.machineThread.BoltFrame.connect(self.setBoltFrame)
 
 
     def setupConnect(self):
