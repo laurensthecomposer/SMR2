@@ -19,11 +19,15 @@ class Robot(urx.Robot):
 
     def startup(self, arduino):
         arduino.bin_closed()
+        drop_loc = [-0.3853676783273601, 0.012440217363503312, 0.0969704299501663, -1.1637118742378871,
+                    2.8021864528681713, -0.06412860517545543]
+        current_pos = self.getl()
+        if current_pos == drop_loc:
+            return
         safe_pos = [0.11773670017317478, -0.3851208207084043, 0.28093635899363284, 2.8320877914484157,
                     -1.2109140693593983, 0.027290517942945874]
-        self.movel(safe_pos, 0.02, 0.2)
-        drop_loc = [-0.3853676783273601, 0.012440217363503312, 0.0969704299501663, -1.1637118742378871, 2.8021864528681713, -0.06412860517545543]
-        self.movel(drop_loc, 0.01, 0.1)
+        self.movel(safe_pos, 0.025, 0.25)
+        self.movel(drop_loc, 0.025, 0.25)
 
 
     def move_joint(self, joint_index, degrees, acc=0.05, vel=0.5):
@@ -32,7 +36,7 @@ class Robot(urx.Robot):
         a[joint_index] = math.radians(degrees)
         super().movej(a, acc, vel)
 
-    def drop(self, arduino, bolt_type="", acc=0.02, vel=0.2):
+    def drop(self, arduino, bolt_type="", acc=0.025, vel=0.25):
         # drop locations
         m5955710 = [-0.32504072318747923, -0.39318955109641723, 0.18666989850907775, 2.8428185625446596, -1.1824626229075792, -2.5769697464202658e-05]
         m5955716 = [-0.2165225007215927, -0.4138486562860415, 0.17576298309224656, 2.824796585196249, -1.207647475705301, 0.015021960712533795]
@@ -44,8 +48,7 @@ class Robot(urx.Robot):
         nas630510 = [0.42736483713993145, -0.44216356313850436, 0.17314271705077852, 2.826655293962752, -1.2877285048654983, -0.00042725699011751547]
         nas1802407 = [0.5392318000332552, -0.4397002263695111, 0.19157130563521024, -2.747049558982466, 1.3176412440538665, 0.05347415800508491]
         v647p23b = [0.6462556060133496, -0.4330175053314038, 0.18483470601765029, -2.735340404844916, 1.3487650976441188, 0.053448079692322]
-        # TODO define an undefined position. (Beneeth THRESHOLD)
-        #undefineds
+
         safe_pos = [0.11773670017317478, -0.3851208207084043, 0.28093635899363284, 2.8320877914484157, -1.2109140693593983, 0.027290517942945874]
 
         drop_loc = [-0.3853676783273601, 0.012440217363503312, 0.0969704299501663, -1.1637118742378871, 2.8021864528681713, -0.06412860517545543]
@@ -80,7 +83,7 @@ class Robot(urx.Robot):
             print("Bolt dropped because it is below threshold.")
 
         arduino.bin_open()
-        time.sleep(0.5)
+        time.sleep(1)
         arduino.bin_closed()
         if not bolt_type == "Disaproved":
             self.movel(safe_pos, acc, vel)
@@ -115,7 +118,7 @@ class SortingMachine():
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
         img = cv2.resize(img, size)
-        cv2.imshow("test", img)
+        # cv2.imshow("test", img)
 
         # predict the picture
         pred = model.predict(np.array([img]))
@@ -127,9 +130,11 @@ class SortingMachine():
         # print(pic_code)
         pic_name = REV_CLASS_MAP[pic_code]
 
-        # THRESHOLD
-        if (pic_code <= 0.95):
-            pic_name = "undefined"
+        strip = pred[0]
+        percentage = strip[pic_code]
+        if percentage < 0.99:
+            pic_name = "Disaproved"
+
         return pic_name, pred, pic_code
 
     def set_camera(self):

@@ -40,7 +40,7 @@ model = load_model( file_path )
 # Start machine
 start = True
 
-np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
+# np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
 
 # setup pandas dataframe
 column_names = ['foldername', 'filename', 'positive[T/F]', 'real_class', 'pred_class', 'pred_array']
@@ -48,6 +48,7 @@ logger = logger_csv.Logger(column_names, IMG_SAVE_PATH, 'test_log.csv' )
 first_df_print = True
 controller.bulk_feeder_start()
 controller.blocker_close()
+
 
 while True:
     # if count == num_samples:
@@ -71,8 +72,8 @@ while True:
             ret, frame = cap.read()
 
             # show image
-            # cv2.imshow( "Collecting images", frame )
-            # k = cv2.waitKey( 100 )
+            cv2.imshow( "Collecting images", frame )
+            k = cv2.waitKey( 100 )
 
             # save image
             filename = '{}.jpg'.format( count + 1 )
@@ -107,9 +108,6 @@ while True:
                 first_df_print = False
             logger.print_latest()
             print(pred)
-            percentage = pred[bolt_code]
-            if percentage < 1:
-                bolt_type = "Disaproved"
             rob.drop(controller, bolt_type)
             controller.bulk_feeder_start()
 
