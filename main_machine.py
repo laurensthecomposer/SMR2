@@ -66,9 +66,9 @@ class CameraThread(QThread):
 
     def run(self):
         # cap = ueye_camera.UeyeCameraCapture(1)
-        cap = cv2.VideoCapture(0)
+        # cap = cv2.VideoCapture(0)
         while True:
-            ret, frame = cap.read()
+            ret, frame = bolt_sorter_machine.camera.read()
             if ret:
                 # https://stackoverflow.com/a/55468544/6622587
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -192,6 +192,10 @@ class MainWindow(QMainWindow):
         # set connect as first page
         self.ui.stackedWidget.setCurrentIndex(self.page_index['page_connect'])
 
+        # todo: only start after camera connect!
+        self.th = CameraThread(self)
+        self.th.changePixmap.connect(self.setImage)
+
         self.setupConnect()
 
         self.connected_devices = 0
@@ -199,10 +203,6 @@ class MainWindow(QMainWindow):
         # system check setup
         self.setup_system_check()
 
-        # todo: only start after camera connect!
-        th = CameraThread(self)
-        th.changePixmap.connect(self.setImage)
-        th.start()
 
         self.machineThread = MachineThread()
         self.setupMachine()
@@ -333,6 +333,7 @@ class MainWindow(QMainWindow):
         self.connectCameraThread = ConnectCameraThread()
         self.connectCameraThread.resultReady.connect(lambda x: self.ui.status_camera.setText(x))
         self.connectCameraThread.finished.connect(self.connect_finished)
+        self.connectCameraThread.deviceConnected.connect(self.th.start)
 
         self.ui.button_connect.clicked.connect(self.connectRobotThread.start)
         self.ui.button_connect.clicked.connect(self.connectArduinoThread.start)

@@ -56,7 +56,7 @@ class Robot(urx.Robot):
 
         # dropping
 
-        if not bolt_type == "Disaproved":
+        if not bolt_type == "disapproved":
             self.movel(safe_pos, acc, vel)
 
         if bolt_type == "m59557-10":
@@ -79,13 +79,13 @@ class Robot(urx.Robot):
             self.movel(nas1802407, acc, vel)
         elif bolt_type == "v647p23b":
             self.movel(v647p23b, acc, vel)
-        elif bolt_type == "Disaproved":
+        elif bolt_type == "disapproved":
             print("Bolt dropped because it is below threshold.")
 
         arduino.bin_open()
         time.sleep(1)
         arduino.bin_closed()
-        if not bolt_type == "Disaproved":
+        if not bolt_type == "disapproved":
             self.movel(safe_pos, acc, vel)
             self.movel(drop_loc, acc, vel)
 
@@ -102,7 +102,7 @@ class SortingMachine():
             "nas1802-4-07": 0,
             "nas6305-10": 0,
             "v647p23b": 0,
-            "Disaproved": 0
+            "disapproved": 0
         }
     def save_pictures(self, IMG_SAVE_PATH, bolt_type, num_samples):
         IMG_CLASS_PATH = os.path.join(IMG_SAVE_PATH, bolt_type)
@@ -146,8 +146,8 @@ class SortingMachine():
 
         strip = pred[0]
         percentage = strip[pic_code]
-        if percentage < 0.99:
-            pic_name = "Disaproved"
+        if percentage < 0.97:
+            pic_name = "disapproved"
 
         return pic_name, pred, pic_code
 
