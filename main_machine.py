@@ -3,7 +3,7 @@ from PySide2.QtWidgets import *
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 import sys, time
-import machine_controller_test as machine_controller
+import machine_controller
 import numpy as np
 bolt_sorter_machine = machine_controller.MachineController()
 
@@ -98,9 +98,10 @@ class ConnectDeviceThread(QThread):
 
 class ConnectRobotThread(ConnectDeviceThread):
     def run(self):
+        # print('robotempty')
         if not self.is_connected:
             print('run RobotThread')
-            device = bolt_sorter_machine.connect_arduino()
+            device = bolt_sorter_machine.connect_robot()
             if device:
                 self.deviceConnected.emit(self)
                 # todo: remove signal from connect
@@ -112,6 +113,7 @@ class ConnectRobotThread(ConnectDeviceThread):
 
 class ConnectArduinoThread(ConnectDeviceThread):
     def run(self):
+        # print('arduinoempty')
         if not self.is_connected:
             print('run ArduinoThread')
             device = bolt_sorter_machine.connect_arduino()
@@ -126,9 +128,10 @@ class ConnectArduinoThread(ConnectDeviceThread):
 
 class ConnectCameraThread(ConnectDeviceThread):
     def run(self):
+        # print('cameraempty')
         if not self.is_connected:
             print('run CameraThread')
-            device = bolt_sorter_machine.connect_arduino()
+            device = bolt_sorter_machine.connect_camera()
             if device:
                 self.deviceConnected.emit(self)
                 # todo: remove signal from connect

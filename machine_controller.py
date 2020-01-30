@@ -25,6 +25,7 @@ class MachineController(object):
     def connect_arduino(self):
         try:
             self.arduino = arduino_controller.Arduino()
+            print('arduinotrue')
             return True
         except:
             print("arduinofalse")
@@ -33,6 +34,7 @@ class MachineController(object):
     def connect_camera(self):
         try:
             self.camera = self.machine.set_camera()
+            print('cameratrue')
             return True
         except:
             print("camerafalse")
@@ -41,6 +43,7 @@ class MachineController(object):
     def connect_robot(self):
         try:
             self.rob = sorting_robot.Robot()
+            print('robottrue')
             return True
         except:
             print("robotfalse")
@@ -73,7 +76,7 @@ class MachineController(object):
     def img_capture(self):
         ret, frame = self.camera.read()
         ret, frame = self.camera.read()
-        return ret, self.frame
+        return ret, frame
 
     def img_processing(self, frame):
         crop_img = self.crop(frame, self.crop_dim['pos_x'], self.crop_dim['pos_y'], self.crop_dim['width'], self.crop_dim['height'])
@@ -91,6 +94,7 @@ class MachineController(object):
         bolt_type, pred, bolt_code = self.machine.test_img(frame, self.model, self.REV_CLASS_MAP, size=self.model_img_size)
         self.count += 1
         bolt_count = self.machine.bolt_counter(bolt_type)
+        print(pred)
         return bolt_type, pred, bolt_code, bolt_count
 
     def exit_classified_bolt(self):
@@ -114,7 +118,7 @@ class MachineController(object):
 
 if __name__ == "__main__":
     machine = MachineController()
-    machine.connect_camera()
-    machine.connect_arduino()
+    # machine.connect_camera()
+    # machine.connect_arduino()
     machine.connect_robot()
     machine.data_startup()
