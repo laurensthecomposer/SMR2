@@ -15,19 +15,8 @@ def main(argv):
     cap.set( cv2.CAP_PROP_FRAME_WIDTH, 1920 )
     cap.set( cv2.CAP_PROP_FRAME_HEIGHT, 1080 )
     cap.set( cv2.CAP_PROP_AUTOFOCUS, 0 )  # turn the autofocus off
-    cap.set( cv2.CAP_PROP_FOCUS, 25) # set the focus of camera
-
-    # cap.set( cv2.CAP_PROP_BRIGHTNESS, 120)
-    # cap.set(cv2.CAP_PROP_CONTRAST, 80.0)
-
-
+    cap.set( cv2.CAP_PROP_FOCUS, 5) # set the focus of camera
     print(cap.get(cv2.CAP_PROP_FOCUS))
-    cap.set(cv2.CAP_PROP_AUTO_WB, 0)
-    cap.set(cv2.CAP_PROP_XI_AUTO_WB, 0)
-    cap.set(cv2.CAP_PROP_EXPOSUREPROGRAM,0)
-    cap.set(cv2.CAP_PROP_XI_AEAG,0)
-
-    cap.set(cv2.CAP_PROP_SPEED, 1)
 
 
     # Change the camera setting using the set() function
@@ -41,27 +30,11 @@ def main(argv):
     cap.set(cv2.CAP_PROP_BRIGHTNESS, 128.0)
     cap.set(cv2.CAP_PROP_CONTRAST, 128.0)
     cap.set(cv2.CAP_PROP_SATURATION, 128.0)
-    cap.set(cv2.CAP_PROP_HUE, -1.0)  # 13.0
-    cap.set(cv2.CAP_PROP_GAIN, 5.0)
-    cap.set(cv2.CAP_PROP_EXPOSURE, -5.0)
-    cap.set(cv2.CAP_PROP_SPEED, 1)
+    cap.set(cv2.CAP_PROP_HUE, -1.0) # 13.0
+    cap.set(cv2.CAP_PROP_GAIN, 4.0)
+    cap.set(cv2.CAP_PROP_EXPOSURE, -7.0)
     # Read the current setting from the camera
-
-    # Brightness: 128.0
-    # Contrast: 128.0
-    # Saturation: 128.0
-    # Hue: -1.0
-    # Gain: 57.0
-    # Exposure: -5.0
-
-    # Brightness: 128.0
-    # Contrast: 128.0
-    # Saturation: 128.0
-    # Hue: -1.0
-    # Gain: 15.0
-    # Exposure: -4.0
     def print_props():
-        print("---Properties---")
         test = cap.get(cv2.CAP_PROP_POS_MSEC)
         ratio = cap.get(cv2.CAP_PROP_POS_AVI_RATIO)
         frame_rate = cap.get(cv2.CAP_PROP_FPS)
@@ -88,16 +61,13 @@ def main(argv):
     print_props()
 
     while True:
-        cap.set(cv2.CAP_PROP_EXPOSURE, -4.0)
         ret, img = cap.read()
 
         h, w = img.shape[:2]
-        print('h',h,',w',w)
         cv2.imshow( "World co-ordinate frame axes", img )
 
         k = cv2.waitKey( 10 )
         print_props()
-        cv2.imwrite('2.jpg',img)
         if k == ord( 'q' ):
             break
 

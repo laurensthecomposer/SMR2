@@ -1,5 +1,5 @@
-import sorting_robot
-import arduino_controller
+# import sorting_robot
+# import arduino_controller
 from keras.models import load_model
 import os, time
 import cv2.cv2 as cv2
@@ -58,6 +58,7 @@ class MachineController(object):
 
     def belts_roll(self):
         self.arduino.all_forward()
+        self.arduino.blocker_open()
         self.arduino.bulk_feeder_start()
 
     def lightgate(self):
@@ -65,6 +66,7 @@ class MachineController(object):
 
     def img_stop(self):
         self.arduino.bulk_feeder_stop()
+        self.arduino.blocker_close()
         self.arduino.all_stop()
         time.sleep(2)
 
@@ -88,7 +90,8 @@ class MachineController(object):
     def img_classify(self, frame):
         bolt_type, pred, bolt_code = self.machine.test_img(frame, self.model, self.REV_CLASS_MAP, size=self.model_img_size)
         self.count += 1
-        return bolt_type, pred, bolt_code
+        bolt_count = self.machine.bolt_counter(bolt_type)
+        return bolt_type, pred, bolt_code, bolt_count
 
     def exit_classified_bolt(self):
         self.arduino.blocker_open()

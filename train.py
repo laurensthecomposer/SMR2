@@ -1,4 +1,4 @@
-import cv2.cv2 as cv2
+import cv2
 import numpy as np
 from keras_squeezenet import SqueezeNet
 from keras.optimizers import Adam
@@ -7,99 +7,79 @@ from keras.layers import Activation, Dropout, Convolution2D, GlobalAveragePoolin
 from keras.models import Sequential
 import tensorflow as tf
 import os
-from keras.preprocessing.image import ImageDataGenerator
 
-# datagen = ImageDataGenerator(featurewise_center=False,
-#                              samplewise_center=False,
-#                              featurewise_std_normalization=False,
-#                              samplewise_std_normalization=False,
-#                              zca_whitening=False,
-#                              zca_epsilon=1e-06,
-#                              rotation_range=0,
-#                              width_shift_range=0.0,
-#                              height_shift_range=0.0,
-#                              brightness_range=None,
-#                              shear_range=0.0,
-#                              zoom_range=0.0,
-#                              channel_shift_range=0.0,
-#                              fill_mode='nearest',
-#                              cval=0.0,
-#                              horizontal_flip=False,
-#                              vertical_flip=False,
-#                              rescale=None,
-#                              preprocessing_function=None,
-#                              data_format='channels_last',
-#                              validation_split=0.0,
-#                              interpolation_order=1,
-#                              dtype='float32')
+IMG_SAVE_PATH = 'image_data'
 
-train_datagen = ImageDataGenerator()
-# rescale=1./255,
-# shear_range=0.2,
-# zoom_range=0.2,
-# horizontal_flip=True)
+CLASS_MAP = {
+    "rock": 0,
+    "paper": 1,
+    "scissors": 2,
+    "none": 3
+}
 
-test_datagen = ImageDataGenerator()
-
-# settings
-train_batch_size = 20
-val_batch_size = 20
-roi_square_size = 350
-epochs = 1
-amount_train_images = 1296
-amount_val_images = 373
-
-#epochs = int( (amount_train_images / train_batch_size) ) * 1
-print( "epochs", epochs )
-print( "train_batch_size", train_batch_size)
-print( "val_batch_size", val_batch_size )
-
-train_it = train_datagen.flow_from_directory(
-    os.path.abspath( 'dataset/image_data_blue_light_split/train' ),
-    target_size=(roi_square_size, roi_square_size),
-    class_mode='categorical',
-    batch_size=train_batch_size
-)
-
-val_it = test_datagen.flow_from_directory(
-    os.path.abspath( 'dataset/image_data_blue_light_split/validate' ),
-    target_size=(roi_square_size, roi_square_size),
-    class_mode='categorical',
-    batch_size=val_batch_size
-)
-
-amount_classes = len( os.listdir( os.path.abspath( 'dataset/image_data_blue_light_split/validate' ) ) )
+NUM_CLASSES = len(CLASS_MAP)
 
 
-def get_model(amount_classes):
-    model = Sequential( [
-        # change model res
-        SqueezeNet( input_shape=(roi_square_size, roi_square_size, 3), include_top=False ),
-        Convolution2D( amount_classes, (1, 1), padding='valid' ),
-        Activation( 'relu' ),
+def mapper(val):
+    return CLASS_MAP[val]
+
+
+def get_model():
+    model = Sequential([
+        SqueezeNet(input_shape=(227, 227, 3), include_top=False),
+        Dropout(0.5),
+        Convolution2D(NUM_CLASSES, (1, 1), padding='valid'),
+        Activation('relu'),
         GlobalAveragePooling2D(),
-        Activation( 'softmax' )
-    ] )
+        Activation('softmax')
+    ])
     return model
 
 
+# load images from the directory
+dataset = []
+for directory in os.listdir(IMG_SAVE_PATH):
+    path = os.path.join(IMG_SAVE_PATH, directory)
+    if not os.path.isdir(path):
+        continue
+    for item in os.listdir(path):
+        # to make sure no hidden files get in our way
+        if item.startswith("."):
+            continue
+        img = cv2.imread(os.path.join(path, item))
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = cv2.resize(img, (227, 227))
+        dataset.append([img, directory])
+
+'''
+dataset = [
+    [[...], 'rock'],
+    [[...], 'paper'],
+    ...
+]
+'''
+data, labels = zip(*dataset)
+labels = list(map(mapper, labels))
+
+
+'''
+labels: rock,paper,paper,scissors,rock...
+one hot encoded: [1,0,0], [0,1,0], [0,1,0], [0,0,1], [1,0,0]...
+'''
+
+# one hot encode the labels
+labels = np_utils.to_categorical(labels)
+
 # define the model
-model = get_model( amount_classes )
+model = get_model()
 model.compile(
-    optimizer=Adam( lr=0.0001 ),
+    optimizer=Adam(lr=0.0001),
     loss='categorical_crossentropy',
-    metrics=['acc']
-)  # lr = learning rate
+    metrics=['accuracy']
+)
 
 # start training
-history = model.fit_generator( train_it, steps_per_epoch=2, validation_data=val_it,
-                               validation_steps=2, epochs=epochs, verbose=1 )
-# model.fit_generator(train_it, steps_per_epoch=10, validation_data=val_it, validation_steps=1, epochs=epochs,
-# verbose=1)
-name = 'tf1_test_350px.h5'
+model.fit(np.array(data), np.array(labels), epochs=10)
 
 # save the model for later use
-model.save( name )
-
-# score = model.evaluate(np.array(data), np.array(labels))
-#print(score)
+model.save("rock-paper-scissors-model.h5")
