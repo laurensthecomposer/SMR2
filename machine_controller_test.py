@@ -59,7 +59,7 @@ class MachineController(object):
         time.sleep(2)
 
     def img_capture(self):
-        self.frame = cv2.imread("dataset/image_data_blue_light_more/nas1802-3-7/16.jpg")
+        self.frame = cv2.imread("dataset/image_data_better_camera_more_split/train/m59557-16/4.jpg")
         return True, self.frame
 
     def img_processing(self, frame):

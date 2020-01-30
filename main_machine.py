@@ -45,6 +45,7 @@ class MachineThread(QThread):
         # reset timer
         bolt_sorter_machine.img_stop()
         ret, frame = bolt_sorter_machine.img_capture()
+        print('img_cap_frame.shape:',frame.shape)
         self.BoltFrame.emit(convertCv2ToQt(frame))
 
         bolt_sorter_machine.img_save(frame)
@@ -64,8 +65,8 @@ class CameraThread(QThread):
     changePixmap = Signal(QImage)
 
     def run(self):
-        cap = ueye_camera.UeyeCameraCapture(1)
-        # cap = cv2.VideoCapture(0)
+        # cap = ueye_camera.UeyeCameraCapture(1)
+        cap = cv2.VideoCapture(0)
         while True:
             ret, frame = cap.read()
             if ret:
@@ -77,6 +78,8 @@ class CameraThread(QThread):
                 convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                 p = convertToQtFormat.scaled(640, 512, Qt.KeepAspectRatio)
                 self.changePixmap.emit(p)
+            
+            time.sleep(1/25) # frame rate of 25
 
 def convertCv2ToQt(frame):
     rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -140,11 +143,11 @@ class MainWindow(QMainWindow):
     @Slot(QImage)
     def setImage(self, image):
         self.ui.label_img_camera.setPixmap(QPixmap.fromImage(image))
-        self.ui.label_img_bolt.setPixmap(QPixmap.fromImage(image).scaled(self.ui.label_img_bolt.size(),aspectMode=Qt.KeepAspectRatio))
-
     @Slot(np.ndarray)
     def setBoltFrame(self, frame): # np array
-        self.ui.label_img_bolt.setPixmap(QPixmap.fromImage(frame))
+        self.ui.label_img_bolt.setPixmap(QPixmap.fromImage(frame).scaled(self.ui.label_img_bolt.size(),aspectMode=Qt.KeepAspectRatio))
+
+        # self.ui.label_img_bolt.setPixmap(QPixmap.fromImage(frame))
         print('received at slot')
 
     @Slot(list)
@@ -184,7 +187,7 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.currentChanged.connect(self.handlePageChange)
 
         # set connect as first page
-        self.ui.stackedWidget.setCurrentIndex(self.page_index['page_machine'])
+        self.ui.stackedWidget.setCurrentIndex(self.page_index['page_connect'])
 
         self.setupConnect()
 
@@ -259,6 +262,7 @@ class MainWindow(QMainWindow):
 
     def enter_select_subassembly(self):
         self.ui.prev_button.setDisabled(True)
+        self.ui.next_button.setDisabled(True)
 
     def enter_subassembly_overview(self):
         self.ui.prev_button.setEnabled(True)

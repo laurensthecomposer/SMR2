@@ -38,12 +38,19 @@
     <item row="0" column="0" colspan="2">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_connect">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QLabel" name="title_2">
+          <property name="font">
+           <font>
+            <pointsize>30</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
            <string>Connect to devices</string>
           </property>
@@ -51,6 +58,12 @@
         </item>
         <item>
          <widget class="QLabel" name="status_robot">
+          <property name="font">
+           <font>
+            <pointsize>48</pointsize>
+            <italic>true</italic>
+           </font>
+          </property>
           <property name="text">
            <string>robot unconnnected</string>
           </property>
@@ -58,6 +71,12 @@
         </item>
         <item>
          <widget class="QLabel" name="status_arduino">
+          <property name="font">
+           <font>
+            <pointsize>48</pointsize>
+            <italic>true</italic>
+           </font>
+          </property>
           <property name="text">
            <string>arduino unconnected</string>
           </property>
@@ -65,6 +84,12 @@
         </item>
         <item>
          <widget class="QLabel" name="status_camera">
+          <property name="font">
+           <font>
+            <pointsize>48</pointsize>
+            <italic>true</italic>
+           </font>
+          </property>
           <property name="text">
            <string>camera unconnected</string>
           </property>
@@ -72,6 +97,16 @@
         </item>
         <item>
          <widget class="QPushButton" name="button_connect">
+          <property name="font">
+           <font>
+            <pointsize>30</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">padding:2em;</string>
+          </property>
           <property name="text">
            <string>connect everything</string>
           </property>
@@ -88,6 +123,13 @@
             <width>16777215</width>
             <height>50</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>30</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
           </property>
           <property name="text">
            <string>System Check</string>
@@ -128,6 +170,13 @@
         </item>
         <item row="0" column="0" colspan="2">
          <widget class="QLabel" name="title_3">
+          <property name="font">
+           <font>
+            <pointsize>30</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
            <string>Select subassembly</string>
           </property>
@@ -405,6 +454,13 @@
         </item>
         <item row="0" column="0" colspan="3">
          <widget class="QLabel" name="title_4">
+          <property name="font">
+           <font>
+            <pointsize>30</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
            <string>Subassembly overview</string>
           </property>
@@ -416,42 +472,78 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="1">
+          <item row="2" column="1">
            <widget class="QPushButton" name="stop_machine_button">
             <property name="text">
              <string>stop</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0" colspan="2">
+          <item row="4" column="0" colspan="2">
            <widget class="QProgressBar" name="progressBar">
             <property name="value">
              <number>0</number>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
+          <item row="3" column="1">
            <widget class="QLabel" name="selected_status_3">
             <property name="text">
              <string>XEN/X99</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
+          <item row="0" column="0" colspan="2">
+           <widget class="QLabel" name="title_5">
+            <property name="font">
+             <font>
+              <pointsize>30</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Classify bolts</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
            <widget class="QPushButton" name="start_machine_button">
             <property name="text">
              <string>start sorting machine</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="6" column="0" colspan="2">
+           <widget class="QLabel" name="label_img_camera">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>480</width>
+              <height>384</height>
+             </size>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="text">
+             <string>Live camera feed</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
            <widget class="QLabel" name="selected_title_3">
             <property name="text">
              <string>selected engine/subassembly:</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="2">
+          <item row="5" column="0" colspan="2">
            <widget class="QTableWidget" name="tableWidget_2">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
@@ -650,25 +742,16 @@
             </item>
            </widget>
           </item>
-          <item row="4" column="0" colspan="2">
-           <widget class="QLabel" name="label_img_camera">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>480</width>
-              <height>384</height>
-             </size>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::Box</enum>
+          <item row="1" column="0" colspan="2">
+           <widget class="QLabel" name="subtitle_5">
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <italic>true</italic>
+             </font>
             </property>
             <property name="text">
-             <string>Live camera feed</string>
+             <string>Applied Deep Learning </string>
             </property>
            </widget>
           </item>
@@ -690,8 +773,13 @@
               <height>384</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <kerning>true</kerning>
+             </font>
+            </property>
             <property name="frameShape">
-             <enum>QFrame::Box</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
              <string>Detected bolt image</string>
@@ -712,8 +800,21 @@
               <height>0</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>28</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <property name="text">
              <string>Detected bolt</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
