@@ -1,5 +1,5 @@
-# import sorting_robot
-# import arduino_controller
+import sorting_robot
+import arduino_controller
 from keras.models import load_model
 import os, time
 import cv2.cv2 as cv2
