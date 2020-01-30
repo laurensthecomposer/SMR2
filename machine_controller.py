@@ -58,7 +58,7 @@ class MachineController(object):
 
     def belts_roll(self):
         self.arduino.all_forward()
-        self.arduino.blocker_open()
+        self.arduino.bin_open()
         self.arduino.bulk_feeder_start()
 
     def lightgate(self):
@@ -66,7 +66,7 @@ class MachineController(object):
 
     def img_stop(self):
         self.arduino.bulk_feeder_stop()
-        self.arduino.blocker_close()
+        self.arduino.bin_closed()
         self.arduino.all_stop()
         time.sleep(2)
 
