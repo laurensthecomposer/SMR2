@@ -158,12 +158,17 @@ class MainWindow(QMainWindow):
         print('update_bolt_counts: ',counts)
         table = self.ui.tableWidget_2
         for i in range(0,table.rowCount()):
-            item = QTableWidgetItem(str(counts[i]))
-            item = table.setItem(i,1,item)
+            item_bolt_type = table.item(i,0)
+            bolt_type = str(item_bolt_type.text()).lower()
+            if bolt_type in counts:
+                print('textinitem:',str(counts[bolt_type]))
+                item = QTableWidgetItem(str(counts[bolt_type]))
+                item = table.setItem(i,1,item)
 
     @Slot(list)
     def updateProgress(self, counts):
-        progress = (self.sum_column_table(1)/self.bolts_total)*100
+        # progress = (self.sum_column_table(1)/self.bolts_total)*100
+        progress=0.2
         print(progress)
         self.ui.progressBar.setValue(progress)
 
