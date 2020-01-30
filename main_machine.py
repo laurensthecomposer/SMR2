@@ -145,7 +145,9 @@ class MainWindow(QMainWindow):
 
     @Slot(QImage)
     def setImage(self, image):
-        self.ui.label_img_camera.setPixmap(QPixmap.fromImage(image))
+        # self.ui.label_img_camera.setPixmap(QPixmap.fromImage(image))
+        self.ui.label_img_camera.setPixmap(QPixmap.fromImage(image).scaled(self.ui.label_img_camera.size(),aspectMode=Qt.KeepAspectRatio))
+
     @Slot(np.ndarray)
     def setBoltFrame(self, frame): # np array
         self.ui.label_img_bolt.setPixmap(QPixmap.fromImage(frame).scaled(self.ui.label_img_bolt.size(),aspectMode=Qt.KeepAspectRatio))
@@ -167,8 +169,8 @@ class MainWindow(QMainWindow):
 
     @Slot(list)
     def updateProgress(self, counts):
-        # progress = (self.sum_column_table(1)/self.bolts_total)*100
-        progress=0.2
+        progress = (self.sum_column_table(1)/self.bolts_total)*100
+        # progress=0.2
         print(progress)
         self.ui.progressBar.setValue(progress)
 

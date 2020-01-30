@@ -38,7 +38,7 @@
     <item row="0" column="0" colspan="2">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="page_connect">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -138,13 +138,29 @@
         </item>
         <item>
          <widget class="QCheckBox" name="checkBox">
+          <property name="font">
+           <font>
+            <pointsize>22</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>The machine is empty</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QCheckBox" name="checkBox_2">
+          <property name="font">
+           <font>
+            <pointsize>22</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>The bins are empty</string>
           </property>
@@ -152,6 +168,11 @@
         </item>
         <item>
          <widget class="QPushButton" name="confirm_button">
+          <property name="font">
+           <font>
+            <pointsize>30</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>confirm</string>
           </property>
@@ -191,9 +212,29 @@
         </item>
         <item row="1" column="0" colspan="2">
          <widget class="QTreeWidget" name="treeWidget">
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
           <property name="animated">
            <bool>true</bool>
           </property>
+          <property name="allColumnsShowFocus">
+           <bool>false</bool>
+          </property>
+          <attribute name="headerCascadingSectionResizes">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="headerMinimumSectionSize">
+           <number>80</number>
+          </attribute>
+          <attribute name="headerDefaultSectionSize">
+           <number>300</number>
+          </attribute>
+          <attribute name="headerStretchLastSection">
+           <bool>true</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>Subassemblies</string>
@@ -264,13 +305,25 @@
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="1" column="0">
          <widget class="QLabel" name="selected_title_2">
+          <property name="font">
+           <font>
+            <pointsize>25</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Selected engine/subassembly</string>
+           <string>Selected engine/subassembly:</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
          <widget class="QLabel" name="selected_status_2">
+          <property name="font">
+           <font>
+            <pointsize>30</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
            <string>XEN/X99</string>
           </property>
@@ -278,14 +331,25 @@
         </item>
         <item row="2" column="0" colspan="3">
          <widget class="QTableWidget" name="tableWidget">
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
           <property name="alternatingRowColors">
            <bool>true</bool>
           </property>
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>false</bool>
           </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>250</number>
+          </attribute>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderDefaultSectionSize">
+           <number>52</number>
           </attribute>
           <attribute name="verticalHeaderStretchLastSection">
            <bool>false</bool>
@@ -472,32 +536,29 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="2" column="1">
+          <item row="1" column="1">
            <widget class="QPushButton" name="stop_machine_button">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>stop</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="0" colspan="2">
-           <widget class="QProgressBar" name="progressBar">
-            <property name="value">
-             <number>0</number>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLabel" name="selected_status_3">
-            <property name="text">
-             <string>XEN/X99</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="0" colspan="2">
            <widget class="QLabel" name="title_5">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="font">
              <font>
-              <pointsize>30</pointsize>
+              <pointsize>20</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
@@ -507,14 +568,7 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QPushButton" name="start_machine_button">
-            <property name="text">
-             <string>start sorting machine</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0" colspan="2">
+          <item row="5" column="0" colspan="2">
            <widget class="QLabel" name="label_img_camera">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -536,14 +590,7 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="selected_title_3">
-            <property name="text">
-             <string>selected engine/subassembly:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0" colspan="2">
+          <item row="4" column="0" colspan="2">
            <widget class="QTableWidget" name="tableWidget_2">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
@@ -554,13 +601,13 @@
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>350</height>
+              <height>360</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>400</height>
+              <height>368</height>
              </size>
             </property>
             <property name="alternatingRowColors">
@@ -623,6 +670,11 @@
             <row>
              <property name="text">
               <string>10</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>11</string>
              </property>
             </row>
             <column>
@@ -740,26 +792,68 @@
               <string>10</string>
              </property>
             </item>
+            <item row="10" column="0">
+             <property name="text">
+              <string>Disapproved</string>
+             </property>
+            </item>
+            <item row="10" column="2">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </item>
            </widget>
           </item>
-          <item row="1" column="0" colspan="2">
-           <widget class="QLabel" name="subtitle_5">
+          <item row="3" column="0" colspan="2">
+           <widget class="QProgressBar" name="progressBar">
+            <property name="value">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="start_machine_button">
             <property name="font">
              <font>
-              <pointsize>9</pointsize>
-              <italic>true</italic>
+              <pointsize>12</pointsize>
              </font>
             </property>
             <property name="text">
-             <string>Applied Deep Learning </string>
+             <string>start sorting machine</string>
             </property>
            </widget>
           </item>
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <widget class="QLabel" name="selected_title_3">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>selected engine/subassembly:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="selected_status_3">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>XEN/X99</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
            <widget class="QLabel" name="label_img_bolt">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -786,7 +880,7 @@
             </property>
            </widget>
           </item>
-          <item>
+          <item row="2" column="0" colspan="2">
            <widget class="QLabel" name="detected_bolt_type">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -832,7 +926,7 @@
      <x>0</x>
      <y>0</y>
      <width>1102</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

@@ -44,26 +44,39 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.title_2 = QLabel(self.page_connect)
         self.title_2.setObjectName(u"title_2")
+        font = QFont()
+        font.setPointSize(30)
+        font.setBold(True)
+        font.setWeight(75);
+        self.title_2.setFont(font)
 
         self.verticalLayout_2.addWidget(self.title_2)
 
         self.status_robot = QLabel(self.page_connect)
         self.status_robot.setObjectName(u"status_robot")
+        font1 = QFont()
+        font1.setPointSize(48)
+        font1.setItalic(True)
+        self.status_robot.setFont(font1)
 
         self.verticalLayout_2.addWidget(self.status_robot)
 
         self.status_arduino = QLabel(self.page_connect)
         self.status_arduino.setObjectName(u"status_arduino")
+        self.status_arduino.setFont(font1)
 
         self.verticalLayout_2.addWidget(self.status_arduino)
 
         self.status_camera = QLabel(self.page_connect)
         self.status_camera.setObjectName(u"status_camera")
+        self.status_camera.setFont(font1)
 
         self.verticalLayout_2.addWidget(self.status_camera)
 
         self.button_connect = QPushButton(self.page_connect)
         self.button_connect.setObjectName(u"button_connect")
+        self.button_connect.setFont(font)
+        self.button_connect.setStyleSheet(u"padding:2em;")
 
         self.verticalLayout_2.addWidget(self.button_connect)
 
@@ -75,21 +88,30 @@ class Ui_MainWindow(object):
         self.title = QLabel(self.page_system_check)
         self.title.setObjectName(u"title")
         self.title.setMaximumSize(QSize(16777215, 50))
+        self.title.setFont(font)
 
         self.verticalLayout.addWidget(self.title)
 
         self.checkBox = QCheckBox(self.page_system_check)
         self.checkBox.setObjectName(u"checkBox")
+        font2 = QFont()
+        font2.setPointSize(22)
+        self.checkBox.setFont(font2)
+        self.checkBox.setIconSize(QSize(30, 30))
 
         self.verticalLayout.addWidget(self.checkBox)
 
         self.checkBox_2 = QCheckBox(self.page_system_check)
         self.checkBox_2.setObjectName(u"checkBox_2")
+        self.checkBox_2.setFont(font2)
 
         self.verticalLayout.addWidget(self.checkBox_2)
 
         self.confirm_button = QPushButton(self.page_system_check)
         self.confirm_button.setObjectName(u"confirm_button")
+        font3 = QFont()
+        font3.setPointSize(30)
+        self.confirm_button.setFont(font3)
 
         self.verticalLayout.addWidget(self.confirm_button)
 
@@ -105,6 +127,7 @@ class Ui_MainWindow(object):
 
         self.title_3 = QLabel(self.page_select_subassembly)
         self.title_3.setObjectName(u"title_3")
+        self.title_3.setFont(font)
 
         self.gridLayout_2.addWidget(self.title_3, 0, 0, 1, 2)
 
@@ -120,7 +143,15 @@ class Ui_MainWindow(object):
         QTreeWidgetItem(__qtreewidgetitem)
         QTreeWidgetItem(__qtreewidgetitem)
         self.treeWidget.setObjectName(u"treeWidget")
+        font4 = QFont()
+        font4.setPointSize(20)
+        self.treeWidget.setFont(font4)
         self.treeWidget.setAnimated(True)
+        self.treeWidget.setAllColumnsShowFocus(False)
+        self.treeWidget.header().setCascadingSectionResizes(False)
+        self.treeWidget.header().setMinimumSectionSize(80)
+        self.treeWidget.header().setDefaultSectionSize(300)
+        self.treeWidget.header().setStretchLastSection(True)
 
         self.gridLayout_2.addWidget(self.treeWidget, 1, 0, 1, 2)
 
@@ -131,11 +162,15 @@ class Ui_MainWindow(object):
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.selected_title_2 = QLabel(self.page_subassembly_overview)
         self.selected_title_2.setObjectName(u"selected_title_2")
+        font5 = QFont()
+        font5.setPointSize(25)
+        self.selected_title_2.setFont(font5)
 
         self.gridLayout_3.addWidget(self.selected_title_2, 1, 0, 1, 1)
 
         self.selected_status_2 = QLabel(self.page_subassembly_overview)
         self.selected_status_2.setObjectName(u"selected_status_2")
+        self.selected_status_2.setFont(font)
 
         self.gridLayout_3.addWidget(self.selected_status_2, 1, 1, 1, 1)
 
@@ -209,15 +244,19 @@ class Ui_MainWindow(object):
         __qtablewidgetitem31 = QTableWidgetItem()
         self.tableWidget.setItem(9, 1, __qtablewidgetitem31)
         self.tableWidget.setObjectName(u"tableWidget")
+        self.tableWidget.setFont(font4)
         self.tableWidget.setAlternatingRowColors(True)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(250)
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
+        self.tableWidget.verticalHeader().setDefaultSectionSize(52)
         self.tableWidget.verticalHeader().setStretchLastSection(False)
 
         self.gridLayout_3.addWidget(self.tableWidget, 2, 0, 1, 3)
 
         self.title_4 = QLabel(self.page_subassembly_overview)
         self.title_4.setObjectName(u"title_4")
+        self.title_4.setFont(font)
 
         self.gridLayout_3.addWidget(self.title_4, 0, 0, 1, 3)
 
@@ -230,29 +269,38 @@ class Ui_MainWindow(object):
         self.gridLayout_4.setObjectName(u"gridLayout_4")
         self.stop_machine_button = QPushButton(self.page_machine)
         self.stop_machine_button.setObjectName(u"stop_machine_button")
+        font6 = QFont()
+        font6.setPointSize(12)
+        self.stop_machine_button.setFont(font6)
 
-        self.gridLayout_4.addWidget(self.stop_machine_button, 0, 1, 1, 1)
+        self.gridLayout_4.addWidget(self.stop_machine_button, 1, 1, 1, 1)
 
-        self.progressBar = QProgressBar(self.page_machine)
-        self.progressBar.setObjectName(u"progressBar")
-        self.progressBar.setValue(0)
+        self.title_5 = QLabel(self.page_machine)
+        self.title_5.setObjectName(u"title_5")
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.title_5.sizePolicy().hasHeightForWidth())
+        self.title_5.setSizePolicy(sizePolicy)
+        font7 = QFont()
+        font7.setPointSize(20)
+        font7.setBold(True)
+        font7.setWeight(75);
+        self.title_5.setFont(font7)
 
-        self.gridLayout_4.addWidget(self.progressBar, 2, 0, 1, 2)
+        self.gridLayout_4.addWidget(self.title_5, 0, 0, 1, 2)
 
-        self.selected_status_3 = QLabel(self.page_machine)
-        self.selected_status_3.setObjectName(u"selected_status_3")
+        self.label_img_camera = QLabel(self.page_machine)
+        self.label_img_camera.setObjectName(u"label_img_camera")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.label_img_camera.sizePolicy().hasHeightForWidth())
+        self.label_img_camera.setSizePolicy(sizePolicy1)
+        self.label_img_camera.setMinimumSize(QSize(480, 384))
+        self.label_img_camera.setFrameShape(QFrame.NoFrame)
 
-        self.gridLayout_4.addWidget(self.selected_status_3, 1, 1, 1, 1)
-
-        self.start_machine_button = QPushButton(self.page_machine)
-        self.start_machine_button.setObjectName(u"start_machine_button")
-
-        self.gridLayout_4.addWidget(self.start_machine_button, 0, 0, 1, 1)
-
-        self.selected_title_3 = QLabel(self.page_machine)
-        self.selected_title_3.setObjectName(u"selected_title_3")
-
-        self.gridLayout_4.addWidget(self.selected_title_3, 1, 0, 1, 1)
+        self.gridLayout_4.addWidget(self.label_img_camera, 5, 0, 1, 2)
 
         self.tableWidget_2 = QTableWidget(self.page_machine)
         if (self.tableWidget_2.columnCount() < 3):
@@ -263,8 +311,8 @@ class Ui_MainWindow(object):
         self.tableWidget_2.setHorizontalHeaderItem(1, __qtablewidgetitem33)
         __qtablewidgetitem34 = QTableWidgetItem()
         self.tableWidget_2.setHorizontalHeaderItem(2, __qtablewidgetitem34)
-        if (self.tableWidget_2.rowCount() < 10):
-            self.tableWidget_2.setRowCount(10)
+        if (self.tableWidget_2.rowCount() < 11):
+            self.tableWidget_2.setRowCount(11)
         __qtablewidgetitem35 = QTableWidgetItem()
         self.tableWidget_2.setVerticalHeaderItem(0, __qtablewidgetitem35)
         __qtablewidgetitem36 = QTableWidgetItem()
@@ -286,102 +334,136 @@ class Ui_MainWindow(object):
         __qtablewidgetitem44 = QTableWidgetItem()
         self.tableWidget_2.setVerticalHeaderItem(9, __qtablewidgetitem44)
         __qtablewidgetitem45 = QTableWidgetItem()
-        self.tableWidget_2.setItem(0, 0, __qtablewidgetitem45)
+        self.tableWidget_2.setVerticalHeaderItem(10, __qtablewidgetitem45)
         __qtablewidgetitem46 = QTableWidgetItem()
-        self.tableWidget_2.setItem(0, 2, __qtablewidgetitem46)
+        self.tableWidget_2.setItem(0, 0, __qtablewidgetitem46)
         __qtablewidgetitem47 = QTableWidgetItem()
-        self.tableWidget_2.setItem(1, 0, __qtablewidgetitem47)
+        self.tableWidget_2.setItem(0, 2, __qtablewidgetitem47)
         __qtablewidgetitem48 = QTableWidgetItem()
-        self.tableWidget_2.setItem(1, 2, __qtablewidgetitem48)
+        self.tableWidget_2.setItem(1, 0, __qtablewidgetitem48)
         __qtablewidgetitem49 = QTableWidgetItem()
-        self.tableWidget_2.setItem(2, 0, __qtablewidgetitem49)
+        self.tableWidget_2.setItem(1, 2, __qtablewidgetitem49)
         __qtablewidgetitem50 = QTableWidgetItem()
-        self.tableWidget_2.setItem(2, 2, __qtablewidgetitem50)
+        self.tableWidget_2.setItem(2, 0, __qtablewidgetitem50)
         __qtablewidgetitem51 = QTableWidgetItem()
-        self.tableWidget_2.setItem(3, 0, __qtablewidgetitem51)
+        self.tableWidget_2.setItem(2, 2, __qtablewidgetitem51)
         __qtablewidgetitem52 = QTableWidgetItem()
-        self.tableWidget_2.setItem(3, 2, __qtablewidgetitem52)
+        self.tableWidget_2.setItem(3, 0, __qtablewidgetitem52)
         __qtablewidgetitem53 = QTableWidgetItem()
-        self.tableWidget_2.setItem(4, 0, __qtablewidgetitem53)
+        self.tableWidget_2.setItem(3, 2, __qtablewidgetitem53)
         __qtablewidgetitem54 = QTableWidgetItem()
-        self.tableWidget_2.setItem(4, 2, __qtablewidgetitem54)
+        self.tableWidget_2.setItem(4, 0, __qtablewidgetitem54)
         __qtablewidgetitem55 = QTableWidgetItem()
-        self.tableWidget_2.setItem(5, 0, __qtablewidgetitem55)
+        self.tableWidget_2.setItem(4, 2, __qtablewidgetitem55)
         __qtablewidgetitem56 = QTableWidgetItem()
-        self.tableWidget_2.setItem(5, 2, __qtablewidgetitem56)
+        self.tableWidget_2.setItem(5, 0, __qtablewidgetitem56)
         __qtablewidgetitem57 = QTableWidgetItem()
-        self.tableWidget_2.setItem(6, 0, __qtablewidgetitem57)
+        self.tableWidget_2.setItem(5, 2, __qtablewidgetitem57)
         __qtablewidgetitem58 = QTableWidgetItem()
-        self.tableWidget_2.setItem(6, 2, __qtablewidgetitem58)
+        self.tableWidget_2.setItem(6, 0, __qtablewidgetitem58)
         __qtablewidgetitem59 = QTableWidgetItem()
-        self.tableWidget_2.setItem(7, 0, __qtablewidgetitem59)
+        self.tableWidget_2.setItem(6, 2, __qtablewidgetitem59)
         __qtablewidgetitem60 = QTableWidgetItem()
-        self.tableWidget_2.setItem(7, 2, __qtablewidgetitem60)
+        self.tableWidget_2.setItem(7, 0, __qtablewidgetitem60)
         __qtablewidgetitem61 = QTableWidgetItem()
-        self.tableWidget_2.setItem(8, 0, __qtablewidgetitem61)
+        self.tableWidget_2.setItem(7, 2, __qtablewidgetitem61)
         __qtablewidgetitem62 = QTableWidgetItem()
-        self.tableWidget_2.setItem(8, 2, __qtablewidgetitem62)
+        self.tableWidget_2.setItem(8, 0, __qtablewidgetitem62)
         __qtablewidgetitem63 = QTableWidgetItem()
-        self.tableWidget_2.setItem(9, 0, __qtablewidgetitem63)
+        self.tableWidget_2.setItem(8, 2, __qtablewidgetitem63)
         __qtablewidgetitem64 = QTableWidgetItem()
-        self.tableWidget_2.setItem(9, 2, __qtablewidgetitem64)
+        self.tableWidget_2.setItem(9, 0, __qtablewidgetitem64)
+        __qtablewidgetitem65 = QTableWidgetItem()
+        self.tableWidget_2.setItem(9, 2, __qtablewidgetitem65)
+        __qtablewidgetitem66 = QTableWidgetItem()
+        self.tableWidget_2.setItem(10, 0, __qtablewidgetitem66)
+        __qtablewidgetitem67 = QTableWidgetItem()
+        self.tableWidget_2.setItem(10, 2, __qtablewidgetitem67)
         self.tableWidget_2.setObjectName(u"tableWidget_2")
-        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tableWidget_2.sizePolicy().hasHeightForWidth())
-        self.tableWidget_2.setSizePolicy(sizePolicy)
-        self.tableWidget_2.setMinimumSize(QSize(0, 350))
-        self.tableWidget_2.setMaximumSize(QSize(16777215, 400))
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.tableWidget_2.sizePolicy().hasHeightForWidth())
+        self.tableWidget_2.setSizePolicy(sizePolicy2)
+        self.tableWidget_2.setMinimumSize(QSize(0, 360))
+        self.tableWidget_2.setMaximumSize(QSize(16777215, 368))
         self.tableWidget_2.setAlternatingRowColors(True)
         self.tableWidget_2.horizontalHeader().setCascadingSectionResizes(False)
         self.tableWidget_2.horizontalHeader().setStretchLastSection(True)
         self.tableWidget_2.verticalHeader().setStretchLastSection(False)
 
-        self.gridLayout_4.addWidget(self.tableWidget_2, 3, 0, 1, 2)
+        self.gridLayout_4.addWidget(self.tableWidget_2, 4, 0, 1, 2)
 
-        self.label_img_camera = QLabel(self.page_machine)
-        self.label_img_camera.setObjectName(u"label_img_camera")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.label_img_camera.sizePolicy().hasHeightForWidth())
-        self.label_img_camera.setSizePolicy(sizePolicy1)
-        self.label_img_camera.setMinimumSize(QSize(480, 384))
-        self.label_img_camera.setFrameShape(QFrame.Box)
+        self.progressBar = QProgressBar(self.page_machine)
+        self.progressBar.setObjectName(u"progressBar")
+        self.progressBar.setValue(0)
 
-        self.gridLayout_4.addWidget(self.label_img_camera, 4, 0, 1, 2)
+        self.gridLayout_4.addWidget(self.progressBar, 3, 0, 1, 2)
+
+        self.start_machine_button = QPushButton(self.page_machine)
+        self.start_machine_button.setObjectName(u"start_machine_button")
+        self.start_machine_button.setFont(font6)
+
+        self.gridLayout_4.addWidget(self.start_machine_button, 1, 0, 1, 1)
 
 
         self.horizontalLayout.addLayout(self.gridLayout_4)
 
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.gridLayout_5 = QGridLayout()
+        self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.selected_title_3 = QLabel(self.page_machine)
+        self.selected_title_3.setObjectName(u"selected_title_3")
+        font8 = QFont()
+        font8.setPointSize(10)
+        self.selected_title_3.setFont(font8)
+
+        self.gridLayout_5.addWidget(self.selected_title_3, 0, 0, 1, 1)
+
+        self.selected_status_3 = QLabel(self.page_machine)
+        self.selected_status_3.setObjectName(u"selected_status_3")
+        font9 = QFont()
+        font9.setPointSize(12)
+        font9.setBold(True)
+        font9.setWeight(75);
+        self.selected_status_3.setFont(font9)
+
+        self.gridLayout_5.addWidget(self.selected_status_3, 0, 1, 1, 1)
+
         self.label_img_bolt = QLabel(self.page_machine)
         self.label_img_bolt.setObjectName(u"label_img_bolt")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.label_img_bolt.sizePolicy().hasHeightForWidth())
-        self.label_img_bolt.setSizePolicy(sizePolicy2)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.label_img_bolt.sizePolicy().hasHeightForWidth())
+        self.label_img_bolt.setSizePolicy(sizePolicy3)
         self.label_img_bolt.setMinimumSize(QSize(480, 384))
-        self.label_img_bolt.setFrameShape(QFrame.Box)
+        font10 = QFont()
+        font10.setKerning(True)
+        self.label_img_bolt.setFont(font10)
+        self.label_img_bolt.setFrameShape(QFrame.NoFrame)
 
-        self.verticalLayout_3.addWidget(self.label_img_bolt)
+        self.gridLayout_5.addWidget(self.label_img_bolt, 1, 0, 1, 2)
 
         self.detected_bolt_type = QLabel(self.page_machine)
         self.detected_bolt_type.setObjectName(u"detected_bolt_type")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.detected_bolt_type.sizePolicy().hasHeightForWidth())
-        self.detected_bolt_type.setSizePolicy(sizePolicy3)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.detected_bolt_type.sizePolicy().hasHeightForWidth())
+        self.detected_bolt_type.setSizePolicy(sizePolicy4)
         self.detected_bolt_type.setMinimumSize(QSize(320, 0))
+        font11 = QFont()
+        font11.setPointSize(28)
+        font11.setBold(True)
+        font11.setWeight(75);
+        self.detected_bolt_type.setFont(font11)
+        self.detected_bolt_type.setStyleSheet(u"")
+        self.detected_bolt_type.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_3.addWidget(self.detected_bolt_type)
+        self.gridLayout_5.addWidget(self.detected_bolt_type, 2, 0, 1, 2)
 
 
-        self.horizontalLayout.addLayout(self.verticalLayout_3)
+        self.horizontalLayout.addLayout(self.gridLayout_5)
 
         self.stackedWidget.addWidget(self.page_machine)
 
@@ -390,7 +472,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1102, 22))
+        self.menubar.setGeometry(QRect(0, 0, 1102, 26))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -445,7 +527,7 @@ class Ui_MainWindow(object):
         ___qtreewidgetitem4.setText(0, QCoreApplication.translate("MainWindow", u"X-99", None));
         self.treeWidget.setSortingEnabled(__sortingEnabled)
 
-        self.selected_title_2.setText(QCoreApplication.translate("MainWindow", u"Selected engine/subassembly", None))
+        self.selected_title_2.setText(QCoreApplication.translate("MainWindow", u"Selected engine/subassembly:", None))
         self.selected_status_2.setText(QCoreApplication.translate("MainWindow", u"XEN/X99", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"bolt type", None));
@@ -518,9 +600,8 @@ class Ui_MainWindow(object):
 
         self.title_4.setText(QCoreApplication.translate("MainWindow", u"Subassembly overview", None))
         self.stop_machine_button.setText(QCoreApplication.translate("MainWindow", u"stop", None))
-        self.selected_status_3.setText(QCoreApplication.translate("MainWindow", u"XEN/X99", None))
-        self.start_machine_button.setText(QCoreApplication.translate("MainWindow", u"start sorting machine", None))
-        self.selected_title_3.setText(QCoreApplication.translate("MainWindow", u"selected engine/subassembly:", None))
+        self.title_5.setText(QCoreApplication.translate("MainWindow", u"Classify bolts", None))
+        self.label_img_camera.setText(QCoreApplication.translate("MainWindow", u"Live camera feed", None))
         ___qtablewidgetitem32 = self.tableWidget_2.horizontalHeaderItem(0)
         ___qtablewidgetitem32.setText(QCoreApplication.translate("MainWindow", u"bolt type", None));
         ___qtablewidgetitem33 = self.tableWidget_2.horizontalHeaderItem(1)
@@ -547,52 +628,60 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem43.setText(QCoreApplication.translate("MainWindow", u"9", None));
         ___qtablewidgetitem44 = self.tableWidget_2.verticalHeaderItem(9)
         ___qtablewidgetitem44.setText(QCoreApplication.translate("MainWindow", u"10", None));
+        ___qtablewidgetitem45 = self.tableWidget_2.verticalHeaderItem(10)
+        ___qtablewidgetitem45.setText(QCoreApplication.translate("MainWindow", u"11", None));
 
         __sortingEnabled2 = self.tableWidget_2.isSortingEnabled()
         self.tableWidget_2.setSortingEnabled(False)
-        ___qtablewidgetitem45 = self.tableWidget_2.item(0, 0)
-        ___qtablewidgetitem45.setText(QCoreApplication.translate("MainWindow", u"V647P23B", None));
-        ___qtablewidgetitem46 = self.tableWidget_2.item(0, 2)
-        ___qtablewidgetitem46.setText(QCoreApplication.translate("MainWindow", u"10", None));
-        ___qtablewidgetitem47 = self.tableWidget_2.item(1, 0)
-        ___qtablewidgetitem47.setText(QCoreApplication.translate("MainWindow", u"M59557-10", None));
-        ___qtablewidgetitem48 = self.tableWidget_2.item(1, 2)
-        ___qtablewidgetitem48.setText(QCoreApplication.translate("MainWindow", u"10", None));
-        ___qtablewidgetitem49 = self.tableWidget_2.item(2, 0)
-        ___qtablewidgetitem49.setText(QCoreApplication.translate("MainWindow", u"M59557-16", None));
-        ___qtablewidgetitem50 = self.tableWidget_2.item(2, 2)
-        ___qtablewidgetitem50.setText(QCoreApplication.translate("MainWindow", u"10", None));
-        ___qtablewidgetitem51 = self.tableWidget_2.item(3, 0)
-        ___qtablewidgetitem51.setText(QCoreApplication.translate("MainWindow", u"M59557-20", None));
-        ___qtablewidgetitem52 = self.tableWidget_2.item(3, 2)
-        ___qtablewidgetitem52.setText(QCoreApplication.translate("MainWindow", u"10", None));
-        ___qtablewidgetitem53 = self.tableWidget_2.item(4, 0)
-        ___qtablewidgetitem53.setText(QCoreApplication.translate("MainWindow", u"NAS1802-3-6", None));
-        ___qtablewidgetitem54 = self.tableWidget_2.item(4, 2)
-        ___qtablewidgetitem54.setText(QCoreApplication.translate("MainWindow", u"13", None));
-        ___qtablewidgetitem55 = self.tableWidget_2.item(5, 0)
-        ___qtablewidgetitem55.setText(QCoreApplication.translate("MainWindow", u"NAS1802-3-7", None));
-        ___qtablewidgetitem56 = self.tableWidget_2.item(5, 2)
-        ___qtablewidgetitem56.setText(QCoreApplication.translate("MainWindow", u"10", None));
-        ___qtablewidgetitem57 = self.tableWidget_2.item(6, 0)
-        ___qtablewidgetitem57.setText(QCoreApplication.translate("MainWindow", u"NAS1802-3-8", None));
-        ___qtablewidgetitem58 = self.tableWidget_2.item(6, 2)
-        ___qtablewidgetitem58.setText(QCoreApplication.translate("MainWindow", u"10", None));
-        ___qtablewidgetitem59 = self.tableWidget_2.item(7, 0)
-        ___qtablewidgetitem59.setText(QCoreApplication.translate("MainWindow", u"NAS1802-3-9", None));
-        ___qtablewidgetitem60 = self.tableWidget_2.item(7, 2)
-        ___qtablewidgetitem60.setText(QCoreApplication.translate("MainWindow", u"10", None));
-        ___qtablewidgetitem61 = self.tableWidget_2.item(8, 0)
-        ___qtablewidgetitem61.setText(QCoreApplication.translate("MainWindow", u"NAS1802-4-07", None));
-        ___qtablewidgetitem62 = self.tableWidget_2.item(8, 2)
-        ___qtablewidgetitem62.setText(QCoreApplication.translate("MainWindow", u"4", None));
-        ___qtablewidgetitem63 = self.tableWidget_2.item(9, 0)
-        ___qtablewidgetitem63.setText(QCoreApplication.translate("MainWindow", u"NAS6305-10", None));
-        ___qtablewidgetitem64 = self.tableWidget_2.item(9, 2)
-        ___qtablewidgetitem64.setText(QCoreApplication.translate("MainWindow", u"10", None));
+        ___qtablewidgetitem46 = self.tableWidget_2.item(0, 0)
+        ___qtablewidgetitem46.setText(QCoreApplication.translate("MainWindow", u"V647P23B", None));
+        ___qtablewidgetitem47 = self.tableWidget_2.item(0, 2)
+        ___qtablewidgetitem47.setText(QCoreApplication.translate("MainWindow", u"10", None));
+        ___qtablewidgetitem48 = self.tableWidget_2.item(1, 0)
+        ___qtablewidgetitem48.setText(QCoreApplication.translate("MainWindow", u"M59557-10", None));
+        ___qtablewidgetitem49 = self.tableWidget_2.item(1, 2)
+        ___qtablewidgetitem49.setText(QCoreApplication.translate("MainWindow", u"10", None));
+        ___qtablewidgetitem50 = self.tableWidget_2.item(2, 0)
+        ___qtablewidgetitem50.setText(QCoreApplication.translate("MainWindow", u"M59557-16", None));
+        ___qtablewidgetitem51 = self.tableWidget_2.item(2, 2)
+        ___qtablewidgetitem51.setText(QCoreApplication.translate("MainWindow", u"10", None));
+        ___qtablewidgetitem52 = self.tableWidget_2.item(3, 0)
+        ___qtablewidgetitem52.setText(QCoreApplication.translate("MainWindow", u"M59557-20", None));
+        ___qtablewidgetitem53 = self.tableWidget_2.item(3, 2)
+        ___qtablewidgetitem53.setText(QCoreApplication.translate("MainWindow", u"10", None));
+        ___qtablewidgetitem54 = self.tableWidget_2.item(4, 0)
+        ___qtablewidgetitem54.setText(QCoreApplication.translate("MainWindow", u"NAS1802-3-6", None));
+        ___qtablewidgetitem55 = self.tableWidget_2.item(4, 2)
+        ___qtablewidgetitem55.setText(QCoreApplication.translate("MainWindow", u"13", None));
+        ___qtablewidgetitem56 = self.tableWidget_2.item(5, 0)
+        ___qtablewidgetitem56.setText(QCoreApplication.translate("MainWindow", u"NAS1802-3-7", None));
+        ___qtablewidgetitem57 = self.tableWidget_2.item(5, 2)
+        ___qtablewidgetitem57.setText(QCoreApplication.translate("MainWindow", u"10", None));
+        ___qtablewidgetitem58 = self.tableWidget_2.item(6, 0)
+        ___qtablewidgetitem58.setText(QCoreApplication.translate("MainWindow", u"NAS1802-3-8", None));
+        ___qtablewidgetitem59 = self.tableWidget_2.item(6, 2)
+        ___qtablewidgetitem59.setText(QCoreApplication.translate("MainWindow", u"10", None));
+        ___qtablewidgetitem60 = self.tableWidget_2.item(7, 0)
+        ___qtablewidgetitem60.setText(QCoreApplication.translate("MainWindow", u"NAS1802-3-9", None));
+        ___qtablewidgetitem61 = self.tableWidget_2.item(7, 2)
+        ___qtablewidgetitem61.setText(QCoreApplication.translate("MainWindow", u"10", None));
+        ___qtablewidgetitem62 = self.tableWidget_2.item(8, 0)
+        ___qtablewidgetitem62.setText(QCoreApplication.translate("MainWindow", u"NAS1802-4-07", None));
+        ___qtablewidgetitem63 = self.tableWidget_2.item(8, 2)
+        ___qtablewidgetitem63.setText(QCoreApplication.translate("MainWindow", u"4", None));
+        ___qtablewidgetitem64 = self.tableWidget_2.item(9, 0)
+        ___qtablewidgetitem64.setText(QCoreApplication.translate("MainWindow", u"NAS6305-10", None));
+        ___qtablewidgetitem65 = self.tableWidget_2.item(9, 2)
+        ___qtablewidgetitem65.setText(QCoreApplication.translate("MainWindow", u"10", None));
+        ___qtablewidgetitem66 = self.tableWidget_2.item(10, 0)
+        ___qtablewidgetitem66.setText(QCoreApplication.translate("MainWindow", u"Disapproved", None));
+        ___qtablewidgetitem67 = self.tableWidget_2.item(10, 2)
+        ___qtablewidgetitem67.setText(QCoreApplication.translate("MainWindow", u"0", None));
         self.tableWidget_2.setSortingEnabled(__sortingEnabled2)
 
-        self.label_img_camera.setText(QCoreApplication.translate("MainWindow", u"Live camera feed", None))
+        self.start_machine_button.setText(QCoreApplication.translate("MainWindow", u"start sorting machine", None))
+        self.selected_title_3.setText(QCoreApplication.translate("MainWindow", u"selected engine/subassembly:", None))
+        self.selected_status_3.setText(QCoreApplication.translate("MainWindow", u"XEN/X99", None))
         self.label_img_bolt.setText(QCoreApplication.translate("MainWindow", u"Detected bolt image", None))
         self.detected_bolt_type.setText(QCoreApplication.translate("MainWindow", u"Detected bolt", None))
     # retranslateUi
